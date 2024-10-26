@@ -249,6 +249,7 @@ public class AetherSkyRenderEffects extends DimensionSpecialEffects {
     @Override
     public boolean renderSky(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
         if (RenderSystem.getShader() != null) {
+            setupFog.run();
             LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
             Vec3 vec3 = this.getSkyColor(level, camera.getPosition(), partialTick);
             float f = (float) vec3.x();

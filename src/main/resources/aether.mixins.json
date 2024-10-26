@@ -67,7 +67,8 @@
     "client.accessor.ScreenAccessor",
     "client.accessor.TitleScreenAccessor",
     "client.fabric.LocalPlayerMixin",
-    "client.optifine.BossHealthOverlayMixin"
+    "client.optifine.BossHealthOverlayMixin",
+    "client.FogRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
