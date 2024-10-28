@@ -63,7 +63,7 @@ import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -504,8 +504,8 @@ public class EntityHooks {
      */
     public static boolean thunderCrystalHitItems(Entity entity, LightningBolt lightning) {
         if (entity instanceof ItemEntity) {
-            if (lightning.hasData(AetherDataAttachments.LIGHTNING_TRACKER)) {
-                return lightning.getData(AetherDataAttachments.LIGHTNING_TRACKER).getOwner(lightning.level()) instanceof ValkyrieQueen;
+            if (lightning.hasAttached(AetherDataAttachments.LIGHTNING_TRACKER)) {
+                return lightning.getAttached(AetherDataAttachments.LIGHTNING_TRACKER).getOwner(lightning.level()) instanceof ValkyrieQueen;
             }
         }
         return false;
@@ -520,7 +520,7 @@ public class EntityHooks {
      */
     public static void trackDrops(LivingEntity entity, Collection<ItemEntity> itemDrops) {
         if (entity instanceof Player player) {
-            itemDrops.forEach(itemEntity -> itemEntity.getData(AetherDataAttachments.DROPPED_ITEM).setOwner(player));
+            itemDrops.forEach(itemEntity -> itemEntity.getAttachedOrCreate(AetherDataAttachments.DROPPED_ITEM).setOwner(player));
         }
     }
 
@@ -535,12 +535,12 @@ public class EntityHooks {
      * @see com.aetherteam.aether.event.listeners.EntityListener#listen(IEventBus)
      */
     public static List<ItemStack> handleEntityCurioDrops(LivingEntity entity, List<ItemStack> itemStacks, boolean recentlyHit, int looting) {
-        if (entity instanceof Mob mob && mob.hasData(AetherDataAttachments.MOB_ACCESSORY)) {
+        if (entity instanceof Mob mob && mob.hasAttached(AetherDataAttachments.MOB_ACCESSORY)) {
             SlotTypeReference[] allSlots = { GlovesItem.getStaticIdentifier(), PendantItem.getStaticIdentifier() };
             for (SlotTypeReference identifier : allSlots) {
                 if (!itemStacks.isEmpty()) {
                     ItemStack itemStack = itemStacks.getFirst();
-                    float f = mob.getData(AetherDataAttachments.MOB_ACCESSORY).getEquipmentDropChance(identifier);
+                    float f = mob.getAttachedOrCreate(AetherDataAttachments.MOB_ACCESSORY).getEquipmentDropChance(identifier);
                     boolean flag = f > 1.0F;
                     if (!itemStack.isEmpty()) {
                         itemStacks.removeIf((stack) -> ItemStack.isSameItemSameComponents(stack, itemStack));
@@ -567,7 +567,7 @@ public class EntityHooks {
      * @see com.aetherteam.aether.event.listeners.EntityListener#onDropExperience(LivingExperienceDropEvent)
      */
     public static int modifyExperience(LivingEntity entity, int experience) {
-        if (entity instanceof Mob mob && mob.hasData(AetherDataAttachments.MOB_ACCESSORY)) {
+        if (entity instanceof Mob mob && mob.hasAttached(AetherDataAttachments.MOB_ACCESSORY)) {
             AccessoriesCapability accessories = AccessoriesCapability.get(entity);
             if (accessories != null) {
                 if (experience > 0) {
@@ -576,7 +576,7 @@ public class EntityHooks {
                         AccessoriesContainer accessoriesContainer = accessories.getContainer(identifier);
                         if (accessoriesContainer != null) {
                             ItemStack stack = accessoriesContainer.getAccessories().getItem(0);
-                            if (!stack.isEmpty() && mob.getData(AetherDataAttachments.MOB_ACCESSORY).getEquipmentDropChance(identifier) <= 1.0F) {
+                            if (!stack.isEmpty() && mob.getAttachedOrCreate(AetherDataAttachments.MOB_ACCESSORY).getEquipmentDropChance(identifier) <= 1.0F) {
                                 experience += 1 + mob.getRandom().nextInt(3);
                             }
                         }

@@ -6,10 +6,12 @@ import com.aetherteam.aether.item.combat.abilities.armor.GravititeArmor;
 import com.aetherteam.aether.item.combat.abilities.armor.NeptuneArmor;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
 import com.aetherteam.aether.item.combat.abilities.armor.ValkyrieArmor;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.IEventBus;
+import com.aetherteam.aether.fabric.events.EntityTickEvents;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -17,13 +19,13 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 public class ArmorAbilityListener {
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      */
-    public static void listen(IEventBus bus) {
-        bus.addListener(ArmorAbilityListener::onEntityUpdate);
+    public static void listen() {
+        EntityTickEvents.AFTER.register(ArmorAbilityListener::onEntityUpdate);
         bus.addListener(ArmorAbilityListener::onEntityJump);
         bus.addListener(ArmorAbilityListener::onEntityFall);
-        bus.addListener(ArmorAbilityListener::onEntityAttack);
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> ArmorAbilityListener.onEntityAttack(entity, source));
     }
 
     /**
@@ -32,8 +34,7 @@ public class ArmorAbilityListener {
      * @see PhoenixArmor#boostLavaSwimming(LivingEntity)
      * @see PhoenixArmor#damageArmor(LivingEntity)
      */
-    public static void onEntityUpdate(EntityTickEvent.Post event) {
-        Entity entity = event.getEntity();
+    public static void onEntityUpdate(Entity entity) {
         if (entity instanceof LivingEntity livingEntity) {
             ValkyrieArmor.handleFlight(livingEntity);
             NeptuneArmor.boostWaterSwimming(livingEntity);
@@ -63,11 +64,7 @@ public class ArmorAbilityListener {
     /**
      * @see PhoenixArmor#extinguishUser(LivingEntity, DamageSource)
      */
-    public static void onEntityAttack(LivingIncomingDamageEvent event) {
-        LivingEntity livingEntity = event.getEntity();
-        DamageSource damageSource = event.getSource();
-        if (!event.isCanceled()) {
-            event.setCanceled(PhoenixArmor.extinguishUser(livingEntity, damageSource));
-        }
+    public static boolean onEntityAttack(LivingEntity livingEntity, DamageSource damageSource) {
+        return PhoenixArmor.extinguishUser(livingEntity, damageSource);
     }
 }

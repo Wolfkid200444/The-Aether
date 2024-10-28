@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.neoforged.neoforge.mixin",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "aether.refmap.json",
+  "mixins": [
+    "HolderReferenceMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

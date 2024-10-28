@@ -32,9 +32,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class DimensionListener {
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(DimensionListener::onPlayerLogin);
         bus.addListener(DimensionListener::onInteractWithPortalFrame);
         bus.addListener(DimensionListener::onWaterExistsInsidePortalFrame);

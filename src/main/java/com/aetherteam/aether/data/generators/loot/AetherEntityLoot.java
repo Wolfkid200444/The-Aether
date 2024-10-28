@@ -257,8 +257,8 @@ public class AetherEntityLoot extends EntityLootSubProvider {
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(NestedLootTable.lootTableReference(AetherEntityTypes.SHEEPUFF.get().getDefaultLootTable())));
     }
 
-    @Override
-    public Stream<EntityType<?>> getKnownEntityTypes() {
-        return AetherEntityTypes.ENTITY_TYPES.getEntries().stream().flatMap(entityType -> Stream.of(entityType.get()));
-    }
+//    @Override
+//    public Stream<EntityType<?>> getKnownEntityTypes() {
+//        return AetherEntityTypes.ENTITY_TYPES.getEntries().stream().flatMap(entityType -> Stream.of(entityType.get()));
+//    }
 }

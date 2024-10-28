@@ -87,7 +87,7 @@ public final class EntityUtil {
     public static void summonLightningFromProjectile(Projectile projectile) {
         LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(projectile.level());
         if (lightningBolt != null) {
-            lightningBolt.getData(AetherDataAttachments.LIGHTNING_TRACKER).setOwner(projectile.getOwner());
+            lightningBolt.getAttached(AetherDataAttachments.LIGHTNING_TRACKER).setOwner(projectile.getOwner());
             lightningBolt.setPos(projectile.getX(), projectile.getY(), projectile.getZ());
             projectile.level().addFreshEntity(lightningBolt);
         }

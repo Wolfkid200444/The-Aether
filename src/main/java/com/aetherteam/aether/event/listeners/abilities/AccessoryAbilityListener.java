@@ -3,45 +3,41 @@ package com.aetherteam.aether.event.listeners.abilities;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
 import com.aetherteam.aether.item.accessories.abilities.ShieldOfRepulsionAccessory;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import com.aetherteam.aether.fabric.events.OnProjectileImpact;
+import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableDouble;
+import org.jetbrains.annotations.Nullable;
 
 public class AccessoryAbilityListener {
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      */
-    public static void listen(IEventBus bus) {
-        bus.addListener(AccessoryAbilityListener::onBlockBreak);
-        bus.addListener(AccessoryAbilityListener::onTargetSet);
-        bus.addListener(AccessoryAbilityListener::onProjectileImpact);
-        bus.addListener(AccessoryAbilityListener::onEntityHurt);
+    public static void listen() {
+        PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> onBlockBreak(level, player, pos, state));
+        // LivingEntityMixin.aether$adjustEntityVisibility -> AccessoryAbilityListener.onTargetSet;
+        OnProjectileImpact.EVENT.register(AccessoryAbilityListener::onProjectileImpact);
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> onEntityHurt(entity, source));
     }
 
     /**
      * @see AbilityHooks.AccessoryHooks#damageZaniteRing(LivingEntity, LevelAccessor, BlockState, BlockPos)
      * @see AbilityHooks.AccessoryHooks#damageZanitePendant(LivingEntity, LevelAccessor, BlockState, BlockPos)
      */
-    public static void onBlockBreak(BlockEvent.BreakEvent event) {
-        Player player = event.getPlayer();
-        LevelAccessor level = event.getLevel();
-        BlockState state = event.getState();
-        BlockPos pos = event.getPos();
-        if (!event.isCanceled()) {
-            AbilityHooks.AccessoryHooks.damageZaniteRing(player, level, state, pos);
-            AbilityHooks.AccessoryHooks.damageZanitePendant(player, level, state, pos);
-        }
+    public static void onBlockBreak(Level level, Player player, BlockPos pos, BlockState state) {
+        AbilityHooks.AccessoryHooks.damageZaniteRing(player, level, state, pos);
+        AbilityHooks.AccessoryHooks.damageZanitePendant(player, level, state, pos);
     }
 
     /**
@@ -50,35 +46,32 @@ public class AccessoryAbilityListener {
      * @see com.aetherteam.aether.event.hooks.AbilityHooks.AccessoryHooks#preventTargeting(LivingEntity, Entity)
      * @see com.aetherteam.aether.event.hooks.AbilityHooks.AccessoryHooks#recentlyAttackedWithInvisibility(LivingEntity, Entity)
      */
-    public static void onTargetSet(LivingEvent.LivingVisibilityEvent event) {
-        LivingEntity livingEntity = event.getEntity();
-        Entity lookingEntity = event.getLookingEntity();
+    public static void onTargetSet(LivingEntity livingEntity, @Nullable Entity lookingEntity, MutableDouble visibilityValue) {
         if (AbilityHooks.AccessoryHooks.preventTargeting(livingEntity, lookingEntity) && !AbilityHooks.AccessoryHooks.recentlyAttackedWithInvisibility(livingEntity, lookingEntity)) {
-            event.modifyVisibility(0.0);
+            visibilityValue.setValue(0.0);
         }
         if (AbilityHooks.AccessoryHooks.recentlyAttackedWithInvisibility(livingEntity, lookingEntity)) {
-            event.modifyVisibility(1.0);
+            visibilityValue.setValue(1.0);
         }
     }
 
     /**
-     * @see ShieldOfRepulsionAccessory#deflectProjectile(ProjectileImpactEvent, HitResult, Projectile)
+     * @see ShieldOfRepulsionAccessory#deflectProjectile(HitResult, Projectile)
      */
-    public static void onProjectileImpact(ProjectileImpactEvent event) {
-        HitResult hitResult = event.getRayTraceResult();
-        Projectile projectile = event.getProjectile();
-        ShieldOfRepulsionAccessory.deflectProjectile(event, hitResult, projectile); // Has to take event due to the event being canceled within a lambda and also mid-behavior.
+    public static void onProjectileImpact(Projectile projectile, HitResult hitResult, MutableBoolean isCancelled) {
+        if (ShieldOfRepulsionAccessory.deflectProjectile(hitResult, projectile)) { // Has to take event due to the event being canceled within a lambda and also mid-behavior.
+            isCancelled.setValue(true);
+        }
     }
 
     /**
      * @see AbilityHooks.AccessoryHooks#preventMagmaDamage(LivingEntity, DamageSource)
      */
-    public static void onEntityHurt(LivingIncomingDamageEvent event) {
-        LivingEntity livingEntity = event.getEntity();
-        DamageSource damageSource = event.getSource();
-        AbilityHooks.AccessoryHooks.setAttack(event.getSource());
+    public static boolean onEntityHurt(LivingEntity livingEntity, DamageSource damageSource) {
+        AbilityHooks.AccessoryHooks.setAttack(damageSource);
         if (AbilityHooks.AccessoryHooks.preventMagmaDamage(livingEntity, damageSource)) {
-            event.setCanceled(true);
+            return false;
         }
+        return true;
     }
 }

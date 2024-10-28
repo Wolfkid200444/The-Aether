@@ -35,9 +35,9 @@ import java.util.Optional;
 
 public class EntityListener {
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(EntityListener::onEntityJoin);
         bus.addListener(EntityListener::onMountEntity);
         bus.addListener(EntityListener::onRiderTick);

@@ -21,6 +21,7 @@ import com.aetherteam.aether.perk.CustomizationsOptions;
 import com.aetherteam.cumulus.CumulusConfig;
 import com.aetherteam.nitrogen.event.listeners.TooltipListeners;
 import com.google.common.reflect.Reflection;
+import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.Registries;
@@ -36,10 +37,11 @@ import net.neoforged.neoforge.client.event.RegisterDimensionTransitionScreenEven
 import net.neoforged.neoforge.client.event.RegisterEntitySpectatorShadersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
-public class AetherClient {
+public class AetherClient implements ClientModInitializer {
     private static boolean refreshPacks = false;
 
-    public static void clientInit(IEventBus bus) {
+    @Override
+    public void onInitializeClient() {
         bus.addListener(AetherClient::clientSetup);
         bus.addListener(AetherClient::registerSpectatorShaders);
         bus.addListener(AetherClient::registerDimensionTransitionScreens);

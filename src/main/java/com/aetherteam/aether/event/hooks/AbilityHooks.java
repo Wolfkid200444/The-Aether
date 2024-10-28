@@ -58,9 +58,10 @@ import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -365,7 +366,7 @@ public class AbilityHooks {
          *
          * @param result     The {@link HitResult} of the projectile.
          * @param projectile The {@link Projectile} that hit something.
-         * @see com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener#onArrowHit(ProjectileImpactEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener#onArrowHit(Projectile, HitResult, MutableBoolean)
          */
         public static void phoenixArrowHit(HitResult result, Projectile projectile) {
             if (result instanceof EntityHitResult entityHitResult && projectile instanceof AbstractArrow abstractArrow) {
@@ -373,8 +374,8 @@ public class AbilityHooks {
                 if (impactedEntity.getType() == EntityType.ENDERMAN) {
                     return;
                 }
-                if (abstractArrow.hasData(AetherDataAttachments.PHOENIX_ARROW)) {
-                    var data = abstractArrow.getData(AetherDataAttachments.PHOENIX_ARROW);
+                if (abstractArrow.hasAttached(AetherDataAttachments.PHOENIX_ARROW)) {
+                    var data = abstractArrow.getAttached(AetherDataAttachments.PHOENIX_ARROW);
                     if (data.isPhoenixArrow() && data.getFireTime() > 0) {
                         impactedEntity.igniteForSeconds(data.getFireTime());
                     }
@@ -392,8 +393,8 @@ public class AbilityHooks {
          */
         public static boolean lightningTracking(Entity entity, LightningBolt lightning) {
             if (entity instanceof LivingEntity livingEntity) {
-                if (lightning.hasData(AetherDataAttachments.LIGHTNING_TRACKER)) {
-                    var tracker = lightning.getData(AetherDataAttachments.LIGHTNING_TRACKER);
+                if (lightning.hasAttached(AetherDataAttachments.LIGHTNING_TRACKER)) {
+                    var tracker = lightning.getAttached(AetherDataAttachments.LIGHTNING_TRACKER);
                     Entity owner = tracker.getOwner(lightning.level());
                     if (owner != null) {
                         return livingEntity == owner || livingEntity == owner.getVehicle() || owner.getPassengers().contains(livingEntity);
@@ -433,7 +434,7 @@ public class AbilityHooks {
                 } else if (source instanceof Projectile) { // Used for reducing projectile weapon effectiveness.
                     if ((target.getType().getDescriptionId().startsWith("entity.aether") || target.getType().is(AetherTags.Entities.TREATED_AS_AETHER_ENTITY)) && !target.getType().is(AetherTags.Entities.TREATED_AS_VANILLA_ENTITY)) { // Checks if the target is an Aether entity.
                         if ((!source.getType().getDescriptionId().startsWith("entity.aether") && !source.getType().is(AetherTags.Entities.TREATED_AS_AETHER_ENTITY)) // Checks if the projectile is non-Aether.
-                                && (!(source instanceof AbstractArrow abstractArrow) || !abstractArrow.hasData(AetherDataAttachments.PHOENIX_ARROW) || !abstractArrow.getData(AetherDataAttachments.PHOENIX_ARROW).isPhoenixArrow())) { // Special check against Phoenix Arrows.
+                                && (!(source instanceof AbstractArrow abstractArrow) || !abstractArrow.hasAttached(AetherDataAttachments.PHOENIX_ARROW) || !abstractArrow.getAttached(AetherDataAttachments.PHOENIX_ARROW).isPhoenixArrow())) { // Special check against Phoenix Arrows.
                             damage = (float) pow;
                         }
                     }

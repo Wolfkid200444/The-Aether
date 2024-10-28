@@ -6,6 +6,8 @@ import com.aetherteam.aether.event.hooks.DimensionHooks;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
 import com.aetherteam.aether.network.packet.clientbound.SetVehiclePacket;
 import com.aetherteam.aether.world.LevelUtil;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,14 +20,16 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
+import com.aetherteam.aether.fabric.events.EntityTickEvents;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 @Mixin(Entity.class)
@@ -49,8 +53,8 @@ public class EntityMixin {
                         } else if (entity instanceof Projectile projectile && projectile.getOwner() instanceof Player) {
                             entityFell(projectile);
                         } else if (entity instanceof ItemEntity itemEntity) {
-                            if (itemEntity.hasData(AetherDataAttachments.DROPPED_ITEM)) {
-                                if (itemEntity.getOwner() instanceof Player || itemEntity.getData(AetherDataAttachments.DROPPED_ITEM).getOwner(level) instanceof Player) { // Checks if an entity is an item that was dropped by a player.
+                            if (itemEntity.hasAttached(AetherDataAttachments.DROPPED_ITEM)) {
+                                if (itemEntity.getOwner() instanceof Player || itemEntity.getAttached(AetherDataAttachments.DROPPED_ITEM).getOwner(level) instanceof Player) { // Checks if an entity is an item that was dropped by a player.
                                     entityFell(entity);
                                 }
                             }
@@ -100,5 +104,19 @@ public class EntityMixin {
             }
         }
         return null;
+    }
+
+    //--
+
+    @WrapOperation(method = "rideTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;tick()V"))
+    private void aether$entityTickEvents(Entity instance, Operation<Void> original) {
+        var shouldCancelEvent = new MutableBoolean(false);
+
+        EntityTickEvents.BEFORE.invoker().beforeTick(instance, shouldCancelEvent);
+
+        if (!shouldCancelEvent.getValue()) {
+            original.call(instance);
+            EntityTickEvents.AFTER.invoker().afterTick(instance);
+        }
     }
 }

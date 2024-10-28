@@ -199,8 +199,8 @@ public class AetherBlockLoot extends AetherBlockLootSubProvider {
         this.dropNone(AetherBlocks.UNSTABLE_OBSIDIAN.get());
     }
 
-    @Override
-    public Iterable<Block> getKnownBlocks() {
-        return AetherBlocks.BLOCKS.getEntries().stream().map(Supplier::get).collect(Collectors.toList());
-    }
+//    @Override
+//    public Iterable<Block> getKnownBlocks() {
+//        return AetherBlocks.BLOCKS.getEntries().stream().map(Supplier::get).collect(Collectors.toList());
+//    }
 }

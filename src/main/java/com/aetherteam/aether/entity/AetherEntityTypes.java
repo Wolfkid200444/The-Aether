@@ -28,10 +28,12 @@ import com.aetherteam.aether.entity.projectile.dart.GoldenDart;
 import com.aetherteam.aether.entity.projectile.dart.PoisonDart;
 import com.aetherteam.aether.entity.projectile.weapon.HammerProjectile;
 import com.aetherteam.aether.entity.projectile.weapon.ThrownLightningKnife;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
@@ -164,56 +166,56 @@ public class AetherEntityTypes {
     /**
      * @see Aether#eventSetup(IEventBus)
      */
-    public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {
+    public static void registerSpawnPlacements() {
         // Passive Mobs
-        event.register(AetherEntityTypes.PHYG.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.FLYING_COW.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.SHEEPUFF.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.MOA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.AERBUNNY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.AERWHALE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Aerwhale::checkAerwhaleSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        SpawnPlacements.register(AetherEntityTypes.PHYG.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.FLYING_COW.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.SHEEPUFF.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.MOA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.AERBUNNY.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AetherAnimal::checkAetherAnimalSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.AERWHALE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Aerwhale::checkAerwhaleSpawnRules);
 
         // Hostile Mobs
-        event.register(AetherEntityTypes.BLUE_SWET.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Swet::checkSwetSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.GOLDEN_SWET.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Swet::checkSwetSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.WHIRLWIND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractWhirlwind::checkWhirlwindSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.EVIL_WHIRLWIND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractWhirlwind::checkWhirlwindSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.AECHOR_PLANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AechorPlant::checkAechorPlantSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.COCKATRICE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Cockatrice::checkCockatriceSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
-        event.register(AetherEntityTypes.ZEPHYR.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Zephyr::checkZephyrSpawnRules, RegisterSpawnPlacementsEvent.Operation.OR);
+        SpawnPlacements.register(AetherEntityTypes.BLUE_SWET.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Swet::checkSwetSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.GOLDEN_SWET.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Swet::checkSwetSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.WHIRLWIND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractWhirlwind::checkWhirlwindSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.EVIL_WHIRLWIND.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractWhirlwind::checkWhirlwindSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.AECHOR_PLANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AechorPlant::checkAechorPlantSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.COCKATRICE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Cockatrice::checkCockatriceSpawnRules);
+        SpawnPlacements.register(AetherEntityTypes.ZEPHYR.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Zephyr::checkZephyrSpawnRules);
     }
 
     /**
      * @see Aether#eventSetup(IEventBus)
      */
-    public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
+    public static void registerEntityAttributes() {
         // Passive Mobs
-        event.put(AetherEntityTypes.PHYG.get(), Phyg.createMobAttributes().build());
-        event.put(AetherEntityTypes.FLYING_COW.get(), FlyingCow.createMobAttributes().build());
-        event.put(AetherEntityTypes.SHEEPUFF.get(), Sheepuff.createMobAttributes().build());
-        event.put(AetherEntityTypes.MOA.get(), Moa.createMobAttributes().build());
-        event.put(AetherEntityTypes.AERBUNNY.get(), Aerbunny.createMobAttributes().build());
-        event.put(AetherEntityTypes.AERWHALE.get(), Aerwhale.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.PHYG.get(), Phyg.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.FLYING_COW.get(), FlyingCow.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.SHEEPUFF.get(), Sheepuff.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.MOA.get(), Moa.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.AERBUNNY.get(), Aerbunny.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.AERWHALE.get(), Aerwhale.createMobAttributes().build());
 
         // Hostile Mobs
-        event.put(AetherEntityTypes.BLUE_SWET.get(), Swet.createMobAttributes().build());
-        event.put(AetherEntityTypes.GOLDEN_SWET.get(), Swet.createMobAttributes().build());
-        event.put(AetherEntityTypes.WHIRLWIND.get(), AbstractWhirlwind.createMobAttributes().build());
-        event.put(AetherEntityTypes.EVIL_WHIRLWIND.get(), AbstractWhirlwind.createMobAttributes().build());
-        event.put(AetherEntityTypes.AECHOR_PLANT.get(), AechorPlant.createMobAttributes().build());
-        event.put(AetherEntityTypes.COCKATRICE.get(), Cockatrice.createMobAttributes().build());
-        event.put(AetherEntityTypes.ZEPHYR.get(), Zephyr.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.BLUE_SWET.get(), Swet.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.GOLDEN_SWET.get(), Swet.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.WHIRLWIND.get(), AbstractWhirlwind.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.EVIL_WHIRLWIND.get(), AbstractWhirlwind.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.AECHOR_PLANT.get(), AechorPlant.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.COCKATRICE.get(), Cockatrice.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.ZEPHYR.get(), Zephyr.createMobAttributes().build());
 
         // Dungeon Mobs
-        event.put(AetherEntityTypes.MIMIC.get(), Mimic.createMobAttributes().build());
-        event.put(AetherEntityTypes.SENTRY.get(), Sentry.createMobAttributes().build());
-        event.put(AetherEntityTypes.SLIDER.get(), Slider.createMobAttributes().build());
-        event.put(AetherEntityTypes.VALKYRIE.get(), Valkyrie.createMobAttributes().build());
-        event.put(AetherEntityTypes.VALKYRIE_QUEEN.get(), ValkyrieQueen.createMobAttributes().build());
-        event.put(AetherEntityTypes.FIRE_MINION.get(), FireMinion.createMobAttributes().build());
-        event.put(AetherEntityTypes.SUN_SPIRIT.get(), SunSpirit.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.MIMIC.get(), Mimic.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.SENTRY.get(), Sentry.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.SLIDER.get(), Slider.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.VALKYRIE.get(), Valkyrie.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.VALKYRIE_QUEEN.get(), ValkyrieQueen.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.FIRE_MINION.get(), FireMinion.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.SUN_SPIRIT.get(), SunSpirit.createMobAttributes().build());
 
         // Miscellaneous Entities
-        event.put(AetherEntityTypes.CLOUD_MINION.get(), CloudMinion.createMobAttributes().build());
+        FabricDefaultAttributeRegistry.register(AetherEntityTypes.CLOUD_MINION.get(), CloudMinion.createMobAttributes().build());
     }
 }

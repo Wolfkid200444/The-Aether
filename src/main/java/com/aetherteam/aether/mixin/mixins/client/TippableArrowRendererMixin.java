@@ -27,7 +27,7 @@ public class TippableArrowRendererMixin {
      */
     @ModifyReturnValue(at = @At("RETURN"), method = "getTextureLocation(Lnet/minecraft/world/entity/projectile/Arrow;)Lnet/minecraft/resources/ResourceLocation;")
     private ResourceLocation getTextureLocation(ResourceLocation original, @Local(ordinal = 0, argsOnly = true) Arrow entity) {
-        if (entity.hasData(AetherDataAttachments.PHOENIX_ARROW) && entity.getData(AetherDataAttachments.PHOENIX_ARROW).isPhoenixArrow() && entity.getColor() <= 0)
+        if (entity.hasAttached(AetherDataAttachments.PHOENIX_ARROW) && entity.getAttached(AetherDataAttachments.PHOENIX_ARROW).isPhoenixArrow() && entity.getColor() <= 0)
             return FLAMING_ARROW_LOCATION;
         return original;
     }

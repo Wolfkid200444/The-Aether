@@ -31,7 +31,7 @@ public class LightningSwordItem extends SwordItem {
         if (EquipmentUtil.isFullStrength(attacker)) {
             LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(attacker.level());
             if (lightningBolt != null) {
-                lightningBolt.getData(AetherDataAttachments.LIGHTNING_TRACKER).setOwner(attacker);
+                lightningBolt.getAttachedOrCreate(AetherDataAttachments.LIGHTNING_TRACKER).setOwner(attacker);
                 lightningBolt.setPos(target.getX(), target.getY(), target.getZ());
                 attacker.level().addFreshEntity(lightningBolt);
             }

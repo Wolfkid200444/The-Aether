@@ -24,8 +24,8 @@ public class EternalDayCommand {
 
     private static int setEternalDay(CommandSourceStack source, boolean value) {
         ServerLevel level = source.getLevel();
-        if (level.hasData(AetherDataAttachments.AETHER_TIME)) {
-            var data = level.getData(AetherDataAttachments.AETHER_TIME);
+        if (level.hasAttached(AetherDataAttachments.AETHER_TIME)) {
+            var data = level.getAttached(AetherDataAttachments.AETHER_TIME);
             data.setEternalDay(value);
             data.updateEternalDay(level); // Syncs to client.
             source.sendSuccess(() -> Component.translatable("commands.aether.capability.time.eternal_day.set", value), true);
@@ -35,8 +35,8 @@ public class EternalDayCommand {
 
     private static int queryEternalDay(CommandSourceStack source) {
         ServerLevel level = source.getLevel();
-        if (level.hasData(AetherDataAttachments.AETHER_TIME)) {
-            source.sendSuccess(() -> Component.translatable("commands.aether.capability.time.eternal_day.query", level.getData(AetherDataAttachments.AETHER_TIME).isEternalDay()), true);
+        if (level.hasAttached(AetherDataAttachments.AETHER_TIME)) {
+            source.sendSuccess(() -> Component.translatable("commands.aether.capability.time.eternal_day.query", level.getAttached(AetherDataAttachments.AETHER_TIME).isEternalDay()), true);
         }
         return 1;
     }

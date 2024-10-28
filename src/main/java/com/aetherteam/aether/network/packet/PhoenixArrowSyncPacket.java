@@ -5,11 +5,11 @@ import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.attachment.PhoenixArrowAttachment;
 import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import com.aetherteam.nitrogen.network.packet.SyncEntityPacket;
+import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import oshi.util.tuples.Quartet;
 
@@ -44,7 +44,7 @@ public class PhoenixArrowSyncPacket extends SyncEntityPacket<PhoenixArrowAttachm
 
     @Override
     public Supplier<AttachmentType<PhoenixArrowAttachment>> getAttachment() {
-        return AetherDataAttachments.PHOENIX_ARROW;
+        return () -> AetherDataAttachments.PHOENIX_ARROW;
     }
 
     public static void execute(PhoenixArrowSyncPacket payload, IPayloadContext context) {

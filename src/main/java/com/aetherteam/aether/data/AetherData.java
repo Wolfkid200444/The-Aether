@@ -4,6 +4,8 @@ import com.aetherteam.aether.data.generators.*;
 import com.aetherteam.aether.data.generators.tags.*;
 import com.aetherteam.aether.data.resources.AetherMobCategory;
 import com.google.common.reflect.Reflection;
+import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.DetectedVersion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -20,8 +22,9 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-public class AetherData {
-    public static void dataSetup(GatherDataEvent event) {
+public class AetherData implements DataGeneratorEntrypoint {
+    @Override
+    public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper fileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
@@ -30,8 +33,8 @@ public class AetherData {
         Reflection.initialize(AetherMobCategory.class);
 
         // Client Data
-        generator.addProvider(event.includeClient(), new AetherBlockStateData(packOutput, fileHelper));
-        generator.addProvider(event.includeClient(), new AetherItemModelData(packOutput, fileHelper));
+//        generator.addProvider(event.includeClient(), new AetherBlockStateData(packOutput, fileHelper));
+//        generator.addProvider(event.includeClient(), new AetherItemModelData(packOutput, fileHelper));
         generator.addProvider(event.includeClient(), new AetherLanguageData(packOutput));
         generator.addProvider(event.includeClient(), new AetherSoundData(packOutput, fileHelper));
 
@@ -48,7 +51,7 @@ public class AetherData {
         AetherBlockTagData blockTags = new AetherBlockTagData(packOutput, lookupProvider, fileHelper);
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new AetherItemTagData(packOutput, lookupProvider, blockTags.contentsGetter(), fileHelper));
-        generator.addProvider(event.includeServer(), new AetherEntityTagData(packOutput, lookupProvider, fileHelper));
+        generator.addProvider(event.includeServer(), new AetherEntityTagData(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new AetherFluidTagData(packOutput, lookupProvider, fileHelper));
         generator.addProvider(event.includeServer(), new AetherBiomeTagData(packOutput, lookupProvider, fileHelper));
         generator.addProvider(event.includeServer(), new AetherStructureTagData(packOutput, registryProvider, fileHelper));

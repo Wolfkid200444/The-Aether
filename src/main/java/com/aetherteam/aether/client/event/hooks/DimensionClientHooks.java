@@ -17,7 +17,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import org.apache.commons.lang3.tuple.Triple;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class DimensionClientHooks {
     /**
@@ -146,7 +146,7 @@ public class DimensionClientHooks {
         if (level != null && !Minecraft.getInstance().isPaused() && level.dimensionType().effectsLocation().equals(AetherDimensions.AETHER_DIMENSION_TYPE.location())) {
             LevelAccessor levelAccessor = (LevelAccessor) level;
             if (levelAccessor.aether$getLevelData().getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)) {
-                level.setDayTime(level.getData(AetherDataAttachments.AETHER_TIME).tickTime(level) - 1); // The client always increments time by 1 every tick.
+                level.setDayTime(level.getAttachedOrCreate(AetherDataAttachments.AETHER_TIME).tickTime(level) - 1); // The client always increments time by 1 every tick.
             }
         }
     }

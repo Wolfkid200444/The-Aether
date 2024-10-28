@@ -83,7 +83,7 @@ public class AetherDispenseBehaviors {
                                 armorStand.setShowArms(true);
                             }
                         } else if (livingEntity instanceof Mob mob && EntityHooks.canMobSpawnWithAccessories(mob)) {
-                            mob.getData(AetherDataAttachments.MOB_ACCESSORY).setGuaranteedDrop(slotTypeReference);
+                            mob.getAttachedOrCreate(AetherDataAttachments.MOB_ACCESSORY).setGuaranteedDrop(slotTypeReference);
                             mob.setPersistenceRequired();
                         }
                     }

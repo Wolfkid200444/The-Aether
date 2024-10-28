@@ -3,6 +3,7 @@
   "package": "com.aetherteam.aether.mixin.mixins",
   "plugin": "com.aetherteam.aether.mixin.AetherMixinPlugin",
   "minVersion": "0.8",
+  "minMixinExtrasVersion": "0.5.0-beta.3",
   "compatibilityLevel": "JAVA_21",
   "refmap": "aether.refmap.json",
   "mixins": [
@@ -38,7 +39,8 @@
     "common.accessor.ServerLevelAccessor",
     "common.accessor.SpreadingSnowyDirtBlockAccessor",
     "common.accessor.StoredUserListAccessor",
-    "common.accessor.ZombifiedPiglinAccessor"
+    "common.accessor.ZombifiedPiglinAccessor",
+    "common.ServerLevelMixin"
   ],
   "client": [
     "client.AdvancementToastMixin",
@@ -67,7 +69,9 @@
     "client.accessor.ScreenAccessor",
     "client.accessor.SoundEngineAccessor",
     "client.accessor.TitleScreenAccessor",
-    "client.optifine.BossHealthOverlayMixin"
+    "client.optifine.BossHealthOverlayMixin",
+    "client.fabric.NetworkRegisterHelperMixin",
+    "client.ClientLevelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

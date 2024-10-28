@@ -9,9 +9,9 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 public class PerkListener {
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(PerkListener::playerLoggedIn);
     }
 

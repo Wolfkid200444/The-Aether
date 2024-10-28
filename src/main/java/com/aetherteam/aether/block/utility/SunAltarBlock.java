@@ -56,8 +56,8 @@ public class SunAltarBlock extends BaseEntityBlock {
                 player.displayClientMessage(Component.translatable(Aether.MODID + ".sun_altar.no_permission"), true); // Player doesn't have permission to use the Sun Altar.
             } else {
                 if (AetherConfig.SERVER.sun_altar_dimensions.get().contains(level.dimension().location().toString())) {
-                    if (level.hasData(AetherDataAttachments.AETHER_TIME)) { // Checks if the level has the capability used for Aether time, which determines if the Sun Altar has control over the time of a dimension.
-                        if (!level.getData(AetherDataAttachments.AETHER_TIME).isEternalDay()) { // Checks if the time is locked into eternal day or not.
+                    if (level.hasAttached(AetherDataAttachments.AETHER_TIME)) { // Checks if the level has the capability used for Aether time, which determines if the Sun Altar has control over the time of a dimension.
+                        if (!level.getAttached(AetherDataAttachments.AETHER_TIME).isEternalDay()) { // Checks if the time is locked into eternal day or not.
                             this.openScreen(level, pos, player, AetherDimensions.AETHER_TICKS_PER_DAY);
                         } else {
                             player.displayClientMessage(Component.translatable(Aether.MODID + ".sun_altar.in_control"), true); // Sun Spirit is still in control of the realm.

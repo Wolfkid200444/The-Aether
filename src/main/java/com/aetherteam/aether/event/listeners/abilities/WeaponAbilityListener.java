@@ -2,44 +2,40 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
-import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import com.aetherteam.aether.fabric.events.EntityEvents;
+import com.aetherteam.aether.fabric.events.OnProjectileImpact;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 
 public class WeaponAbilityListener {
     /**
-     * @see Aether#eventSetup(IEventBus) 
+     * @see Aether#eventSetup()
      */
-    public static void listen(IEventBus bus) {
-        bus.addListener(WeaponAbilityListener::onDartHurt);
-        bus.addListener(WeaponAbilityListener::onArrowHit);
-        bus.addListener(WeaponAbilityListener::onLightningStrike);
+    public static void listen() {
+        ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> WeaponAbilityListener.onDartHurt(entity, source));
+        OnProjectileImpact.EVENT.register(WeaponAbilityListener::onArrowHit);
+        EntityEvents.STRUCK_BY_LIGHTNING.register(WeaponAbilityListener::onLightningStrike);
         bus.addListener(WeaponAbilityListener::onEntityDamage);
     }
 
     /**
      * @see AbilityHooks.WeaponHooks#stickDart(LivingEntity, DamageSource)
      */
-    public static void onDartHurt(LivingDamageEvent.Pre event) {
-        LivingEntity livingEntity = event.getEntity();
-        DamageSource damageSource = event.getSource();
+    public static void onDartHurt(LivingEntity livingEntity, DamageSource damageSource) {
         AbilityHooks.WeaponHooks.stickDart(livingEntity, damageSource);
     }
 
     /**
      * @see AbilityHooks.WeaponHooks#phoenixArrowHit(HitResult, Projectile)
      */
-    public static void onArrowHit(ProjectileImpactEvent event) {
-        HitResult hitResult = event.getRayTraceResult();
-        Projectile projectile = event.getProjectile();
-        if (!event.isCanceled()) {
+    public static void onArrowHit(Projectile projectile, HitResult hitResult, MutableBoolean isCancelled) {
+        if (!isCancelled.getValue()) {
             AbilityHooks.WeaponHooks.phoenixArrowHit(hitResult, projectile);
         }
     }
@@ -47,11 +43,9 @@ public class WeaponAbilityListener {
     /**
      * @see AbilityHooks.WeaponHooks#lightningTracking(Entity, LightningBolt)
      */
-    public static void onLightningStrike(EntityStruckByLightningEvent event) {
-        Entity entity = event.getEntity();
-        LightningBolt lightningBolt = event.getLightning();
-        if (!event.isCanceled() && AbilityHooks.WeaponHooks.lightningTracking(entity, lightningBolt)) {
-            event.setCanceled(true);
+    public static void onLightningStrike(Entity entity, LightningBolt lightningBolt, MutableBoolean isCancelled) {
+        if (!isCancelled.getValue() && AbilityHooks.WeaponHooks.lightningTracking(entity, lightningBolt)) {
+            isCancelled.setValue(true);
         }
     }
 

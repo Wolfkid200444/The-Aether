@@ -59,7 +59,7 @@ import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -359,8 +359,8 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
                 this.getDungeon().grantAdvancements(source);
                 this.tearDownRoom();
             }
-            if (this.level().hasData(AetherDataAttachments.AETHER_TIME)) {
-                var data = this.level().getData(AetherDataAttachments.AETHER_TIME);
+            if (this.level().hasAttached(AetherDataAttachments.AETHER_TIME)) {
+                var data = this.level().getAttached(AetherDataAttachments.AETHER_TIME);
                 data.setEternalDay(false);
                 data.updateEternalDay(this.level());
             }

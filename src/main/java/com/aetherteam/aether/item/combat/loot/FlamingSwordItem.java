@@ -20,12 +20,10 @@ public class FlamingSwordItem extends SwordItem {
     }
 
     /**
-     * @see Aether#eventSetup(IEventBus) 
+     * @see Aether#eventSetup(IEventBus)
      * @see FlamingSwordItem#handleFlamingSwordAbility(LivingEntity, DamageSource)
      */
-    public static void onLivingDamage(LivingDamageEvent.Post event) {
-        LivingEntity target = event.getEntity();
-        DamageSource damageSource = event.getSource();
+    public static void onLivingDamage(LivingEntity target, DamageSource damageSource) {
         handleFlamingSwordAbility(target, damageSource);
     }
 

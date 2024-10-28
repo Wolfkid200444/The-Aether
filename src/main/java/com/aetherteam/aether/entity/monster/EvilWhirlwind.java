@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.loot.LootTable;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class EvilWhirlwind extends AbstractWhirlwind {
     public EvilWhirlwind(EntityType<? extends EvilWhirlwind> type, Level level) {

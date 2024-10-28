@@ -20,9 +20,9 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 
 public class RecipeListener {
     /**
-     * @see Aether#eventSetup(IEventBus) 
+     * @see Aether#eventSetup(IEventBus)
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(RecipeListener::checkBanned);
         bus.addListener(RecipeListener::onNeighborNotified);
         bus.addListener(RecipeListener::onBlockFreeze);
