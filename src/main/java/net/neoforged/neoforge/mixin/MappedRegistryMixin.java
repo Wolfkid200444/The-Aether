@@ -2,7 +2,7 @@ package net.neoforged.neoforge.mixin;
 
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.resources.ResourceKey;
-import net.neoforged.neoforge.common.extensions.IMappedRegistryExtension;
+import net.neoforged.neoforge.common.extensions.IRegistryExtension;
 import net.neoforged.neoforge.pond.FullDataMapAccess;
 import net.neoforged.neoforge.registries.datamaps.DataMapType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +13,7 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 @Mixin(MappedRegistry.class)
-public abstract class MappedRegistryMixin<T> implements FullDataMapAccess<T>, IMappedRegistryExtension<T> {
+public abstract class MappedRegistryMixin<T> implements FullDataMapAccess<T>, IRegistryExtension<T> {
 
     @Unique
     private final Map<DataMapType<T, ?>, Map<ResourceKey<T>, ?>> dataMaps = new IdentityHashMap<>();

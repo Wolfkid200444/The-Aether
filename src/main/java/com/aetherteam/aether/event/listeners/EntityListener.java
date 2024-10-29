@@ -2,7 +2,12 @@ package com.aetherteam.aether.event.listeners;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.EntityHooks;
+import com.aetherteam.aether.fabric.events.EntityEvents;
+import com.aetherteam.aether.fabric.events.PlayerTickEvents;
+import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import io.wispforest.accessories.api.events.OnDeathCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -14,19 +19,16 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.EntityMountEvent;
-import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
-import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
-import net.neoforged.neoforge.event.entity.living.*;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,13 +40,13 @@ public class EntityListener {
      * @see Aether#eventSetup()
      */
     public static void listen() {
-        bus.addListener(EntityListener::onEntityJoin);
+        ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> EntityListener.onEntityJoin(entity));
         bus.addListener(EntityListener::onMountEntity);
-        bus.addListener(EntityListener::onRiderTick);
-        bus.addListener(EntityListener::onInteractWithEntity);
-        bus.addListener(EntityListener::onProjectileHitEntity);
+        PlayerTickEvents.AFTER.register(EntityListener::onRiderTick);
+        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> EntityListener.onInteractWithEntity(entity, player, hand, hitResult));
+        ProjectileEvents.ON_IMPACT.register(EntityListener::onProjectileHitEntity);
         bus.addListener(EntityListener::onShieldBlock);
-        bus.addListener(EntityListener::onLightningStrike);
+        EntityEvents.STRUCK_BY_LIGHTNING.register(EntityListener::onLightningStrike);
         bus.addListener(EntityListener::onPlayerDrops);
         bus.addListener(EntityListener::onDropExperience);
         bus.addListener(EntityListener::onEffectApply);
@@ -64,8 +66,7 @@ public class EntityListener {
      * @see EntityHooks#addGoals(Entity)
      * @see EntityHooks#canMobSpawnWithAccessories(Entity)
      */
-    public static void onEntityJoin(EntityJoinLevelEvent event) {
-        Entity entity = event.getEntity();
+    public static void onEntityJoin(Entity entity) {
         EntityHooks.addGoals(entity);
     }
 
@@ -82,8 +83,7 @@ public class EntityListener {
     /**
      * @see EntityHooks#launchMount(Player)
      */
-    public static void onRiderTick(PlayerTickEvent.Post event) {
-        Player player = event.getEntity();
+    public static void onRiderTick(Player player) {
         EntityHooks.launchMount(player);
     }
 
@@ -92,28 +92,34 @@ public class EntityListener {
      * @see EntityHooks#pickupBucketable(Entity, Player, InteractionHand)
      * @see EntityHooks#interactWithArmorStand(Entity, Player, ItemStack, Vec3, InteractionHand)
      */
-    public static void onInteractWithEntity(PlayerInteractEvent.EntityInteractSpecific event) {
-        Entity targetEntity = event.getTarget();
-        Player player = event.getEntity();
-        ItemStack itemStack = event.getItemStack();
-        Vec3 position = event.getLocalPos();
-        InteractionHand interactionHand = event.getHand();
+    public static InteractionResult onInteractWithEntity(Entity targetEntity, Player player, InteractionHand interactionHand, @Nullable EntityHitResult hitResult) {
+        ItemStack itemStack = player.getItemInHand(interactionHand);
+        Vec3 position;
+
+        if (hitResult == null) {
+            AABB aABB = player.getBoundingBox().expandTowards(targetEntity.position()).inflate(1.0);
+            hitResult = ProjectileUtil.getEntityHitResult(player, player.getEyePosition(), targetEntity.position(), aABB, entity -> entity == targetEntity, player.position().distanceTo(targetEntity.position()) + 1);
+        }
+
+        if (hitResult != null) {
+            position = hitResult.getLocation();
+        } else {
+            position = targetEntity.position();
+        }
+
         EntityHooks.skyrootBucketMilking(targetEntity, player, interactionHand);
         Optional<InteractionResult> result = EntityHooks.pickupBucketable(targetEntity, player, interactionHand);
         if (result.isEmpty()) {
             result = EntityHooks.interactWithArmorStand(targetEntity, player, itemStack, position, interactionHand);
         }
-        result.ifPresent(event::setCancellationResult);
-        event.setCanceled(result.isPresent());
+        return result.orElse(InteractionResult.PASS);
     }
 
     /**
      * @see EntityHooks#preventEntityHooked(Entity, HitResult)
      */
-    public static void onProjectileHitEntity(ProjectileImpactEvent event) {
-        Entity projectileEntity = event.getEntity();
-        HitResult rayTraceResult = event.getRayTraceResult();
-        event.setCanceled(EntityHooks.preventEntityHooked(projectileEntity, rayTraceResult));
+    public static void onProjectileHitEntity(Entity projectileEntity, HitResult rayTraceResult, MutableBoolean isCancelled) {
+        isCancelled.setValue(EntityHooks.preventEntityHooked(projectileEntity, rayTraceResult));
     }
 
     /**
@@ -128,11 +134,9 @@ public class EntityListener {
     /**
      * @see EntityHooks#lightningHitKeys(Entity)
      */
-    public static void onLightningStrike(EntityStruckByLightningEvent event) {
-        Entity entity = event.getEntity();
-        LightningBolt lightningBolt = event.getLightning();
+    public static void onLightningStrike(Entity entity, LightningBolt lightningBolt, MutableBoolean isCancelled) {
         if (EntityHooks.lightningHitKeys(entity) || EntityHooks.thunderCrystalHitItems(entity, lightningBolt)) {
-            event.setCanceled(true);
+            isCancelled.setValue(true);
         }
     }
 

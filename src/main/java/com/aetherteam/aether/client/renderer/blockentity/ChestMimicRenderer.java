@@ -7,6 +7,7 @@ import com.aetherteam.aether.client.renderer.AetherModelLayers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -20,8 +21,7 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
-import net.neoforged.fml.ModList;
-import noobanidus.mods.lootr.neoforge.config.ConfigManager;
+import noobanidus.mods.lootr.fabric.config.ConfigManager;
 
 import java.util.Calendar;
 
@@ -70,7 +70,7 @@ public class ChestMimicRenderer implements BlockEntityRenderer<ChestMimicBlockEn
     }
 
     private Material getMaterial(ChestMimicBlockEntity blockEntity) {
-		if (ModList.get().isLoaded("lootr")) {
+		if (FabricLoader.getInstance().isModLoaded("lootr")) {
 			if (!ConfigManager.isVanillaTextures()) {
 				return LOOTR_MATERIAL;
 			}

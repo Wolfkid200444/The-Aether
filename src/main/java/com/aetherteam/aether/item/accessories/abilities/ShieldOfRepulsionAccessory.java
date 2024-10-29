@@ -3,6 +3,7 @@ package com.aetherteam.aether.item.accessories.abilities;
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.attachment.AetherPlayerAttachment;
+import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.nitrogen.ConstantsUtil;
@@ -17,11 +18,10 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import com.aetherteam.aether.fabric.events.OnProjectileImpact;
 
 public interface ShieldOfRepulsionAccessory {
     /**
-     * Cancels {@link OnProjectileImpact} and deflects a projectile when it hits an entity wearing a Shield of Repulsion if the projectile can be deflected ({@link AetherTags.Entities#DEFLECTABLE_PROJECTILES}).<br><br>
+     * Cancels {@link ProjectileEvents.OnImpact} and deflects a projectile when it hits an entity wearing a Shield of Repulsion if the projectile can be deflected ({@link AetherTags.Entities#DEFLECTABLE_PROJECTILES}).<br><br>
      * Deflection also depends on the entity not moving. If the entity is a player, it checks this with {@link AetherPlayerAttachment#isMoving()} (which checks if the player is pressing movement keys in {@link com.aetherteam.aether.client.event.hooks.CapabilityClientHooks.AetherPlayerHooks#movementInput(Player, Input)}).<br><br>
      * If the entity isn't a player, it checks for the entity's actual motion.<br><br>
      * For players, deflection also triggers the Shield of Repulsion's screen overlay.

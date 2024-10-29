@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public interface IMappedRegistryExtension<T> {
+public interface IRegistryExtension<T> {
 
     @Nullable
     default <A> A getData(DataMapType<T, A> type, ResourceKey<T> key) {

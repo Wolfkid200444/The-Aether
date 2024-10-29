@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.client.event.*;
 
 public class WorldPreviewHooks {
     /**

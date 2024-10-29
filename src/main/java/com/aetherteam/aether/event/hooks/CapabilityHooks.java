@@ -8,16 +8,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 public class CapabilityHooks {
     public static class AetherPlayerHooks {
         /**
          * @see AetherPlayerAttachment#onLogin(Player)
-         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerLogin(PlayerEvent.PlayerLoggedInEvent)
+         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerLogin(Player)
          */
         public static void login(Player player) {
             player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).onLogin(player);
@@ -25,7 +21,7 @@ public class CapabilityHooks {
 
         /**
          * @see AetherPlayerAttachment#onLogout(Player)
-         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent)
+         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerLogout(Player)
          */
         public static void logout(Player player) {
             player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).onLogout(player);
@@ -33,7 +29,7 @@ public class CapabilityHooks {
 
         /**
          * @see AetherPlayerAttachment#onJoinLevel(Player)
-         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerJoinLevel(EntityJoinLevelEvent)
+         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerJoinLevel(Entity)
          */
         public static void joinLevel(Entity entity) {
             if (entity instanceof Player player) {
@@ -43,7 +39,7 @@ public class CapabilityHooks {
 
         /**
          * @see AetherPlayerAttachment#onUpdate(Player)
-         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerUpdate(EntityTickEvent.Post)
+         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerUpdate(Entity)
          */
         public static void update(LivingEntity entity) {
             if (entity instanceof Player player) {
@@ -53,7 +49,7 @@ public class CapabilityHooks {
 
         /**
          * @see AetherPlayerAttachment#handleRespawn(boolean)
-         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerClone(PlayerEvent.Clone)
+         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerClone(Player, boolean)
          */
         public static void clone(Player player, boolean wasDeath) {
             player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).handleRespawn(wasDeath);
@@ -63,7 +59,7 @@ public class CapabilityHooks {
          * Syncs capability data to the client when the player changes dimensions.
          *
          * @param player The {@link Player}.
-         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent)
+         * @see com.aetherteam.aether.event.listeners.capability.AetherPlayerListener#onPlayerChangeDimension(Player)
          */
         public static void changeDimension(Player player) {
             if (!player.level().isClientSide()) {

@@ -2,12 +2,17 @@ package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.event.hooks.EntityHooks;
+import com.aetherteam.aether.fabric.events.ItemAttributeModifierEvent;
 import com.aetherteam.aether.mixin.AetherMixinHooks;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.wispforest.accessories.api.slot.SlotTypeReference;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -42,7 +47,7 @@ public class MobMixin {
     @ModifyReturnValue(at = @At(value = "RETURN"), method = "equipItemIfPossible(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;")
     private ItemStack equipItemIfPossible(ItemStack original, @Local(ordinal = 0, argsOnly = true) ItemStack stack) {
         Mob mob = (Mob) (Object) this;
-        var data = mob.getData(AetherDataAttachments.MOB_ACCESSORY);
+        var data = mob.getAttachedOrCreate(AetherDataAttachments.MOB_ACCESSORY);
         SlotTypeReference identifier = AetherMixinHooks.getIdentifierForItem(mob, stack);
         if (identifier != null) {
             ItemStack accessory = AetherMixinHooks.getItemByIdentifier(mob, identifier);
@@ -59,5 +64,16 @@ public class MobMixin {
             }
         }
         return original;
+    }
+
+    //--
+
+    @WrapOperation(method = "getApproximateAttackDamageWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getOrDefault(Lnet/minecraft/core/component/DataComponentType;Ljava/lang/Object;)Ljava/lang/Object;"))
+    private Object aetherFabric$modifyAttributeEvent(ItemStack instance, DataComponentType dataComponentType, Object object, Operation<Object> original) {
+        var attributeInstance = (ItemAttributeModifiers) original.call(instance, dataComponentType, object);
+
+        var event = ItemAttributeModifierEvent.invokeEvent((ItemStack) (Object) this, attributeInstance);
+
+        return new ItemAttributeModifiers(event.getModifiers(), attributeInstance.showInTooltip());
     }
 }

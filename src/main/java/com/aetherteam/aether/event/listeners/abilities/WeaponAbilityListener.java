@@ -2,6 +2,7 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
+import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -10,7 +11,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.HitResult;
 import com.aetherteam.aether.fabric.events.EntityEvents;
-import com.aetherteam.aether.fabric.events.OnProjectileImpact;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
 public class WeaponAbilityListener {
@@ -19,9 +19,9 @@ public class WeaponAbilityListener {
      */
     public static void listen() {
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> WeaponAbilityListener.onDartHurt(entity, source));
-        OnProjectileImpact.EVENT.register(WeaponAbilityListener::onArrowHit);
+        ProjectileEvents.ON_IMPACT.register(WeaponAbilityListener::onArrowHit);
         EntityEvents.STRUCK_BY_LIGHTNING.register(WeaponAbilityListener::onLightningStrike);
-        bus.addListener(WeaponAbilityListener::onEntityDamage);
+        // EntityHurtMixin.aetherFabric$adjustDamageAmount -> WeaponAbilityListener::onEntityDamage
     }
 
     /**
@@ -53,11 +53,10 @@ public class WeaponAbilityListener {
      * @see com.aetherteam.aether.event.hooks.AbilityHooks.WeaponHooks#reduceWeaponEffectiveness(LivingEntity, Entity, float)
      * @see com.aetherteam.aether.event.hooks.AbilityHooks.WeaponHooks#reduceArmorEffectiveness(LivingEntity, Entity, float)
      */
-    public static void onEntityDamage(LivingDamageEvent.Pre event) {
-        LivingEntity targetEntity = event.getEntity();
-        DamageSource damageSource = event.getSource();
+    public static float onEntityDamage(LivingEntity targetEntity, DamageSource damageSource, float damage) {
         Entity sourceEntity = damageSource.getDirectEntity();
-        event.setNewDamage(AbilityHooks.WeaponHooks.reduceWeaponEffectiveness(targetEntity, sourceEntity, event.getNewDamage()));
-        event.setNewDamage(AbilityHooks.WeaponHooks.reduceArmorEffectiveness(targetEntity, sourceEntity, event.getNewDamage()));
+        damage = AbilityHooks.WeaponHooks.reduceWeaponEffectiveness(targetEntity, sourceEntity, damage);
+        damage = AbilityHooks.WeaponHooks.reduceArmorEffectiveness(targetEntity, sourceEntity, damage);
+        return damage;
     }
 }

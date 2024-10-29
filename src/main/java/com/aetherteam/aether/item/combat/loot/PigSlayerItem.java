@@ -15,13 +15,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import org.apache.commons.lang3.mutable.MutableFloat;
 
 public class PigSlayerItem extends SwordItem {
     public PigSlayerItem() {
-        super(AetherItemTiers.PIG_SLAYER, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.PIG_SLAYER, 3.0F, -2.4F)));
+        super(AetherItemTiers.PIG_SLAYER, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.PIG_SLAYER, 3, -2.4F)));
     }
 
     /**
@@ -61,7 +59,7 @@ public class PigSlayerItem extends SwordItem {
     }
 
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      * Deals 20-22 hearts of damage to the target if they're a Pig-type entity and if the attacker attacked with full strength as determined by {@link EquipmentUtil#isFullStrength(LivingEntity)}.<br><br>
      */
     public static void onLivingDamage(LivingEntity target, DamageSource damageSource, MutableFloat newDamage) {

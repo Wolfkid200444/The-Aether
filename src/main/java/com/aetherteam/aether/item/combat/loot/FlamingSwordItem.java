@@ -11,16 +11,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
 public class FlamingSwordItem extends SwordItem {
     public FlamingSwordItem() {
-        super(AetherItemTiers.FLAMING, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.FLAMING, 3.0F, -2.4F)));
+        super(AetherItemTiers.FLAMING, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.FLAMING, 3, -2.4F)));
     }
 
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      * @see FlamingSwordItem#handleFlamingSwordAbility(LivingEntity, DamageSource)
      */
     public static void onLivingDamage(LivingEntity target, DamageSource damageSource) {
@@ -39,7 +37,7 @@ public class FlamingSwordItem extends SwordItem {
                 ItemStack heldStack = attacker.getMainHandItem();
                 if (heldStack.is(AetherItems.FLAMING_SWORD.get())) {
                     int defaultTime = 30;
-                    int fireAspectModifier = EnchantmentHelper.getEnchantmentLevel(attacker.level().holderOrThrow(Enchantments.FIRE_ASPECT), attacker);
+                    int fireAspectModifier = EnchantmentHelper.getEnchantmentLevel(attacker.level().registryAccess().holderOrThrow(Enchantments.FIRE_ASPECT), attacker);
                     if (fireAspectModifier > 0) {
                         defaultTime += (fireAspectModifier * 4);
                     }

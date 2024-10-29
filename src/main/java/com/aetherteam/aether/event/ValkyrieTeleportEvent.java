@@ -1,26 +1,56 @@
 package com.aetherteam.aether.event;
 
+import com.aetherteam.aether.fabric.events.Cancellable;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.world.entity.Entity;
-import net.neoforged.bus.api.ICancellableEvent;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 
 /**
  * ValkyrieTeleportEvent is fired before a Valkyrie teleports.
  * <br>
- * This event is {@link ICancellableEvent}.<br>
+ * This event is {@link Cancellable}.<br>
  * If the event is not canceled, the entity will be teleported.
  * <br>
- * This event is fired on the {@link net.neoforged.neoforge.common.NeoForge#EVENT_BUS}.<br>
- * <br>
- * This event is only fired on the {@link LogicalSide#SERVER} side.<br>
+ * This event is only fired on the {@link EnvType#SERVER} side.<br>
  * <br>
  * If this event is canceled, the entity will not be teleported.
- *
- * @see EntityTeleportEvent
  */
-public class ValkyrieTeleportEvent extends EntityTeleportEvent implements ICancellableEvent {
+public class ValkyrieTeleportEvent extends Cancellable {
+
+    private final Entity entity;
+    private final double targetX;
+    private final double targetY;
+    private final double targetZ;
+
     public ValkyrieTeleportEvent(Entity entity, double targetX, double targetY, double targetZ) {
-        super(entity, targetX, targetY, targetZ);
+        this.entity = entity;
+        this.targetX = targetX;
+        this.targetY = targetY;
+        this.targetZ = targetZ;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public double getTargetX() {
+        return targetX;
+    }
+
+    public double getTargetY() {
+        return targetY;
+    }
+
+    public double getTargetZ() {
+        return targetZ;
+    }
+
+    public static final Event<Callback> EVENT = EventFactory.createArrayBacked(Callback.class, invokers -> event -> {
+        for (var invoker : invokers) invoker.teleport(event);
+    });
+
+    public interface Callback {
+        void teleport(ValkyrieTeleportEvent event);
     }
 }

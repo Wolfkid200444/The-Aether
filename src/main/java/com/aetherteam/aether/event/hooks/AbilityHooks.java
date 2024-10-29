@@ -11,6 +11,7 @@ import com.aetherteam.aether.entity.projectile.PoisonNeedle;
 import com.aetherteam.aether.entity.projectile.dart.EnchantedDart;
 import com.aetherteam.aether.entity.projectile.dart.GoldenDart;
 import com.aetherteam.aether.entity.projectile.dart.PoisonDart;
+import com.aetherteam.aether.fabric.events.LivingFallEvent;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.aether.item.combat.abilities.weapon.ZaniteWeapon;
 import com.aetherteam.aether.item.tools.abilities.HolystoneTool;
@@ -48,17 +49,9 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
-import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
-import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
-import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableDouble;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import org.jetbrains.annotations.Nullable;
@@ -77,7 +70,7 @@ public class AbilityHooks {
             SlotEntryReference slotResult = EquipmentUtil.getGloves(player);
             if (slotResult != null) {
                 if (player.level() instanceof ServerLevel serverLevel) {
-                    slotResult.stack().hurtAndBreak(1, serverLevel, player, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
+                    slotResult.stack().hurtAndBreak(1, serverLevel, (ServerPlayer) player, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
                 }
             }
         }
@@ -85,7 +78,7 @@ public class AbilityHooks {
         /**
          * Damages Zanite Rings when a block is broken.
          *
-         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onBlockBreak(BlockEvent.BreakEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onBlockBreak(Level, Player, BlockPos, BlockState)
          */
         public static void damageZaniteRing(LivingEntity entity, LevelAccessor level, BlockState state, BlockPos pos) {
             List<SlotEntryReference> slotResults = EquipmentUtil.getZaniteRings(entity);
@@ -93,7 +86,8 @@ public class AbilityHooks {
                 if (slotResult != null) {
                     if (state.getDestroySpeed(level, pos) > 0 && entity.getRandom().nextInt(6) == 0) {
                         if (entity.level() instanceof ServerLevel serverLevel) {
-                            slotResult.stack().hurtAndBreak(1, serverLevel, entity, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
+                            var player = entity instanceof ServerPlayer serverPlayer ? serverPlayer : null;
+                            slotResult.stack().hurtAndBreak(1, serverLevel, player, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
                         }
                     }
                 }
@@ -103,14 +97,15 @@ public class AbilityHooks {
         /**
          * Damages Zanite Pendant when a block is broken.
          *
-         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onBlockBreak(BlockEvent.BreakEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onBlockBreak(Level, Player, BlockPos, BlockState)
          */
         public static void damageZanitePendant(LivingEntity entity, LevelAccessor level, BlockState state, BlockPos pos) {
             SlotEntryReference slotResult = EquipmentUtil.getZanitePendant(entity);
             if (slotResult != null) {
                 if (state.getDestroySpeed(level, pos) > 0 && entity.getRandom().nextInt(6) == 0) {
                     if (entity.level() instanceof ServerLevel serverLevel) {
-                        slotResult.stack().hurtAndBreak(1, serverLevel, entity, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
+                        var player = entity instanceof ServerPlayer serverPlayer ? serverPlayer : null;
+                        slotResult.stack().hurtAndBreak(1, serverLevel, player, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
                     }
                 }
             }
@@ -119,11 +114,11 @@ public class AbilityHooks {
         /**
          * Checks whether an entity can be targeted while wearing an Invisibility Cloak.
          *
-         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onTargetSet(LivingEvent.LivingVisibilityEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onTargetSet(LivingEntity, Entity, MutableDouble)
          */
         public static boolean preventTargeting(LivingEntity target, @Nullable Entity lookingEntity) {
             if (target instanceof Player player) {
-                var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                 return lookingEntity != null
                         && !lookingEntity.getType().is(AetherTags.Entities.IGNORE_INVISIBILITY)
                         && data.isWearingInvisibilityCloak()
@@ -139,11 +134,11 @@ public class AbilityHooks {
         /**
          * Checks if an entity recently attacked while wearing an Invisibility Cloak.
          *
-         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onTargetSet(LivingEvent.LivingVisibilityEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onTargetSet(LivingEntity, Entity, MutableDouble)
          */
         public static boolean recentlyAttackedWithInvisibility(LivingEntity target, Entity lookingEntity) {
             if (target instanceof Player player) {
-                var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                 return !lookingEntity.getType().is(AetherTags.Entities.IGNORE_INVISIBILITY)
                         && data.isWearingInvisibilityCloak()
                         && data.isInvisibilityEnabled()
@@ -156,18 +151,18 @@ public class AbilityHooks {
         /**
          * Sets that the player recently attacked.
          *
-         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onEntityHurt(net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onEntityHurt(LivingEntity, DamageSource)
          */
         public static void setAttack(DamageSource source) {
             if (source.getEntity() instanceof Player player) {
-                player.getData(AetherDataAttachments.AETHER_PLAYER).setAttackedWithInvisibility(true);
+                player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).setAttackedWithInvisibility(true);
             }
         }
 
         /**
          * Prevents magma block damage when wearing ice accessories.
          *
-         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onEntityHurt(net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener#onEntityHurt(LivingEntity, DamageSource)
          */
         public static boolean preventMagmaDamage(LivingEntity entity, DamageSource source) {
             return source == entity.level().damageSources().hotFloor() && EquipmentUtil.hasFreezingAccessory(entity);
@@ -180,7 +175,7 @@ public class AbilityHooks {
          *
          * @param entity The {@link LivingEntity} wearing the armor.
          * @return Whether the wearer's fall damage should be cancelled, as a {@link Boolean}.
-         * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityFall(LivingFallEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityFall(LivingEntity, LivingFallEvent)
          */
         public static boolean fallCancellation(LivingEntity entity) {
             return EquipmentUtil.hasSentryBoots(entity) || EquipmentUtil.hasFullGravititeSet(entity) || EquipmentUtil.hasFullValkyrieSet(entity);
@@ -188,9 +183,9 @@ public class AbilityHooks {
     }
 
     public static class ToolHooks {
-        /**
-         * Blocks able to be stripped with {@link ItemAbilities#AXE_STRIP}, and the equivalent result block.
-         */
+//        /**
+//         * Blocks able to be stripped with {@link ItemAbilities#AXE_STRIP}, and the equivalent result block.
+//         */
         public static final Map<Block, Block> STRIPPABLES = (new ImmutableMap.Builder<Block, Block>())
                 .put(AetherBlocks.SKYROOT_LOG.get(), AetherBlocks.STRIPPED_SKYROOT_LOG.get())
                 .put(AetherBlocks.GOLDEN_OAK_LOG.get(), AetherBlocks.STRIPPED_SKYROOT_LOG.get())
@@ -198,18 +193,18 @@ public class AbilityHooks {
                 .put(AetherBlocks.GOLDEN_OAK_WOOD.get(), AetherBlocks.STRIPPED_SKYROOT_WOOD.get())
                 .build();
 
-        /**
-         * Blocks able to be flattened with {@link ItemAbilities#SHOVEL_FLATTEN}, and the equivalent result block.
-         */
+//        /**
+//         * Blocks able to be flattened with {@link ItemAbilities#SHOVEL_FLATTEN}, and the equivalent result block.
+//         */
         public static final Map<Block, Block> FLATTENABLES = (new ImmutableMap.Builder<Block, Block>())
                 .put(AetherBlocks.AETHER_GRASS_BLOCK.get(), AetherBlocks.AETHER_DIRT_PATH.get())
                 .put(AetherBlocks.ENCHANTED_AETHER_GRASS_BLOCK.get(), AetherBlocks.AETHER_DIRT_PATH.get())
                 .put(AetherBlocks.AETHER_DIRT.get(), AetherBlocks.AETHER_DIRT_PATH.get())
                 .build();
 
-        /**
-         * Blocks able to be tilled with {@link ItemAbilities#HOE_TILL}, and the equivalent result block.
-         */
+//        /**
+//         * Blocks able to be tilled with {@link ItemAbilities#HOE_TILL}, and the equivalent result block.
+//         */
         public static final Map<Block, Block> TILLABLES = (new ImmutableMap.Builder<Block, Block>())
                 .put(AetherBlocks.AETHER_DIRT.get(), AetherBlocks.AETHER_FARMLAND.get())
                 .put(AetherBlocks.AETHER_GRASS_BLOCK.get(), AetherBlocks.AETHER_FARMLAND.get())
@@ -229,31 +224,31 @@ public class AbilityHooks {
          * @return The new {@link BlockState} of the block.
          * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#setupToolModifications(BlockEvent.BlockToolModificationEvent)
          */
-        public static BlockState setupItemAbilities(LevelAccessor accessor, BlockPos pos, BlockState old, ItemAbility action) {
-            Block oldBlock = old.getBlock();
-            if (action == ItemAbilities.AXE_STRIP) {
-                if (STRIPPABLES.containsKey(oldBlock)) {
-                    return STRIPPABLES.get(oldBlock).withPropertiesOf(old);
-                }
-            } else if (action == ItemAbilities.SHOVEL_FLATTEN) {
-                if (FLATTENABLES.containsKey(oldBlock)) {
-                    return FLATTENABLES.get(oldBlock).withPropertiesOf(old);
-                }
-            } else if (action == ItemAbilities.HOE_TILL) {
-                if (accessor.getBlockState(pos.above()).isAir()) {
-                    if (TILLABLES.containsKey(oldBlock)) {
-                        return TILLABLES.get(oldBlock).withPropertiesOf(old);
-                    }
-                }
-            }
-            return old;
-        }
+//        public static BlockState setupItemAbilities(LevelAccessor accessor, BlockPos pos, BlockState old, ItemAbility action) {
+//            Block oldBlock = old.getBlock();
+//            if (action == ItemAbilities.AXE_STRIP) {
+//                if (STRIPPABLES.containsKey(oldBlock)) {
+//                    return STRIPPABLES.get(oldBlock).withPropertiesOf(old);
+//                }
+//            } else if (action == ItemAbilities.SHOVEL_FLATTEN) {
+//                if (FLATTENABLES.containsKey(oldBlock)) {
+//                    return FLATTENABLES.get(oldBlock).withPropertiesOf(old);
+//                }
+//            } else if (action == ItemAbilities.HOE_TILL) {
+//                if (accessor.getBlockState(pos.above()).isAir()) {
+//                    if (TILLABLES.containsKey(oldBlock)) {
+//                        return TILLABLES.get(oldBlock).withPropertiesOf(old);
+//                    }
+//                }
+//            }
+//            return old;
+//        }
 
         /**
          * Handles ability for {@link com.aetherteam.aether.item.tools.abilities.HolystoneTool}.
          *
          * @see HolystoneTool#dropAmbrosium(Player, Level, BlockPos, ItemStack, BlockState)
-         * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#doHolystoneAbility(BlockEvent.BreakEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#doHolystoneAbility(Player, Level, BlockPos, ItemStack, BlockState)
          */
         public static void handleHolystoneToolAbility(Player player, Level level, BlockPos pos, ItemStack stack, BlockState blockState) {
             if (stack.getItem() instanceof HolystoneTool holystoneTool) {
@@ -265,7 +260,7 @@ public class AbilityHooks {
          * Handles ability for {@link com.aetherteam.aether.item.tools.abilities.ZaniteTool}.
          *
          * @see ZaniteTool#increaseSpeed(ItemAttributeModifiers, ItemStack, double)
-         * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#modifyBreakSpeed(PlayerEvent.BreakSpeed)
+         * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#modifyBreakSpeed(Player, BlockState, float)
          */
         public static ItemAttributeModifiers.Entry handleZaniteAbilityModifiers(ItemAttributeModifiers modifiers, ItemStack stack) {
             return switch (stack.getItem()) {
@@ -286,7 +281,7 @@ public class AbilityHooks {
          * @param stack The {@link ItemStack} being used for mining.
          * @param speed The mining speed of the stack, as a {@link Float}.
          * @return The debuffed mining speed, as a {@link Float}.
-         * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#modifyBreakSpeed(PlayerEvent.BreakSpeed)
+         * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#modifyBreakSpeed(Player, BlockState, float)
          */
         public static float reduceToolEffectiveness(Player player, BlockState state, ItemStack stack, float speed) {
             if (AetherConfig.SERVER.tools_debuff.get()) {
@@ -313,24 +308,21 @@ public class AbilityHooks {
          * @param accessor The {@link LevelAccessor} of the level.
          * @param state    The {@link BlockState} an action is being performed on.
          * @param stack    The {@link ItemStack} performing an action.
-         * @param action   The {@link ItemAbility} being performed.
          * @param context  The {@link UseOnContext} of this interaction.
-         * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#doGoldenOakStripping(BlockEvent.BlockToolModificationEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#doGoldenOakStripping(LevelAccessor, BlockState, ItemStack, UseOnContext)
          */
-        public static void stripGoldenOak(LevelAccessor accessor, BlockState state, ItemStack stack, ItemAbility action, UseOnContext context) {
-            if (action == ItemAbilities.AXE_STRIP) {
-                if (accessor instanceof Level level) {
-                    if (state.is(AetherTags.Blocks.GOLDEN_OAK_LOGS) && stack.is(AetherTags.Items.GOLDEN_AMBER_HARVESTERS)) {
-                        if (level.getServer() != null && level instanceof ServerLevel serverLevel) {
-                            Vec3 vector = context.getClickLocation();
-                            LootParams parameters = new LootParams.Builder(serverLevel).withParameter(LootContextParams.TOOL, stack).create(AetherLootContexts.STRIPPING);
-                            LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(AetherLoot.STRIP_GOLDEN_OAK);
-                            List<ItemStack> list = lootTable.getRandomItems(parameters);
-                            for (ItemStack itemStack : list) {
-                                ItemEntity itemEntity = new ItemEntity(level, vector.x(), vector.y(), vector.z(), itemStack);
-                                itemEntity.setDefaultPickUpDelay();
-                                level.addFreshEntity(itemEntity);
-                            }
+        public static void stripGoldenOak(LevelAccessor accessor, BlockState state, ItemStack stack, UseOnContext context) {
+            if (accessor instanceof Level level) {
+                if (state.is(AetherTags.Blocks.GOLDEN_OAK_LOGS) && stack.is(AetherTags.Items.GOLDEN_AMBER_HARVESTERS)) {
+                    if (level.getServer() != null && level instanceof ServerLevel serverLevel) {
+                        Vec3 vector = context.getClickLocation();
+                        LootParams parameters = new LootParams.Builder(serverLevel).withParameter(LootContextParams.TOOL, stack).create(AetherLootContexts.STRIPPING);
+                        LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(AetherLoot.STRIP_GOLDEN_OAK);
+                        List<ItemStack> list = lootTable.getRandomItems(parameters);
+                        for (ItemStack itemStack : list) {
+                            ItemEntity itemEntity = new ItemEntity(level, vector.x(), vector.y(), vector.z(), itemStack);
+                            itemEntity.setDefaultPickUpDelay();
+                            level.addFreshEntity(itemEntity);
                         }
                     }
                 }
@@ -345,12 +337,12 @@ public class AbilityHooks {
          *
          * @param entity The hurt {@link LivingEntity}.
          * @param source The {@link DamageSource} that hurt the entity.
-         * @see com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener#onDartHurt(LivingDamageEvent.Pre)
+         * @see com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener#onDartHurt(LivingEntity, DamageSource)
          */
         public static void stickDart(LivingEntity entity, DamageSource source) {
             if (entity instanceof Player player && !player.level().isClientSide()) {
                 Entity sourceEntity = source.getDirectEntity();
-                var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                 if (sourceEntity instanceof GoldenDart) {
                     data.setSynched(player.getId(), INBTSynchable.Direction.CLIENT, "setGoldenDartCount", data.getGoldenDartCount() + 1);
                 } else if (sourceEntity instanceof PoisonDart || sourceEntity instanceof PoisonNeedle) {
@@ -389,7 +381,7 @@ public class AbilityHooks {
          * @param entity    The {@link Entity} struck by the lightning bolt.
          * @param lightning The {@link LightningBolt} that struck the entity.
          * @return Whether the entity being hurt by the lightning strike should be prevented, as a {@link Boolean}.
-         * @see com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener#onLightningStrike(EntityStruckByLightningEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener#onLightningStrike(Entity, LightningBolt, MutableBoolean)
          */
         public static boolean lightningTracking(Entity entity, LightningBolt lightning) {
             if (entity instanceof LivingEntity livingEntity) {

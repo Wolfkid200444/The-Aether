@@ -134,7 +134,7 @@ public class TreasureChestBlock extends AbstractChestBlock<TreasureChestBlockEnt
         if (blockEntity instanceof TreasureChestBlockEntity treasureChestBlockEntity) {
             ResourceLocation kind = treasureChestBlockEntity.getKind();
             if (treasureChestBlockEntity.getLocked()) {
-                DungeonKind type = stack.get(AetherDataComponents.DUNGEON_KIND);
+                DungeonKind type = stack.get(AetherDataComponents.DUNGEON_KIND.get());
                 if (type != null && type.id().equals(treasureChestBlockEntity.getKind())) {
                     if (!stack.isEmpty() && treasureChestBlockEntity.tryUnlock(player)) {
                         if (player instanceof ServerPlayer) {

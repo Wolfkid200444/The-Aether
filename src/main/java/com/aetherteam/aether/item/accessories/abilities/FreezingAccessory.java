@@ -10,6 +10,7 @@ import io.wispforest.accessories.api.slot.SlotReference;
 import net.minecraft.commands.CacheableFunction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -34,7 +35,8 @@ public interface FreezingAccessory extends FreezingBehavior<ItemStack> {
         if (!(livingEntity instanceof Player player) || (!player.getAbilities().flying && !player.isSpectator())) {
             int damage = this.freezeBlocks(livingEntity.level(), livingEntity.blockPosition(), stack, 1.9F);
             if (livingEntity.level() instanceof ServerLevel serverLevel) {
-                context.getStack().hurtAndBreak(damage / 3, serverLevel, livingEntity, (item) -> AccessoriesAPI.breakStack(context));
+                var player = (livingEntity instanceof ServerPlayer serverPlayer) ? serverPlayer : null;
+                context.getStack().hurtAndBreak(damage / 3, serverLevel, player, (item) -> AccessoriesAPI.breakStack(context));
             }
         }
     }

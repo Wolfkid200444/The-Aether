@@ -54,15 +54,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.EntityMountEvent;
-import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
-import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
-import net.neoforged.neoforge.event.entity.living.*;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
@@ -485,7 +478,7 @@ public class EntityHooks {
      *
      * @param entity The {@link Entity}.
      * @return Whether lightning hit a key item, as a {@link Boolean}.
-     * @see com.aetherteam.aether.event.listeners.EntityListener#onLightningStrike(EntityStruckByLightningEvent)
+     * @see com.aetherteam.aether.event.listeners.EntityListener#onLightningStrike(Entity, LightningBolt, MutableBoolean)
      */
     public static boolean lightningHitKeys(Entity entity) {
         if (entity instanceof ItemEntity itemEntity) {
@@ -532,7 +525,7 @@ public class EntityHooks {
      * @param recentlyHit Whether the entity was recently hit, as a {@link Boolean}.
      * @param looting     The {@link Integer} for the looting enchantment value.
      * @return The new {@link Collection} of {@link ItemEntity} drops.
-     * @see com.aetherteam.aether.event.listeners.EntityListener#listen(IEventBus)
+     * @see com.aetherteam.aether.event.listeners.EntityListener#listen()
      */
     public static List<ItemStack> handleEntityCurioDrops(LivingEntity entity, List<ItemStack> itemStacks, boolean recentlyHit, int looting) {
         if (entity instanceof Mob mob && mob.hasAttached(AetherDataAttachments.MOB_ACCESSORY)) {

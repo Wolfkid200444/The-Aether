@@ -2,6 +2,8 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
+import com.aetherteam.aether.fabric.events.EntityEvents;
+import com.aetherteam.aether.fabric.events.LivingFallEvent;
 import com.aetherteam.aether.item.combat.abilities.armor.GravititeArmor;
 import com.aetherteam.aether.item.combat.abilities.armor.NeptuneArmor;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
@@ -10,12 +12,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.bus.api.IEventBus;
 import com.aetherteam.aether.fabric.events.EntityTickEvents;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
-import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 public class ArmorAbilityListener {
     /**
@@ -23,8 +20,8 @@ public class ArmorAbilityListener {
      */
     public static void listen() {
         EntityTickEvents.AFTER.register(ArmorAbilityListener::onEntityUpdate);
-        bus.addListener(ArmorAbilityListener::onEntityJump);
-        bus.addListener(ArmorAbilityListener::onEntityFall);
+        EntityEvents.LIVING_JUMPED.register(ArmorAbilityListener::onEntityJump);
+        LivingFallEvent.EVENT.register(ArmorAbilityListener::onEntityFall);
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> ArmorAbilityListener.onEntityAttack(entity, source));
     }
 
@@ -46,18 +43,16 @@ public class ArmorAbilityListener {
     /**
      * @see GravititeArmor#boostedJump(LivingEntity)
      */
-    public static void onEntityJump(LivingEvent.LivingJumpEvent event) {
-        LivingEntity livingEntity = event.getEntity();
+    public static void onEntityJump(LivingEntity livingEntity) {
         GravititeArmor.boostedJump(livingEntity);
     }
 
     /**
      * @see AbilityHooks.ArmorHooks#fallCancellation(LivingEntity)
      */
-    public static void onEntityFall(LivingFallEvent event) {
-        LivingEntity livingEntity = event.getEntity();
+    public static void onEntityFall(LivingEntity entity, LivingFallEvent event) {
         if (!event.isCanceled()) {
-            event.setCanceled(AbilityHooks.ArmorHooks.fallCancellation(livingEntity));
+            event.setCanceled(AbilityHooks.ArmorHooks.fallCancellation(entity));
         }
     }
 

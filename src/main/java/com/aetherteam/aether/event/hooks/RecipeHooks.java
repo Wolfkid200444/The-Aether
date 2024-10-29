@@ -22,6 +22,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -35,8 +36,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.Map;
 
@@ -52,12 +51,12 @@ public class RecipeHooks {
      * @param state          The {@link BlockState} being interacted with.
      * @param spawnParticles A {@link Boolean} for whether to spawn particles from the interaction's failure.
      * @return Whether an interaction is banned, as a {@link Boolean}.
-     * @see com.aetherteam.aether.event.listeners.RecipeListener#checkBanned(PlayerInteractEvent.RightClickBlock)
+     * @see com.aetherteam.aether.event.listeners.RecipeListener#checkBanned(Player, Level, BlockPos, Direction, InteractionHand)
      */
-    public static boolean checkInteractionBanned(Player player, Level level, BlockPos pos, Direction face, ItemStack stack, BlockState state, boolean spawnParticles) {
+    public static InteractionResult checkInteractionBanned(Player player, Level level, BlockPos pos, Direction face, ItemStack stack, BlockState state, boolean spawnParticles) {
         if (isItemPlacementBanned(level, pos, face, stack, spawnParticles)) {
             player.displayClientMessage(Component.translatable("aether.banned_item", stack.getItem().getName(stack)), true);
-            return true;
+            return InteractionResult.FAIL;
         }
         if (level.getBiome(pos).is(AetherTags.Biomes.ULTRACOLD) && AetherConfig.SERVER.enable_bed_explosions.get()) { // Explodes beds in the Aether if the config for it is enabled.
             if (state.is(BlockTags.BEDS) && state.getBlock() != AetherBlocks.SKYROOT_BED.get()) {
@@ -74,10 +73,10 @@ public class RecipeHooks {
                     level.explode(null, level.damageSources().badRespawnPointExplosion(vec3), null, (double) pos.getX() + 0.5, (double) pos.getY() + 0.5, (double) pos.getZ() + 0.5, 5.0F, true, Level.ExplosionInteraction.BLOCK);
                 }
                 player.swing(InteractionHand.MAIN_HAND);
-                return true;
+                return InteractionResult.SUCCESS;
             }
         }
-        return false;
+        return InteractionResult.PASS;
     }
 
     /**
@@ -104,7 +103,7 @@ public class RecipeHooks {
      *
      * @param levelAccessor The {@link LevelAccessor} the block is in.
      * @param pos           The {@link BlockPos} of the block.
-     * @see com.aetherteam.aether.event.listeners.RecipeListener#onNeighborNotified(BlockEvent.NeighborNotifyEvent)
+     * @see com.aetherteam.aether.event.listeners.RecipeListener#onNeighborNotified(Level, BlockPos)
      */
     public static void checkExistenceBanned(LevelAccessor levelAccessor, BlockPos pos) {
         if (levelAccessor instanceof Level level) {
@@ -182,7 +181,7 @@ public class RecipeHooks {
      *
      * @param accessor The {@link LevelAccessor} that the block is in.
      * @param pos      The {@link BlockPos}
-     * @see com.aetherteam.aether.event.listeners.RecipeListener#onNeighborNotified(BlockEvent.NeighborNotifyEvent)
+     * @see com.aetherteam.aether.event.listeners.RecipeListener#onNeighborNotified(Level, BlockPos)
      */
     public static void sendIcestoneFreezableUpdateEvent(LevelAccessor accessor, BlockPos pos) {
         if (accessor instanceof Level level && !level.isClientSide()) {

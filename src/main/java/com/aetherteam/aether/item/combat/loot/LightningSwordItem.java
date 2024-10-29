@@ -4,22 +4,23 @@ import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.aether.item.combat.AetherItemTiers;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
-import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 
 public class LightningSwordItem extends SwordItem {
     public LightningSwordItem() {
-        super(AetherItemTiers.LIGHTNING, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.LIGHTNING, 3.0F, -2.4F)));
+        super(AetherItemTiers.LIGHTNING, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.LIGHTNING, 3, -2.4F)));
     }
 
     /**
      * Summon lightning at the position of the target if the attacker attacked with full strength as determined by {@link EquipmentUtil#isFullStrength(LivingEntity)}.<br><br>
-     * {@link com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener#onLightningStrike(EntityStruckByLightningEvent)} prevents the attacker from being injured by the lightning.
+     * {@link com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener#onLightningStrike(Entity, LightningBolt, MutableBoolean)} prevents the attacker from being injured by the lightning.
      *
      * @param stack    The {@link ItemStack} used to hurt the target
      * @param target   The hurt {@link LivingEntity}.

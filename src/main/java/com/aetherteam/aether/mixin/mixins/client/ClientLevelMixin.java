@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class ClientLevelMixin {
 
     @WrapOperation(method = "tickNonPassenger", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;tick()V"))
-    private void aether$entityTickEvents(Entity instance, Operation<Void> original) {
+    private void aetherFabric$entityTickEvents(Entity instance, Operation<Void> original) {
         var shouldCancelEvent = new MutableBoolean(false);
 
         EntityTickEvents.BEFORE.invoker().beforeTick(instance, shouldCancelEvent);

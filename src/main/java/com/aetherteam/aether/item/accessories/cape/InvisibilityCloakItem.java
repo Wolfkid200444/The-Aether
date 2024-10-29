@@ -11,8 +11,6 @@ import io.wispforest.accessories.api.slot.SlotReference;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.event.RenderPlayerEvent;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
@@ -30,12 +28,12 @@ public class InvisibilityCloakItem extends AccessoryItem {
         LivingEntity livingEntity = reference.entity();
         if (livingEntity.level().isClientSide() && livingEntity instanceof Player player) {
             if (AetherKeys.INVISIBILITY_TOGGLE.consumeClick()) {
-                var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                 data.setSynched(player.getId(), INBTSynchable.Direction.SERVER, "setInvisibilityEnabled", !data.isInvisibilityEnabled());
             }
         }
         if (!livingEntity.level().isClientSide() && livingEntity instanceof Player player) {
-            var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+            var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
             if (data.isInvisibilityEnabled()) {
                 if (!AetherConfig.SERVER.balance_invisibility_cloak.get()) {
                     data.setSynched(player.getId(), INBTSynchable.Direction.CLIENT, "setWearingInvisibilityCloak", true);
@@ -53,7 +51,7 @@ public class InvisibilityCloakItem extends AccessoryItem {
         if (!livingEntity.level().isClientSide()) {
             if (!livingEntity.isInvisible()) {
                 if (livingEntity instanceof Player player) {
-                    var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                    var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                     if (data.isWearingInvisibilityCloak()) {
                         player.setInvisible(true);
                         PacketDistributor.sendToAllPlayers(new SetInvisibilityPacket(player.getId(), true));
@@ -63,7 +61,7 @@ public class InvisibilityCloakItem extends AccessoryItem {
                 }
             } else {
                 if (livingEntity instanceof Player player) {
-                    var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                    var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                     if (!data.isWearingInvisibilityCloak()) {
                         player.setInvisible(false);
                         PacketDistributor.sendToAllPlayers(new SetInvisibilityPacket(player.getId(), false));
@@ -77,7 +75,7 @@ public class InvisibilityCloakItem extends AccessoryItem {
     public void onUnequip(ItemStack stack, SlotReference reference) {
         LivingEntity livingEntity = reference.entity();
         if (!livingEntity.level().isClientSide() && livingEntity instanceof Player player) {
-            player.getData(AetherDataAttachments.AETHER_PLAYER).setSynched(player.getId(), INBTSynchable.Direction.CLIENT, "setWearingInvisibilityCloak", false);
+            player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).setSynched(player.getId(), INBTSynchable.Direction.CLIENT, "setWearingInvisibilityCloak", false);
         }
         livingEntity.setInvisible(false);
         ((LivingEntityAccessor) livingEntity).callUpdateEffectVisibility();

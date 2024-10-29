@@ -6,15 +6,12 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.entity.Entity;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.*;
 
 public class WorldPreviewListener {
     /**
-     * @see AetherClient#eventSetup(IEventBus)
+     * @see AetherClient#eventSetup()
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(EventPriority.LOWEST, WorldPreviewListener::onGuiOpenLowest);
         bus.addListener(WorldPreviewListener::onScreenRender);
         bus.addListener(WorldPreviewListener::onRenderLevelLast);

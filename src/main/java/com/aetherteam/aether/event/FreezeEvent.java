@@ -1,20 +1,20 @@
 package com.aetherteam.aether.event;
 
+import com.aetherteam.aether.fabric.events.Cancellable;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.bus.api.Event;
-import net.neoforged.bus.api.ICancellableEvent;
-import net.neoforged.fml.LogicalSide;
 
 /**
  * FreezeEvent is fired when an event for a freezing recipe occurs.<br>
  * If a method utilizes this {@link Event} as its parameter, the method will receive every child event of this class.<br>
  * <br>
- * All children of this event are fired on the {@link net.neoforged.neoforge.common.NeoForge#EVENT_BUS}.
  */
-public abstract class FreezeEvent extends Event implements ICancellableEvent {
+public abstract class FreezeEvent extends Cancellable {
     private final LevelAccessor level;
     private final BlockPos pos;
     private final BlockState priorBlock;
@@ -26,7 +26,7 @@ public abstract class FreezeEvent extends Event implements ICancellableEvent {
      * @param priorBlock  The old {@link BlockState} that is to be frozen.
      * @param frozenBlock The original result {@link BlockState} from the freezing.
      */
-    public FreezeEvent(LevelAccessor level, BlockPos pos, BlockState priorBlock, BlockState frozenBlock) {
+    protected FreezeEvent(LevelAccessor level, BlockPos pos, BlockState priorBlock, BlockState frozenBlock) {
         this.level = level;
         this.pos = pos;
         this.priorBlock = priorBlock;
@@ -73,14 +73,14 @@ public abstract class FreezeEvent extends Event implements ICancellableEvent {
     /**
      * FreezeEvent.FreezeFromBlock is fired for freezing recipes triggered by blocks.
      * <br>
-     * This event is {@link ICancellableEvent}.<br>
+     * This event is {@link Cancellable}.<br>
      * If the event is not canceled, the block will be frozen.
      * <br>
-     * This event is only fired on the {@link LogicalSide#SERVER} side.<br>
+     * This event is only fired on the {@link EnvType#SERVER} side.<br>
      * <br>
      * If this event is canceled, the block will not be frozen.
      */
-    public static class FreezeFromBlock extends FreezeEvent implements ICancellableEvent {
+    public static class FreezeFromBlock extends FreezeEvent {
         private final BlockPos sourcePos;
         private final BlockState sourceBlock;
 
@@ -92,7 +92,7 @@ public abstract class FreezeEvent extends Event implements ICancellableEvent {
          * @param frozenBlock The original result {@link BlockState} from the freezing.
          * @param sourceBlock The source {@link BlockState} performing the freezing.
          */
-        public FreezeFromBlock(LevelAccessor level, BlockPos pos, BlockPos sourcePos, BlockState priorBlock, BlockState frozenBlock, BlockState sourceBlock) {
+        protected FreezeFromBlock(LevelAccessor level, BlockPos pos, BlockPos sourcePos, BlockState priorBlock, BlockState frozenBlock, BlockState sourceBlock) {
             super(level, pos, priorBlock, frozenBlock);
             this.sourcePos = sourcePos;
             this.sourceBlock = sourceBlock;
@@ -116,14 +116,14 @@ public abstract class FreezeEvent extends Event implements ICancellableEvent {
     /**
      * FreezeEvent.FreezeFromItem is fired for freezing recipes triggered by items.
      * <br>
-     * This event is {@link ICancellableEvent}.<br>
+     * This event is {@link Cancellable}.<br>
      * If the event is not canceled, the block will be frozen.
      * <br>
-     * This event is only fired on the {@link LogicalSide#SERVER} side.<br>
+     * This event is only fired on the {@link EnvType#SERVER} side.<br>
      * <br>
      * If this event is canceled, the block will not be frozen.
      */
-    public static class FreezeFromItem extends FreezeEvent implements ICancellableEvent {
+    public static class FreezeFromItem extends FreezeEvent {
         private final ItemStack sourceStack;
 
         /**
@@ -133,7 +133,7 @@ public abstract class FreezeEvent extends Event implements ICancellableEvent {
          * @param frozenBlock The original result {@link BlockState} from the freezing.
          * @param sourceStack The source {@link ItemStack} performing the freezing.
          */
-        public FreezeFromItem(LevelAccessor level, BlockPos pos, BlockState priorBlock, BlockState frozenBlock, ItemStack sourceStack) {
+        protected FreezeFromItem(LevelAccessor level, BlockPos pos, BlockState priorBlock, BlockState frozenBlock, ItemStack sourceStack) {
             super(level, pos, priorBlock, frozenBlock);
             this.sourceStack = sourceStack;
         }
@@ -144,5 +144,23 @@ public abstract class FreezeEvent extends Event implements ICancellableEvent {
         public ItemStack getSourceStack() {
             return this.sourceStack;
         }
+    }
+
+    //--
+
+    public static final Event<ItemFreezeCallback> ITEM_FREEZE = EventFactory.createArrayBacked(ItemFreezeCallback.class, invokers -> event -> {
+        for (var invoker : invokers) invoker.onFreeze(event);
+    });
+
+    public interface ItemFreezeCallback {
+        void onFreeze(FreezeFromItem event);
+    }
+
+    public static final Event<BlockFreezeCallback> BLOCK_FREEZE = EventFactory.createArrayBacked(BlockFreezeCallback.class, invokers -> event -> {
+        for (var invoker : invokers) invoker.onFreeze(event);
+    });
+
+    public interface BlockFreezeCallback {
+        void onFreeze(FreezeFromBlock event);
     }
 }

@@ -33,8 +33,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
 public class AetherOverlays {
     private static final ResourceLocation TEXTURE_INEBRIATION_VIGNETTE = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/blur/inebriation_vignette.png");
@@ -72,7 +70,7 @@ public class AetherOverlays {
             Minecraft minecraft = Minecraft.getInstance();
             LocalPlayer player = minecraft.player;
             if (player != null) {
-                renderAetherPortalOverlay(guiGraphics, minecraft, player.getData(AetherDataAttachments.AETHER_PLAYER.get()), partialTicks);
+                renderAetherPortalOverlay(guiGraphics, minecraft, player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER), partialTicks);
             }
         });
         event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "inebriation_vignette"), (guiGraphics, partialTicks) -> {
@@ -202,7 +200,7 @@ public class AetherOverlays {
      * @param player      The player.
      */
     private static void renderRepulsionOverlay(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Player player) {
-        var handler = player.getData(AetherDataAttachments.AETHER_PLAYER);
+        var handler = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
         int projectileImpactedMaximum = handler.getProjectileImpactedMaximum();
         int projectileImpactedTimer = handler.getProjectileImpactedTimer();
         double effectScale = minecraft.options.screenEffectScale().get();
@@ -297,7 +295,7 @@ public class AetherOverlays {
     private static void renderSilverLifeShardHearts(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Gui gui, LocalPlayer player) {
         GuiAccessor guiAccessor = (GuiAccessor) gui;
         if (AetherConfig.CLIENT.enable_silver_hearts.get() && minecraft.gameMode.canHurtPlayer()) {
-            var aetherPlayer = player.getData(AetherDataAttachments.AETHER_PLAYER);
+            var aetherPlayer = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
             if (aetherPlayer.getLifeShardCount() > 0) {
                 AttributeInstance attributeInstance = player.getAttribute(Attributes.MAX_HEALTH);
                 if (attributeInstance != null) {

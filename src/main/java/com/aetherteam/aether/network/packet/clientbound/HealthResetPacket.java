@@ -34,7 +34,7 @@ public record HealthResetPacket(int entityID, int value) implements CustomPacket
 
     public static void execute(HealthResetPacket payload, IPayloadContext context) {
         if (Minecraft.getInstance().player != null && Minecraft.getInstance().level != null && Minecraft.getInstance().player.level().getEntity(payload.entityID()) instanceof Player player) {
-            var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+            var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
             data.setSynched(player.getId(), INBTSynchable.Direction.SERVER, "setLifeShardCount", payload.value());
             AttributeInstance attribute = player.getAttribute(Attributes.MAX_HEALTH);
             if (attribute != null) {

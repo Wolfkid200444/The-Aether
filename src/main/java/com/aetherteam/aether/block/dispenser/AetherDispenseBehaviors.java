@@ -38,7 +38,6 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 import java.util.List;
 
@@ -133,7 +132,7 @@ public class AetherDispenseBehaviors {
             DispensibleContainerItem dispensibleContainerItem = (DispensibleContainerItem) stack.getItem();
             BlockPos blockpos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
             Level level = source.level();
-            if (dispensibleContainerItem.emptyContents(null, level, blockpos, null, stack)) {
+            if (dispensibleContainerItem.emptyContents(null, level, blockpos, null/*, stack*/)) {
                 dispensibleContainerItem.checkExtraContent(null, level, stack, blockpos);
                 return new ItemStack(AetherItems.SKYROOT_BUCKET.get());
             } else {

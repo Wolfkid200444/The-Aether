@@ -38,7 +38,7 @@ public record CloudMinionPacket(int entityID, int rightCloudMinionID, int leftCl
         if (Minecraft.getInstance().player != null && Minecraft.getInstance().level != null) {
             Level level = Minecraft.getInstance().player.level();
             if (level.getEntity(payload.entityID()) instanceof Player player && level.getEntity(payload.rightCloudMinionID()) instanceof CloudMinion cloudMinionRight && level.getEntity(payload.leftCloudMinionID()) instanceof CloudMinion cloudMinionLeft) {
-                var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                 if (data.getCloudMinions().isEmpty()) {
                     data.setCloudMinions(player, cloudMinionRight, cloudMinionLeft);
                 }

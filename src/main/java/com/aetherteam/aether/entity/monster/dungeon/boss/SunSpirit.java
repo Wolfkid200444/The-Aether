@@ -54,9 +54,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import org.jetbrains.annotations.Nullable;
@@ -241,7 +238,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
                 if (this.getDungeon() == null || this.getDungeon().isPlayerWithinRoomInterior(player)) {
                     if (this.level().getDifficulty() != Difficulty.PEACEFUL) {
                         if (!AetherConfig.COMMON.repeat_sun_spirit_dialogue.get()) {
-                            if (player.getData(AetherDataAttachments.AETHER_PLAYER).hasSeenSunSpiritDialogue() && this.chatLine == 0) {
+                            if (player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).hasSeenSunSpiritDialogue() && this.chatLine == 0) {
                                 this.chatLine = 10;
                             }
                         }

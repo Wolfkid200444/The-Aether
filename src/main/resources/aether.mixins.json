@@ -12,10 +12,9 @@
     "common.DimensionTypeMixin",
     "common.DirectoryLockMixin",
     "common.EntityMixin",
-    "common.EventHooksMixin",
+    "common.PopulateDefaultEquipmentHook",
     "common.LivingEntityMixin",
     "common.MobMixin",
-    "common.ModelBuilderMixin",
     "common.PlayerMixin",
     "common.accessor.AbstractContainerMenuAccessor",
     "common.accessor.AbstractFurnaceBlockEntityAccessor",
@@ -40,7 +39,12 @@
     "common.accessor.SpreadingSnowyDirtBlockAccessor",
     "common.accessor.StoredUserListAccessor",
     "common.accessor.ZombifiedPiglinAccessor",
-    "common.ServerLevelMixin"
+    "common.ServerLevelMixin",
+    "common.DiodeBlockMixin",
+    "common.MinecraftServerMixin",
+    "common.ServerPlayerMixin",
+    "common.EntityHurtMixin",
+    "common.HolderLookupProviderMixin"
   ],
   "client": [
     "client.AdvancementToastMixin",
@@ -71,7 +75,8 @@
     "client.accessor.TitleScreenAccessor",
     "client.optifine.BossHealthOverlayMixin",
     "client.fabric.NetworkRegisterHelperMixin",
-    "client.ClientLevelMixin"
+    "client.ClientLevelMixin",
+    "client.MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1

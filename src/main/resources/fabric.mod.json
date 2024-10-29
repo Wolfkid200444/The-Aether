@@ -43,11 +43,20 @@
       "net/minecraft/class_6880": [
         "net/neoforged/neoforge/common/extensions/IHolderExtension"
       ],
-      "net/minecraft/class_2370": [
+      "net/minecraft/class_2378": [
         "net/neoforged/neoforge/common/extensions/IMappedRegistryExtension<TT;>"
       ],
       "net/minecraft/class_1937": [
         "net/fabricmc/fabric/api/attachment/v1/AttachmentTarget"
+      ],
+      "net/minecraft/class_1799": [
+        "net/fabricmc/fabric/api/item/v1/FabricItemStack"
+      ],
+      "net/minecraft/class_7225\u0024class_7874": [
+        "net/neoforged/neoforge/common/extensions/IHolderLookupProviderExtension"
+      ],
+      "net/minecraft/class_1297": [
+        "com/aetherteam/aether/fabric/EntityExtension"
       ]
     }
   }

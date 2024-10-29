@@ -1,4 +1,4 @@
-package com.aetherteam.aether.fabric;
+package com.aetherteam.aether.fabric.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -12,14 +12,10 @@ import java.util.function.Consumer;
  * Fired on {@link PackRepository} creation to allow mods to add new pack finders.
  */
 public class AddPackFindersEvent {
-    public static final Event<Callback> EVENT = EventFactory.createArrayBacked(Callback.class, callbacks -> event -> {
-        for (Callback c : callbacks)
-            c.findPacks(event);
-    });
     private final PackType packType;
     private final Consumer<RepositorySource> sources;
 
-    public AddPackFindersEvent(PackType packType, Consumer<RepositorySource> sources) {
+    protected AddPackFindersEvent(PackType packType, Consumer<RepositorySource> sources) {
         this.packType = packType;
         this.sources = sources;
     }
@@ -44,7 +40,21 @@ public class AddPackFindersEvent {
         EVENT.invoker().findPacks(this);
     }
 
+    //--
+
+    public static final Event<Callback> EVENT = EventFactory.createArrayBacked(Callback.class, callbacks -> event -> {
+        for (Callback c : callbacks) c.findPacks(event);
+    });
+
     public interface Callback {
         void findPacks(AddPackFindersEvent event);
+    }
+
+    public static AddPackFindersEvent invokeEvent(PackType packType, Consumer<RepositorySource> sources) {
+        var event = new AddPackFindersEvent(packType, sources);
+
+        EVENT.invoker().findPacks(event);
+
+        return event;
     }
 }

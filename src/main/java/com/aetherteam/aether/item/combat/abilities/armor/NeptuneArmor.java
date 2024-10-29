@@ -2,27 +2,26 @@ package com.aetherteam.aether.item.combat.abilities.armor;
 
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.item.EquipmentUtil;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 public interface NeptuneArmor {
     /**
      * Boosts the entity's movement in water or bubble columns if wearing a full set of Neptune Armor. The default boost is modified based on duration in water and whether the boots have Depth Strider.
      *
      * @param entity The {@link LivingEntity} wearing the armor.
-     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityUpdate(EntityTickEvent.Post)
+     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityUpdate(Entity)
      */
     static void boostWaterSwimming(LivingEntity entity) {
         if (EquipmentUtil.hasFullNeptuneSet(entity)) {
             if (entity.isInWaterOrBubble()) {
                 if (entity instanceof Player player) {
-                    var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                    var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                     float defaultBoost = boostWithDepthStrider(player);
                     data.setNeptuneSubmergeLength(Math.min(data.getNeptuneSubmergeLength() + 0.1, 1.0));
                     defaultBoost *= (float) data.getNeptuneSubmergeLength();
@@ -41,7 +40,7 @@ public interface NeptuneArmor {
         }
         if (!EquipmentUtil.hasFullNeptuneSet(entity) || !entity.isInWaterOrBubble()) {
             if (entity instanceof Player player) {
-                player.getData(AetherDataAttachments.AETHER_PLAYER).setNeptuneSubmergeLength(0.0);
+                player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).setNeptuneSubmergeLength(0.0);
             }
         }
     }
@@ -54,7 +53,7 @@ public interface NeptuneArmor {
      */
     private static float boostWithDepthStrider(LivingEntity entity) {
         float defaultBoost = 0.4F;
-        float depthStriderModifier = Math.min(EnchantmentHelper.getEnchantmentLevel(entity.level().holderOrThrow(Enchantments.INFINITY), entity), 3.0F);
+        float depthStriderModifier = Math.min(EnchantmentHelper.getEnchantmentLevel(entity.level().registryAccess().holderOrThrow(Enchantments.INFINITY), entity), 3.0F);
         if (depthStriderModifier > 0.0F) {
             defaultBoost += depthStriderModifier * 0.4F;
         }

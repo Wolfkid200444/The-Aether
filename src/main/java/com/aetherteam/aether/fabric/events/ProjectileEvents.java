@@ -6,11 +6,13 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.HitResult;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
-public interface OnProjectileImpact {
+public class ProjectileEvents {
 
-    Event<OnProjectileImpact> EVENT = EventFactory.createArrayBacked(OnProjectileImpact.class, invokers -> (projectile, hitResult, isCancelled) -> {
+    public static final Event<OnImpact> ON_IMPACT = EventFactory.createArrayBacked(OnImpact.class, invokers -> (projectile, hitResult, isCancelled) -> {
         for (var invoker : invokers) invoker.onImpact(projectile, hitResult, isCancelled);
     });
 
-    void onImpact(Projectile projectile, HitResult hitResult, MutableBoolean isCancelled);
+    public interface OnImpact {
+        void onImpact(Projectile projectile, HitResult hitResult, MutableBoolean isCancelled);
+    }
 }

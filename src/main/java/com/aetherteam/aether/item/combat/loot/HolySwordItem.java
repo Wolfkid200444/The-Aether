@@ -12,8 +12,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import org.apache.commons.lang3.mutable.MutableFloat;
 
 public class HolySwordItem extends SwordItem {
@@ -40,7 +38,7 @@ public class HolySwordItem extends SwordItem {
     }
 
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      * Deals a base 15 damage to undead mobs or mobs that treat healing and harming effects as inverted, with an extra 2.5 damage for every level of Smite the item has, in addition to the weapon's default damage. This occurs if the attacker attacked with full strength as determined by {@link EquipmentUtil#isFullStrength(LivingEntity)}.
      */
     public static void onLivingDamage(LivingEntity target, DamageSource damageSource, MutableFloat newDamage) {
@@ -48,7 +46,7 @@ public class HolySwordItem extends SwordItem {
         if (canPerformAbility(target, damageSource)) {
             ItemStack itemStack = target.getMainHandItem();
             float bonus = 8.25F;
-            int smiteModifier = itemStack.getEnchantmentLevel(target.level().holderOrThrow(Enchantments.SMITE));
+            int smiteModifier = itemStack.getEnchantmentLevel(target.level().registryAccess().holderOrThrow(Enchantments.SMITE));
             if (smiteModifier > 0) {
                 bonus += (smiteModifier * 2.5F);
             }

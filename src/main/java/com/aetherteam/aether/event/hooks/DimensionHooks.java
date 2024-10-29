@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -32,19 +33,15 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
-import net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
-import net.neoforged.neoforge.event.level.SleepFinishedTimeEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.apache.commons.lang3.mutable.MutableLong;
 import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class DimensionHooks {
     public static boolean playerLeavingAether;
@@ -55,10 +52,10 @@ public class DimensionHooks {
      * Spawns the player in the Aether dimension if the {@link AetherConfig.Server#spawn_in_aether} config is enabled.
      *
      * @param player The {@link Player}.
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onPlayerLogin(PlayerEvent.PlayerLoggedInEvent)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onPlayerLogin(Player)
      */
     public static void startInAether(Player player) {
-        var aetherPlayer = player.getData(AetherDataAttachments.AETHER_PLAYER);
+        var aetherPlayer = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
         if (AetherConfig.SERVER.spawn_in_aether.get()) {
             if (aetherPlayer.canSpawnInAether()) { // Checks if the player has been set to spawn in the Aether.
                 if (player instanceof ServerPlayer serverPlayer) {
@@ -125,9 +122,9 @@ public class DimensionHooks {
      * @param stack     The {@link ItemStack} used to attempt to activate the portal.
      * @param hand      The {@link InteractionHand} that the item is in.
      * @return Whether the portal should be created, as a {@link Boolean}.
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onInteractWithPortalFrame(PlayerInteractEvent.RightClickBlock)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onInteractWithPortalFrame(Player, Level, InteractionHand, BlockHitResult)
      */
-    public static boolean createPortal(Player player, Level level, BlockPos pos, @Nullable Direction direction, ItemStack stack, InteractionHand hand) {
+    public static InteractionResult createPortal(Player player, Level level, BlockPos pos, @Nullable Direction direction, ItemStack stack, InteractionHand hand) {
         if (direction != null) {
             BlockPos relativePos = pos.relative(direction);
             if (stack.is(AetherTags.Items.AETHER_PORTAL_ACTIVATION_ITEMS)) { // Checks if the item can activate the portal.
@@ -141,19 +138,19 @@ public class DimensionHooks {
                         if (!player.isCreative()) {
                             if (stack.getCount() > 1) {
                                 stack.shrink(1);
-                                player.addItem(stack.hasCraftingRemainingItem() ? stack.getCraftingRemainingItem() : ItemStack.EMPTY);
+                                player.addItem(stack.getRecipeRemainder());
                             } else if (stack.isDamageableItem()) {
                                 stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
                             } else {
-                                player.setItemInHand(hand, stack.hasCraftingRemainingItem() ? stack.getCraftingRemainingItem() : ItemStack.EMPTY);
+                                player.setItemInHand(hand, stack.getRecipeRemainder());
                             }
                         }
-                        return true;
+                        return InteractionResult.SUCCESS;
                     }
                 }
             }
         }
-        return false;
+        return InteractionResult.PASS;
     }
 
     /**
@@ -164,7 +161,7 @@ public class DimensionHooks {
      * @param blockState    The water {@link BlockState}.
      * @param fluidState    The water {@link FluidState}.
      * @return Whether the portal should be created, as a {@link Boolean}.
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onWaterExistsInsidePortalFrame(BlockEvent.NeighborNotifyEvent)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onWaterExistsInsidePortalFrame(LevelAccessor, BlockPos, MutableBoolean)
      */
     public static boolean detectWaterInFrame(LevelAccessor levelAccessor, BlockPos pos, BlockState blockState, FluidState fluidState) {
         if (levelAccessor instanceof Level level) {
@@ -185,7 +182,7 @@ public class DimensionHooks {
      * Ticks time in dimensions with the Aether effects location.
      *
      * @param level The {@link Level}
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onWorldTick(LevelTickEvent.Post)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onWorldTick(Level)
      */
     public static void tickTime(Level level) {
         if (level.dimensionType().effectsLocation().equals(AetherDimensions.AETHER_DIMENSION_TYPE.location()) && level instanceof ServerLevel serverLevel) {
@@ -203,7 +200,7 @@ public class DimensionHooks {
      * Checks whether eternal day is configured to be disabled, and disables it in the {@link AetherPlayerAttachment}.
      *
      * @param level The {@link Level}
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onWorldTick(LevelTickEvent.Post)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onWorldTick(Level)
      */
     public static void checkEternalDayConfig(Level level) {
         if (!level.isClientSide() && level.hasAttached(AetherDataAttachments.AETHER_TIME)) {
@@ -219,7 +216,7 @@ public class DimensionHooks {
     /**
      * @param entity    The {@link Entity} travelling between dimensions.
      * @param dimension The {@link ResourceKey} of the dimension ({@link Level}) being teleported to.
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onEntityTravelToDimension(EntityTravelToDimensionEvent)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onEntityTravelToDimension(Entity, ResourceKey)
      */
     public static void dimensionTravel(Entity entity, ResourceKey<Level> dimension) {
         if (entity instanceof Player player) {
@@ -251,7 +248,7 @@ public class DimensionHooks {
      * Checks if the player was falling out of the Aether, and prevents server fly-hack checks during this.
      *
      * @param player The {@link Player}.
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onPlayerTraveling(PlayerTickEvent.Post)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onPlayerTraveling(Player)
      */
     public static void travelling(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
@@ -272,7 +269,7 @@ public class DimensionHooks {
      * serverLevelData and levelData are access transformed.
      *
      * @param level The {@link LevelAccessor}.
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onPlayerTraveling(PlayerTickEvent.Post)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onPlayerTraveling(Player)
      */
     public static void initializeLevelData(LevelAccessor level) {
         if (level instanceof ServerLevel serverLevel && serverLevel.dimensionType().effectsLocation().equals(AetherDimensions.AETHER_DIMENSION_TYPE.location())) {
@@ -289,10 +286,10 @@ public class DimensionHooks {
      * Sets the time in the Aether according to the Aether's day/night cycle.
      *
      * @param level The {@link LevelAccessor}.
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onSleepFinish(SleepFinishedTimeEvent)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onSleepFinish(LevelAccessor, MutableLong, Function)
      */
     @Nullable
-    public static Long finishSleep(LevelAccessor level, long newTime) {
+    public static Long finishSleep(LevelAccessor level, MutableLong newTime) {
         if (level instanceof ServerLevel && level.dimensionType().effectsLocation().equals(AetherDimensions.AETHER_DIMENSION_TYPE.location())) {
             ServerLevelAccessor serverLevelAccessor = (ServerLevelAccessor) level;
             serverLevelAccessor.aether$getServerLevelData().setRainTime(0);
@@ -300,7 +297,7 @@ public class DimensionHooks {
             serverLevelAccessor.aether$getServerLevelData().setThunderTime(0);
             serverLevelAccessor.aether$getServerLevelData().setThundering(false);
 
-            long time = newTime + 48000L;
+            long time = newTime.getValue() + 48000L;
             return time - time % (long) AetherDimensions.AETHER_TICKS_PER_DAY;
         }
         return null;
@@ -311,7 +308,7 @@ public class DimensionHooks {
      *
      * @param player The {@link Player}.
      * @return Whether it is eternal day, as a {@link Boolean}.
-     * @see com.aetherteam.aether.event.listeners.DimensionListener#onTriedToSleep(CanPlayerSleepEvent)
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onTriedToSleep(Player)
      */
     public static boolean isEternalDay(Player player) {
         if (player.level().dimensionType().effectsLocation().equals(AetherDimensions.AETHER_DIMENSION_TYPE.location())) {

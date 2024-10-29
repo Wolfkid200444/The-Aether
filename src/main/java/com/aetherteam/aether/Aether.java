@@ -3,7 +3,6 @@ package com.aetherteam.aether;
 import com.aetherteam.aether.advancement.AetherAdvancementTriggers;
 import com.aetherteam.aether.api.AetherAdvancementSoundOverrides;
 import com.aetherteam.aether.api.registers.MoaType;
-import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.block.AetherCauldronInteractions;
 import com.aetherteam.aether.block.dispenser.AetherDispenseBehaviors;
@@ -24,6 +23,7 @@ import com.aetherteam.aether.data.resources.registries.AetherDataMaps;
 import com.aetherteam.aether.data.resources.registries.AetherMoaTypes;
 import com.aetherteam.aether.effect.AetherEffects;
 import com.aetherteam.aether.entity.AetherEntityTypes;
+import com.aetherteam.aether.event.hooks.AbilityHooks;
 import com.aetherteam.aether.event.listeners.*;
 import com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener;
 import com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener;
@@ -31,7 +31,7 @@ import com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener;
 import com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener;
 import com.aetherteam.aether.event.listeners.capability.AetherPlayerListener;
 import com.aetherteam.aether.event.listeners.capability.AetherTimeListener;
-import com.aetherteam.aether.fabric.AddPackFindersEvent;
+import com.aetherteam.aether.fabric.events.AddPackFindersEvent;
 import com.aetherteam.aether.fabric.ExtraServerLivingEntityEvents;
 import com.aetherteam.aether.fabric.NetworkRegisterHelper;
 import com.aetherteam.aether.fabric.WrappedInventoryStorage;
@@ -73,6 +73,9 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.registry.FlattenableBlockRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import net.fabricmc.fabric.api.registry.TillableBlockRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
@@ -503,6 +506,10 @@ public class Aether implements ModInitializer {
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register(AetherCreativeTabs::buildCreativeModeTabs);
         AetherEntityTypes.registerSpawnPlacements();
         AetherEntityTypes.registerEntityAttributes();
+
+        AbilityHooks.ToolHooks.STRIPPABLES.forEach(StrippableBlockRegistry::register);
+        AbilityHooks.ToolHooks.FLATTENABLES.forEach((block, flattenedBlock) -> FlattenableBlockRegistry.register(block, flattenedBlock.defaultBlockState()));
+        AbilityHooks.ToolHooks.TILLABLES.forEach((block, tilledBlock) -> TillableBlockRegistry.register(block, ctx -> ctx.getLevel().getBlockState(ctx.getClickedPos().above()).isAir(), tilledBlock.defaultBlockState()));
     }
 
     /**

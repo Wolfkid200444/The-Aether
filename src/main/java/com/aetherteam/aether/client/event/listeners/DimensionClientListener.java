@@ -4,16 +4,13 @@ import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.client.event.hooks.DimensionClientHooks;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.FogRenderer;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.ViewportEvent;
 import org.apache.commons.lang3.tuple.Triple;
 
 public class DimensionClientListener {
     /**
-     * @see AetherClient#eventSetup(IEventBus) 
+     * @see AetherClient#eventSetup()
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(DimensionClientListener::onRenderFog);
         bus.addListener(DimensionClientListener::onRenderFogColor);
         bus.addListener(DimensionClientListener::onClientTick);

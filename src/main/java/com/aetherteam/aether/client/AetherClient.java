@@ -22,6 +22,7 @@ import com.aetherteam.cumulus.CumulusConfig;
 import com.aetherteam.nitrogen.event.listeners.TooltipListeners;
 import com.google.common.reflect.Reflection;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.Registries;
@@ -29,20 +30,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.neoforged.neoforge.client.event.RegisterDimensionTransitionScreenEvent;
-import net.neoforged.neoforge.client.event.RegisterEntitySpectatorShadersEvent;
-import net.neoforged.neoforge.common.NeoForge;
 
 public class AetherClient implements ClientModInitializer {
     private static boolean refreshPacks = false;
 
     @Override
     public void onInitializeClient() {
-        bus.addListener(AetherClient::clientSetup);
+        AetherClient.clientSetup();
         bus.addListener(AetherClient::registerSpectatorShaders);
         bus.addListener(AetherClient::registerDimensionTransitionScreens);
         bus.addListener(AetherClient::loadComplete);
@@ -52,16 +46,14 @@ public class AetherClient implements ClientModInitializer {
         AetherClient.eventSetup(bus);
     }
 
-    public static void clientSetup(FMLClientSetupEvent event) {
+    public static void clientSetup() {
         disableCumulusButton();
         Reflection.initialize(CustomizationsOptions.class);
         AetherRenderers.registerCuriosRenderers();
-        event.enqueueWork(() -> {
-            AetherAtlases.registerTreasureChestAtlases();
-            AetherAtlases.registerWoodTypeAtlases();
-            registerItemModelProperties();
-            registerTooltipOverrides();
-        });
+        AetherAtlases.registerTreasureChestAtlases();
+        AetherAtlases.registerWoodTypeAtlases();
+        registerItemModelProperties();
+        registerTooltipOverrides();
         registerLoreOverrides();
         autoApplyPacks();
     }
@@ -127,7 +119,7 @@ public class AetherClient implements ClientModInitializer {
      * Auto applies resource packs on load.
      */
     public static void autoApplyPacks() {
-        if (ModList.get().isLoaded("tipsmod")) {
+        if (FabricLoader.getInstance().isModLoaded("tipsmod")) {
             if (AetherConfig.CLIENT.enable_trivia.get()) {
                 Minecraft.getInstance().getResourcePackRepository().addPack("builtin/aether_tips");
             } else {
@@ -137,17 +129,15 @@ public class AetherClient implements ClientModInitializer {
         }
     }
 
-    public static void eventSetup(IEventBus neoBus) {
-        IEventBus bus = NeoForge.EVENT_BUS;
-
-        AccessoryAbilityClientListener.listen(bus);
-        AetherPlayerClientListener.listen(bus);
-        AudioListener.listen(bus);
-        DimensionClientListener.listen(bus);
-        GuiListener.listen(bus);
-        LevelClientListener.listen(bus);
-        MenuListener.listen(bus);
-        WorldPreviewListener.listen(bus);
+    public static void eventSetup() {
+        AccessoryAbilityClientListener.listen();
+        AetherPlayerClientListener.listen();
+        AudioListener.listen();
+        DimensionClientListener.listen();
+        GuiListener.listen();
+        LevelClientListener.listen();
+        MenuListener.listen();
+        WorldPreviewListener.listen();
 
         neoBus.addListener(AetherMenuTypes::registerMenuScreens);
         neoBus.addListener(AetherColorResolvers::registerBlockColor);
@@ -178,7 +168,7 @@ public class AetherClient implements ClientModInitializer {
     /**
      * Refreshes resource packs at the end of loading, so that auto-applied packs in {@link AetherClient#autoApplyPacks()} get processed.
      */
-    public static void loadComplete(FMLLoadCompleteEvent event) {
+    public static void loadComplete() {
         if (refreshPacks) {
             Minecraft.getInstance().reloadResourcePacks();
             refreshPacks = false;

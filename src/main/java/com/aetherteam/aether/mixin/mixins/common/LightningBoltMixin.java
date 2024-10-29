@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(LightningBolt.class)
 public abstract class LightningBoltMixin {
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;thunderHit(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LightningBolt;)V"))
-    private void aether$onEntityStruckEvent(Entity instance, ServerLevel level, LightningBolt lightning, Operation<Void> original) {
+    private void aetherFabric$onEntityStruckEvent(Entity instance, ServerLevel level, LightningBolt lightning, Operation<Void> original) {
         var isCancelled = new MutableBoolean(false);
 
         EntityEvents.STRUCK_BY_LIGHTNING.invoker().onStrike(instance, lightning, isCancelled);

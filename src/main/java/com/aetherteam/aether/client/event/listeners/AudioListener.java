@@ -4,16 +4,12 @@ import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.client.event.hooks.AudioHooks;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundEngine;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.sound.PlaySoundEvent;
 
 public class AudioListener {
     /**
-     * @see AetherClient#eventSetup(IEventBus)
+     * @see AetherClient#eventSetup()
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(AudioListener::onPlaySound);
         bus.addListener(AudioListener::onClientTick);
         bus.addListener(AudioListener::onPlayerRespawn);

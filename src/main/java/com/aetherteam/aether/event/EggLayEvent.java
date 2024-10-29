@@ -1,28 +1,28 @@
 package com.aetherteam.aether.event;
 
+import com.aetherteam.aether.fabric.events.Cancellable;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.ICancellableEvent;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.neoforge.event.entity.EntityEvent;
 
 import org.jetbrains.annotations.Nullable;
 
 /**
  * EggLayEvent is fired before a Moa lays an egg.
  * <br>
- * This event is {@link ICancellableEvent}.<br>
+ * This event is {@link Cancellable}.<br>
  * If the event is not canceled, the Moa will lay an egg.
  * <br>
- * This event is fired on the {@link net.neoforged.neoforge.common.NeoForge#EVENT_BUS}.<br>
- * <br>
- * This event is only fired on the {@link LogicalSide#SERVER} side.<br>
+ * This event is only fired on the {@link EnvType#SERVER} side.<br>
  * <br>
  * If this event is canceled, the Moa will not lay an egg.
  */
-public class EggLayEvent extends EntityEvent implements ICancellableEvent {
+public class EggLayEvent extends Cancellable {
+    private final Entity entity;
     @Nullable
     private ItemStack item;
     @Nullable
@@ -38,11 +38,15 @@ public class EggLayEvent extends EntityEvent implements ICancellableEvent {
      * @param item   The original egg {@link ItemStack} to be laid.
      */
     public EggLayEvent(Entity entity, @Nullable SoundEvent sound, float volume, float pitch, @Nullable ItemStack item) {
-        super(entity);
+        this.entity = entity;
         this.sound = sound;
         this.volume = volume;
         this.pitch = pitch;
         this.item = item;
+    }
+
+    public Entity getEntity() {
+        return entity;
     }
 
     /**
@@ -114,4 +118,13 @@ public class EggLayEvent extends EntityEvent implements ICancellableEvent {
     public void setPitch(float pitch) {
         this.pitch = pitch;
     }
+
+    public static final Event<Callback> EVENT = EventFactory.createArrayBacked(Callback.class, invokers -> event -> {
+        for (var invoker : invokers) invoker.onEggLay(event);
+    });
+
+    public interface Callback {
+        void onEggLay(EggLayEvent event);
+    }
+
 }

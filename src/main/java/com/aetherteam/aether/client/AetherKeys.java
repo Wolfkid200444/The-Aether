@@ -1,8 +1,7 @@
 package com.aetherteam.aether.client;
 
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.lwjgl.glfw.GLFW;
 
 public class AetherKeys {
@@ -11,11 +10,11 @@ public class AetherKeys {
     public final static KeyMapping INVISIBILITY_TOGGLE = new KeyMapping("key.aether.invisibility_toggle.desc", GLFW.GLFW_KEY_V, "key.aether.category");
 
     /**
-     * @see AetherClient#eventSetup(IEventBus)
+     * @see AetherClient#eventSetup()
      */
-    public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(OPEN_ACCESSORY_INVENTORY);
-        event.register(GRAVITITE_JUMP_ABILITY);
-        event.register(INVISIBILITY_TOGGLE);
+    public static void registerKeyMappings() {
+        KeyBindingHelper.registerKeyBinding(OPEN_ACCESSORY_INVENTORY);
+        KeyBindingHelper.registerKeyBinding(GRAVITITE_JUMP_ABILITY);
+        KeyBindingHelper.registerKeyBinding(INVISIBILITY_TOGGLE);
     }
 }

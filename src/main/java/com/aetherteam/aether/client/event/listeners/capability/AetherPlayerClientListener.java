@@ -4,15 +4,12 @@ import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.client.event.hooks.CapabilityClientHooks;
 import net.minecraft.client.player.Input;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
 
 public class AetherPlayerClientListener {
     /**
-     * @see AetherClient#eventSetup(IEventBus)
+     * @see AetherClient#eventSetup()
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(AetherPlayerClientListener::onMove);
         bus.addListener(AetherPlayerClientListener::onClick);
         bus.addListener(AetherPlayerClientListener::onPress);

@@ -1,25 +1,25 @@
 package com.aetherteam.aether.event;
 
+import com.aetherteam.aether.fabric.events.Cancellable;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.bus.api.Event;
-import net.neoforged.bus.api.ICancellableEvent;
-import net.neoforged.fml.LogicalSide;
 
 /**
  * PlacementConvertEvent is fired after a {@link com.aetherteam.aether.recipe.AetherRecipeTypes#PLACEMENT_CONVERSION} recipe is checked as existing for the placement of a block, but before a converted block is placed from the recipe.
  * <br>
- * This event is {@link ICancellableEvent}.<br>
+ * This event is {@link Cancellable}.<br>
  * If the event is not canceled, the block conversion will happen.
  * <br>
- * This event is fired on the {@link net.neoforged.neoforge.common.NeoForge#EVENT_BUS}.<br>
  * <br>
- * This event is only fired on the {@link LogicalSide#SERVER} side.<br>
+ * This event is only fired on the {@link EnvType#SERVER} side.<br>
  * <br>
  * If this event is canceled, block conversion will not happen.
  */
-public class PlacementConvertEvent extends Event implements ICancellableEvent {
+public class PlacementConvertEvent extends Cancellable {
     private final LevelAccessor level;
     private final BlockPos pos;
     private final BlockState oldBlockState;
@@ -31,7 +31,7 @@ public class PlacementConvertEvent extends Event implements ICancellableEvent {
      * @param oldBlockState The old {@link BlockState} that is to be converted.
      * @param newBlockState The original result {@link BlockState} from the conversion.
      */
-    public PlacementConvertEvent(LevelAccessor level, BlockPos pos, BlockState oldBlockState, BlockState newBlockState) {
+    protected PlacementConvertEvent(LevelAccessor level, BlockPos pos, BlockState oldBlockState, BlockState newBlockState) {
         this.level = level;
         this.pos = pos;
         this.oldBlockState = oldBlockState;
@@ -73,5 +73,23 @@ public class PlacementConvertEvent extends Event implements ICancellableEvent {
      */
     public void setNewBlockState(BlockState newBlockState) {
         this.newBlockState = newBlockState;
+    }
+
+    //--
+
+    public static final Event<Callback> EVENT = EventFactory.createArrayBacked(Callback.class, callbacks -> event -> {
+        for (Callback c : callbacks) c.findPacks(event);
+    });
+
+    public interface Callback {
+        void findPacks(PlacementConvertEvent event);
+    }
+
+    public static PlacementConvertEvent invokeEvent(LevelAccessor level, BlockPos pos, BlockState oldBlockState, BlockState newBlockState) {
+        var event = new PlacementConvertEvent(level, pos, oldBlockState, newBlockState);
+
+        EVENT.invoker().findPacks(event);
+
+        return event;
     }
 }

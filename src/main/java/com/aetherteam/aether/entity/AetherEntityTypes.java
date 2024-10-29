@@ -35,9 +35,6 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -164,7 +161,7 @@ public class AetherEntityTypes {
             () -> EntityType.Builder.<HammerProjectile>of(HammerProjectile::new, MobCategory.MISC).sized(0.35F, 0.35F).clientTrackingRange(4).updateInterval(10).build("hammer_projectile"));
 
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      */
     public static void registerSpawnPlacements() {
         // Passive Mobs
@@ -186,7 +183,7 @@ public class AetherEntityTypes {
     }
 
     /**
-     * @see Aether#eventSetup(IEventBus)
+     * @see Aether#eventSetup()
      */
     public static void registerEntityAttributes() {
         // Passive Mobs

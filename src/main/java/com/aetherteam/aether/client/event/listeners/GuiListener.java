@@ -9,20 +9,14 @@ import net.minecraft.client.gui.components.LerpingBossEvent;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.util.Tuple;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
-import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.event.ScreenEvent;
 
 import java.util.UUID;
 
 public class GuiListener {
     /**
-     * @see AetherClient#eventSetup(IEventBus) 
+     * @see AetherClient#eventSetup()
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(GuiListener::onGuiInitialize);
         bus.addListener(GuiListener::onGuiDraw);
         bus.addListener(GuiListener::onClientTick);

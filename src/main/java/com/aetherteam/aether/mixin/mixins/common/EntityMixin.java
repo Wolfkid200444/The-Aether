@@ -3,14 +3,18 @@ package com.aetherteam.aether.mixin.mixins.common;
 import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.event.hooks.DimensionHooks;
+import com.aetherteam.aether.fabric.EntityExtension;
+import com.aetherteam.aether.fabric.events.EntityEvents;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
 import com.aetherteam.aether.network.packet.clientbound.SetVehiclePacket;
 import com.aetherteam.aether.world.LevelUtil;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Saddleable;
@@ -18,22 +22,29 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import com.aetherteam.aether.fabric.events.EntityTickEvents;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
 import java.util.List;
 
 @Mixin(Entity.class)
-public class EntityMixin {
+public class EntityMixin implements EntityExtension {
+    @Shadow
+    protected Object2DoubleMap<TagKey<Fluid>> fluidHeight;
+
     /**
      * Handles entities falling out of the Aether. If an entity is not a player, vehicle, or tracked item, it is removed.
      *
@@ -109,7 +120,7 @@ public class EntityMixin {
     //--
 
     @WrapOperation(method = "rideTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;tick()V"))
-    private void aether$entityTickEvents(Entity instance, Operation<Void> original) {
+    private void aetherFabric$entityTickEvents(Entity instance, Operation<Void> original) {
         var shouldCancelEvent = new MutableBoolean(false);
 
         EntityTickEvents.BEFORE.invoker().beforeTick(instance, shouldCancelEvent);
@@ -118,5 +129,15 @@ public class EntityMixin {
             original.call(instance);
             EntityTickEvents.AFTER.invoker().afterTick(instance);
         }
+    }
+
+    @Inject(method = "changeDimension", at = @At("HEAD"))
+    private void aetherFabric$beforeDimensionChange(DimensionTransition transition, CallbackInfoReturnable<Entity> cir) {
+        EntityEvents.BEFORE_DIMENSION_CHANGE.invoker().beforeChange((ServerPlayer) (Object) this, transition.newLevel().dimension());
+    }
+
+    @Override
+    public boolean isInFluidType() {
+        return !this.fluidHeight.isEmpty();
     }
 }

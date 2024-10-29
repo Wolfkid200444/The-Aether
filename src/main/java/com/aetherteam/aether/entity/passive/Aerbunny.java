@@ -19,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -176,7 +177,7 @@ public class Aerbunny extends AetherAnimal {
                 }
 
                 if (this.level().isClientSide()) {
-                    var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                    var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                     if (player.getDeltaMovement().y() <= 0.0) {
                         if (this.lastPos == null) { // Tracks the last position when the player starts falling.
                             this.lastPos = this.position();
@@ -206,7 +207,7 @@ public class Aerbunny extends AetherAnimal {
     @Override
     public void baseTick() {
         super.baseTick();
-        if (this.isAlive() && this.isPassenger() && this.getVehicle() != null && this.getVehicle().isEyeInFluidType(NeoForgeMod.WATER_TYPE.value())
+        if (this.isAlive() && this.isPassenger() && this.getVehicle() != null && this.getVehicle().isEyeInFluid(FluidTags.WATER)
                 && !this.level().getBlockState(BlockPos.containing(this.getVehicle().getX(), this.getVehicle().getEyeY(), this.getVehicle().getZ())).is(Blocks.BUBBLE_COLUMN)) {
             this.stopRiding();
         }

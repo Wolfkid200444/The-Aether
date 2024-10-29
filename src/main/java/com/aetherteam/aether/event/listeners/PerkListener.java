@@ -3,23 +3,21 @@ package com.aetherteam.aether.event.listeners;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.PerkHooks;
 import com.aetherteam.aether.perk.types.MoaSkins;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 public class PerkListener {
     /**
      * @see Aether#eventSetup()
      */
     public static void listen() {
-        bus.addListener(PerkListener::playerLoggedIn);
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> playerLoggedIn(handler.getPlayer()));
     }
 
     /**
      * @see PerkHooks#refreshPerks(Player)
      */
-    public static void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
+    public static void playerLoggedIn(Player player) {
         PerkHooks.refreshPerks(player);
         MoaSkins.registerMoaSkins(player.level());
     }

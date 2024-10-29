@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -20,9 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 public interface PhoenixArmor {
     /**
@@ -30,7 +28,7 @@ public interface PhoenixArmor {
      * Wearing Phoenix Armor also clears any fire from the wearer and spawns flame particles around them.
      *
      * @param entity The {@link LivingEntity} wearing the armor.
-     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityUpdate(EntityTickEvent.Post)
+     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityUpdate(Entity)
      */
     static void boostLavaSwimming(LivingEntity entity) {
         if (EquipmentUtil.hasFullPhoenixSet(entity)) {
@@ -38,7 +36,7 @@ public interface PhoenixArmor {
             if (entity.isInLava()) {
                 entity.resetFallDistance();
                 if (entity instanceof Player player) {
-                    var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                    var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                     float defaultBoost = boostWithDepthStrider(entity, 1.75F, 1.0F);
                     data.setPhoenixSubmergeLength(Math.min(data.getPhoenixSubmergeLength() + 0.1, 1.0));
                     defaultBoost *= (float) data.getPhoenixSubmergeLength();
@@ -58,7 +56,7 @@ public interface PhoenixArmor {
         }
         if (!EquipmentUtil.hasFullPhoenixSet(entity) || !entity.isInLava()) {
             if (entity instanceof Player player) {
-                player.getData(AetherDataAttachments.AETHER_PLAYER).setPhoenixSubmergeLength(0.0);
+                player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).setPhoenixSubmergeLength(0.0);
             }
         }
     }
@@ -67,7 +65,7 @@ public interface PhoenixArmor {
      * Boosts the entity's vertical movement in lava if wearing a full set of Phoenix Armor. The default boost is modified based on duration in lava and whether the boots have Depth Strider.<br><br>
      *
      * @param entity The {@link LivingEntity} wearing the armor.
-     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityUpdate(EntityTickEvent.Post)
+     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityUpdate(Entity)
      */
     static void boostVerticalLavaSwimming(LivingEntity entity) {
         if (EquipmentUtil.hasFullPhoenixSet(entity)) {
@@ -75,7 +73,7 @@ public interface PhoenixArmor {
             if (entity.isInLava()) {
                 entity.resetFallDistance();
                 if (entity instanceof Player player) {
-                    var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                    var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                     float defaultBoost = boostWithDepthStrider(entity, 1.5F, 0.05F);
                     data.setPhoenixSubmergeLength(Math.min(data.getPhoenixSubmergeLength() + 0.1, 1.0));
                     defaultBoost *= (float) data.getPhoenixSubmergeLength();
@@ -102,7 +100,7 @@ public interface PhoenixArmor {
      */
     private static float boostWithDepthStrider(LivingEntity entity, float start, float increment) {
         float defaultBoost = start;
-        float depthStriderModifier = Math.min(EnchantmentHelper.getEnchantmentLevel(entity.level().holderOrThrow(Enchantments.DEPTH_STRIDER), entity), 3.0F);
+        float depthStriderModifier = Math.min(EnchantmentHelper.getEnchantmentLevel(entity.level().registryAccess().holderOrThrow(Enchantments.DEPTH_STRIDER), entity), 3.0F);
         if (depthStriderModifier > 0.0F) {
             defaultBoost += depthStriderModifier * increment;
         }
@@ -115,11 +113,11 @@ public interface PhoenixArmor {
      * The methods used for this are {@link PhoenixArmor#breakPhoenixArmor(LivingEntity, ItemStack, ItemStack, EquipmentSlot)} and {@link PhoenixArmor#breakPhoenixGloves(LivingEntity, SlotEntryReference, ItemStack)}.
      *
      * @param entity The {@link LivingEntity} wearing the armor.
-     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityUpdate(EntityTickEvent.Post)
+     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityUpdate(Entity)
      */
     static void damageArmor(LivingEntity entity) {
         if (entity instanceof Player player) {
-            var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+            var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
             if (EquipmentUtil.hasAnyPhoenixArmor(entity) && entity.isInWaterRainOrBubble()) {
                 if (entity.level().getGameTime() % 15 == 0) {
                     data.setObsidianConversionTime(data.getObsidianConversionTime() + 1);
@@ -194,7 +192,7 @@ public interface PhoenixArmor {
      * @param entity The {@link LivingEntity} wearing the armor.
      * @param source The attacking {@link DamageSource}.
      * @return Whether the fire damage should be cancelled, as a {@link Boolean}.
-     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityAttack(LivingIncomingDamageEvent)
+     * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityAttack(LivingEntity, DamageSource)
      */
     static boolean extinguishUser(LivingEntity entity, DamageSource source) {
         return EquipmentUtil.hasFullPhoenixSet(entity) && source.is(DamageTypeTags.IS_FIRE);

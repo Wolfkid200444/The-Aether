@@ -7,15 +7,12 @@ import com.aetherteam.cumulus.client.CumulusClient;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.ScreenEvent;
 
 public class MenuListener {
     /**
-     * @see AetherClient#eventSetup(IEventBus) 
+     * @see AetherClient#eventSetup(IEventBus)
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(EventPriority.HIGHEST, MenuListener::onGuiOpenHighest);
         bus.addListener(MenuListener::onGuiInitialize);
     }

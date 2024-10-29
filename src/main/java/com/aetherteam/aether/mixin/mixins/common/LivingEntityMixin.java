@@ -3,6 +3,7 @@ package com.aetherteam.aether.mixin.mixins.common;
 import com.aetherteam.aether.entity.monster.dungeon.boss.ValkyrieQueen;
 import com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener;
 import com.aetherteam.aether.fabric.ExtraServerLivingEntityEvents;
+import com.aetherteam.aether.fabric.events.LivingFallEvent;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
@@ -40,7 +42,7 @@ public class LivingEntityMixin {
     }
 
     @Inject(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"))
-    private void aether$adjustDamageAmount(DamageSource damageSource, float damageAmount, CallbackInfo ci, @Local(argsOnly = true) LocalFloatRef damageAmountRef) {
+    private void aetherFabric$adjustDamageAmount(DamageSource damageSource, float damageAmount, CallbackInfo ci, @Local(argsOnly = true) LocalFloatRef damageAmountRef) {
         var newDamage = new MutableFloat(damageAmount);
 
         ExtraServerLivingEntityEvents.MODIFY_DAMAGE.invoker().modifyDamage((LivingEntity) (Object) this, damageSource, damageAmount, newDamage);
@@ -49,11 +51,21 @@ public class LivingEntityMixin {
     }
 
     @ModifyReturnValue(method = "getVisibilityPercent", at = @At("RETURN"))
-    private double aether$adjustEntityVisibility(double original, @Local(argsOnly = true) @Nullable Entity lookingEntity) {
+    private double aetherFabric$adjustEntityVisibility(double original, @Local(argsOnly = true) @Nullable Entity lookingEntity) {
         var value = new MutableDouble(original);
 
         AccessoryAbilityListener.onTargetSet((LivingEntity) (Object) this, lookingEntity, value);
 
         return value.getValue();
+    }
+
+    @Inject(method = "causeFallDamage", at = @At("HEAD"), cancellable = true)
+    private void aetherFabric$adjustFallDamage(float fallDistance, float multiplier, DamageSource source, CallbackInfoReturnable<Boolean> cir, @Local(argsOnly = true, ordinal = 0) LocalFloatRef fallDistanceRef, @Local(argsOnly = true, ordinal = 1) LocalFloatRef multiplierRef) {
+        var event = LivingFallEvent.invokeEvent((LivingEntity) (Object) this, fallDistance, multiplier);
+
+        if (event.isCanceled()) cir.setReturnValue(false);
+
+        fallDistanceRef.set(event.getDistance());
+        multiplierRef.set(event.getDamageMultiplier());
     }
 }

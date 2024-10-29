@@ -1,30 +1,30 @@
 package com.aetherteam.aether.event;
 
+import com.aetherteam.aether.fabric.events.Cancellable;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.bus.api.ICancellableEvent;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 import org.jetbrains.annotations.Nullable;
 
 /**
  * ItemUseConvertEvent is fired after an item that can convert blocks is used, but before the block is converted by the recipe.
  * <br>
- * This event is {@link ICancellableEvent}.<br>
+ * This event is {@link Cancellable}.<br>
  * If the event is not canceled, the block conversion will happen and the item will be consumed.
  * <br>
- * This event is fired on the {@link net.neoforged.neoforge.common.NeoForge#EVENT_BUS}.<br>
- * <br>
- * This event is fired on both {@link LogicalSide sides}.<br>
+ * This event is fired on both {@link EnvType sides}.<br>
  * <br>
  * If this event is canceled, block conversion will not happen and the item will not be consumed.
  */
-public class ItemUseConvertEvent extends PlayerEvent implements ICancellableEvent {
+public class ItemUseConvertEvent extends Cancellable {
+    private final Player player;
     private final LevelAccessor level;
     private final BlockPos pos;
     @Nullable
@@ -43,13 +43,17 @@ public class ItemUseConvertEvent extends PlayerEvent implements ICancellableEven
      * @param recipe        The {@link RecipeType}.
      */
     public ItemUseConvertEvent(@Nullable Player player, LevelAccessor level, BlockPos pos, @Nullable ItemStack itemStack, BlockState oldBlockState, BlockState newBlockState, RecipeType<?> recipe) {
-        super(player);
+        this.player = player;
         this.level = level;
         this.pos = pos;
         this.itemStack = itemStack;
         this.oldBlockState = oldBlockState;
         this.newBlockState = newBlockState;
         this.recipeType = recipe;
+    }
+
+    public Player player() {
+        return this.player;
     }
 
     /**
@@ -102,5 +106,13 @@ public class ItemUseConvertEvent extends PlayerEvent implements ICancellableEven
      */
     public void setNewBlockState(BlockState newBlockState) {
         this.newBlockState = newBlockState;
+    }
+
+    public static final Event<Callback> EVENT = EventFactory.createArrayBacked(Callback.class, invokers -> event -> {
+        for (Callback invoker : invokers) invoker.itemConvert(event);
+    });
+
+    public interface Callback {
+        void itemConvert(ItemUseConvertEvent event);
     }
 }

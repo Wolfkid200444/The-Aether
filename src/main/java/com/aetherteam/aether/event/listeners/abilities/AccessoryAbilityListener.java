@@ -2,6 +2,7 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
+import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import com.aetherteam.aether.item.accessories.abilities.ShieldOfRepulsionAccessory;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -15,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import com.aetherteam.aether.fabric.events.OnProjectileImpact;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +27,7 @@ public class AccessoryAbilityListener {
     public static void listen() {
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> onBlockBreak(level, player, pos, state));
         // LivingEntityMixin.aether$adjustEntityVisibility -> AccessoryAbilityListener.onTargetSet;
-        OnProjectileImpact.EVENT.register(AccessoryAbilityListener::onProjectileImpact);
+        ProjectileEvents.ON_IMPACT.register(AccessoryAbilityListener::onProjectileImpact);
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> onEntityHurt(entity, source));
     }
 

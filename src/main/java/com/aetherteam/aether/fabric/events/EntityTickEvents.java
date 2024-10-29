@@ -8,9 +8,7 @@ import org.apache.commons.lang3.mutable.MutableBoolean;
 public class EntityTickEvents {
 
     public static final Event<Before> BEFORE = EventFactory.createArrayBacked(Before.class, invokers -> (entity, isCancelled) -> {
-        for (var invoker : invokers) {
-            invoker.beforeTick(entity, isCancelled);
-        }
+        for (var invoker : invokers) invoker.beforeTick(entity, isCancelled);
     });
 
     public static final Event<After> AFTER = EventFactory.createArrayBacked(After.class, invokers -> entity -> {

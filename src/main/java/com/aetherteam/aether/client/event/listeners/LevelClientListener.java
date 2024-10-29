@@ -6,14 +6,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 
 public class LevelClientListener {
     /**
-     * @see AetherClient#eventSetup(IEventBus) 
+     * @see AetherClient#eventSetup()
      */
-    public static void listen(IEventBus bus) {
+    public static void listen() {
         bus.addListener(LevelClientListener::onRenderLevelLast);
     }
 

@@ -1,14 +1,15 @@
 package com.aetherteam.aether.event;
 
+import com.aetherteam.aether.fabric.events.ICancellable;
 import com.google.common.base.Preconditions;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.bus.api.Event;
-import net.neoforged.bus.api.ICancellableEvent;
-import net.neoforged.fml.LogicalSide;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -16,15 +17,12 @@ import org.jetbrains.annotations.Nullable;
  * PlacementBanEvent is fired when an event involving placement banning occurs.<br>
  * If a method utilizes this {@link Event} as its parameter, the method will receive every child event of this class.<br>
  * <br>
- * All children of this event are fired on the {@link net.neoforged.neoforge.common.NeoForge#EVENT_BUS}.
  */
-public abstract class PlacementBanEvent extends Event {
+public abstract class PlacementBanEvent {
     /**
      * PlacementBanEvent.CheckItem is fired after an item that can be banned is used, but before its placement has been prevented.
      * <br>
-     * This event is not {@link ICancellableEvent}. <br>
-     * <br>
-     * This event is fired on both {@link LogicalSide sides}.
+     * This event is fired on both {@link EnvType sides}.
      */
     public static class CheckItem extends PlacementBanEvent {
         private boolean banned = true;
@@ -84,9 +82,7 @@ public abstract class PlacementBanEvent extends Event {
     /**
      * PlacementBanEvent.CheckItem is fired after a block that can be banned is placed, but before its placement has been prevented.
      * <br>
-     * This event is not {@link ICancellableEvent}. <br>
-     * <br>
-     * This event is only fired on the {@link LogicalSide#SERVER} side.
+     * This event is only fired on the {@link EnvType#SERVER} side.
      */
     public static class CheckBlock extends PlacementBanEvent {
         private boolean banned = true;
@@ -146,14 +142,14 @@ public abstract class PlacementBanEvent extends Event {
     /**
      * PlacementBanEvent.SpawnParticles is fired after a placement ban has occurred.
      * <br>
-     * This event is {@link ICancellableEvent}.<br>
+     * This event is {@link ICancellable}.<br>
      * If the event is not canceled, the particles will spawn.
      * <br>
-     * This event is fired on both {@link LogicalSide sides}.<br>
+     * This event is fired on both {@link EnvType sides}.<br>
      * <br>
      * If this event is canceled, the particles will not be spawned.
      */
-    public static class SpawnParticles extends PlacementBanEvent implements ICancellableEvent {
+    public static class SpawnParticles extends PlacementBanEvent implements ICancellable {
         private final LevelAccessor level;
         private final BlockPos pos;
         @Nullable
@@ -221,5 +217,41 @@ public abstract class PlacementBanEvent extends Event {
         public BlockState getBlockState() {
             return this.blockState;
         }
+
+        private boolean isCancelled = false;
+
+        public boolean isCanceled() {
+            return this.isCancelled;
+        }
+
+        public void setCanceled(boolean value) {
+            this.isCancelled = value;
+        }
+    }
+
+    //--
+
+    public static final Event<ItemPlacementBan> ITEM_PLACEMENT_BAN = EventFactory.createArrayBacked(ItemPlacementBan.class, invokers -> event -> {
+        for (var invoker : invokers) invoker.checkIfBanned(event);
+    });
+
+    public interface ItemPlacementBan {
+        void checkIfBanned(CheckItem event);
+    }
+
+    public static final Event<BlockPlacementBan> BLOCK_PLACEMENT_BAN = EventFactory.createArrayBacked(BlockPlacementBan.class, invokers -> event -> {
+        for (var invoker : invokers) invoker.checkIfBanned(event);
+    });
+
+    public interface BlockPlacementBan {
+        void checkIfBanned(CheckBlock event);
+    }
+
+    public static final Event<SpawnParticlesCallback> SPAWN_PARTICLES = EventFactory.createArrayBacked(SpawnParticlesCallback.class, invokers -> event -> {
+        for (var invoker : invokers) invoker.attemptSpawnParticles(event);
+    });
+
+    public interface SpawnParticlesCallback {
+        void attemptSpawnParticles(SpawnParticles event);
     }
 }

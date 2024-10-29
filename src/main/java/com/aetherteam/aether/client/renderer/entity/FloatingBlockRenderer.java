@@ -17,7 +17,6 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.data.ModelData;
 
 public class FloatingBlockRenderer extends EntityRenderer<FloatingBlockEntity> {
     public FloatingBlockRenderer(EntityRendererProvider.Context context) {

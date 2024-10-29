@@ -16,7 +16,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 /**
@@ -35,7 +34,7 @@ public interface MountableMob {
      */
     default void riderTick(Mob vehicle) {
         if (vehicle.getControllingPassenger() instanceof Player player) {
-            if (player.getData(AetherDataAttachments.AETHER_PLAYER).isJumping() && !this.isMountJumping()) {
+            if (player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).isJumping() && !this.isMountJumping()) {
                 this.setPlayerJumped(true);
             }
         }

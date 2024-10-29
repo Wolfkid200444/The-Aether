@@ -7,7 +7,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MilkBucketItem;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.EffectCures;
 
 public class SkyrootMilkBucketItem extends MilkBucketItem implements ConsumableItem {
     public SkyrootMilkBucketItem(Properties properties) {
