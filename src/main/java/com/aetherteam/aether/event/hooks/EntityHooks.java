@@ -453,7 +453,7 @@ public class EntityHooks {
      * @param projectileEntity The hook projectile {@link Entity}.
      * @param rayTraceResult   The {@link HitResult} of the projectile.
      * @return Whether to prevent the hook interaction, as a {@link Boolean}.
-     * @see com.aetherteam.aether.event.listeners.EntityListener#onProjectileHitEntity(ProjectileImpactEvent)
+     * @see com.aetherteam.aether.event.listeners.EntityListener#onProjectileHitEntity(Entity, HitResult, MutableBoolean)
      */
     public static boolean preventEntityHooked(Entity projectileEntity, HitResult rayTraceResult) {
         if (rayTraceResult instanceof EntityHitResult entityHitResult) {
@@ -467,7 +467,7 @@ public class EntityHooks {
      *
      * @param source The {@link DamageSource} to block.
      * @return Whether to disallow blocking, as a {@link Boolean}.
-     * @see com.aetherteam.aether.event.listeners.EntityListener#onShieldBlock(LivingShieldBlockEvent)
+     * @see com.aetherteam.aether.event.listeners.EntityListener#onShieldBlock(DamageSource, MutableBoolean)
      */
     public static boolean preventSliderShieldBlock(DamageSource source) {
         return source.getEntity() instanceof Slider;
@@ -538,7 +538,7 @@ public class EntityHooks {
                     if (!itemStack.isEmpty()) {
                         itemStacks.removeIf((stack) -> ItemStack.isSameItemSameComponents(stack, itemStack));
                     }
-                    if (!itemStack.isEmpty() && itemStack.getEnchantmentLevel(entity.level().holderOrThrow(Enchantments.VANISHING_CURSE)) == 0 && recentlyHit && Math.max(mob.getRandom().nextFloat() - (float) looting * 0.01F, 0.0F) < f) {
+                    if (!itemStack.isEmpty() && itemStack.getEnchantmentLevel(entity.level().registryAccess().holderOrThrow(Enchantments.VANISHING_CURSE)) == 0 && recentlyHit && Math.max(mob.getRandom().nextFloat() - (float) looting * 0.01F, 0.0F) < f) {
                         if (!flag && itemStack.isDamageableItem()) {
                             itemStack.setDamageValue(itemStack.getMaxDamage() - mob.getRandom().nextInt(1 + mob.getRandom().nextInt(Math.max(itemStack.getMaxDamage() - 3, 1))));
                         }

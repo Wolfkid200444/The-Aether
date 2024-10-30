@@ -2,6 +2,7 @@ package com.aetherteam.aether.client.gui.component.menu;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.client.gui.screen.menu.AetherTitleScreen;
+import com.aetherteam.aether.fabric.BuilderMadeButton;
 import com.aetherteam.aether.mixin.mixins.client.accessor.ButtonAccessor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,7 +14,7 @@ import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class AetherMenuButton extends Button {
+public class AetherMenuButton extends BuilderMadeButton {
     private static final WidgetSprites AETHER_WIDGETS = new WidgetSprites(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "title/button"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "title/button_highlighted"));
     private static final int BUTTON_WIDTH = 400;
     private static final int BUTTON_HEIGHT = 40;

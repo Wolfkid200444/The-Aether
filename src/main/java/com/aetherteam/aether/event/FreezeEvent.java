@@ -1,6 +1,6 @@
 package com.aetherteam.aether.event;
 
-import com.aetherteam.aether.fabric.events.Cancellable;
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * If a method utilizes this {@link Event} as its parameter, the method will receive every child event of this class.<br>
  * <br>
  */
-public abstract class FreezeEvent extends Cancellable {
+public abstract class FreezeEvent extends CancellableCallbackImpl {
     private final LevelAccessor level;
     private final BlockPos pos;
     private final BlockState priorBlock;
@@ -73,7 +73,7 @@ public abstract class FreezeEvent extends Cancellable {
     /**
      * FreezeEvent.FreezeFromBlock is fired for freezing recipes triggered by blocks.
      * <br>
-     * This event is {@link Cancellable}.<br>
+     * This event is {@link CancellableCallbackImpl}.<br>
      * If the event is not canceled, the block will be frozen.
      * <br>
      * This event is only fired on the {@link EnvType#SERVER} side.<br>
@@ -116,7 +116,7 @@ public abstract class FreezeEvent extends Cancellable {
     /**
      * FreezeEvent.FreezeFromItem is fired for freezing recipes triggered by items.
      * <br>
-     * This event is {@link Cancellable}.<br>
+     * This event is {@link CancellableCallbackImpl}.<br>
      * If the event is not canceled, the block will be frozen.
      * <br>
      * This event is only fired on the {@link EnvType#SERVER} side.<br>

@@ -2,7 +2,7 @@ package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.event.hooks.EntityHooks;
-import com.aetherteam.aether.fabric.events.ItemAttributeModifierEvent;
+import com.aetherteam.aether.fabric.events.ItemAttributeModifierHelper;
 import com.aetherteam.aether.mixin.AetherMixinHooks;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -72,7 +72,7 @@ public class MobMixin {
     private Object aetherFabric$modifyAttributeEvent(ItemStack instance, DataComponentType dataComponentType, Object object, Operation<Object> original) {
         var attributeInstance = (ItemAttributeModifiers) original.call(instance, dataComponentType, object);
 
-        var event = ItemAttributeModifierEvent.invokeEvent((ItemStack) (Object) this, attributeInstance);
+        var event = ItemAttributeModifierHelper.invokeEvent((ItemStack) (Object) this, attributeInstance);
 
         return new ItemAttributeModifiers(event.getModifiers(), attributeInstance.showInTooltip());
     }

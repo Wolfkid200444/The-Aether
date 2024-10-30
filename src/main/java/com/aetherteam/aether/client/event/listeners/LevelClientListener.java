@@ -3,6 +3,8 @@ package com.aetherteam.aether.client.event.listeners;
 import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.client.event.hooks.LevelClientHooks;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -12,18 +14,17 @@ public class LevelClientListener {
      * @see AetherClient#eventSetup()
      */
     public static void listen() {
-        bus.addListener(LevelClientListener::onRenderLevelLast);
+        WorldRenderEvents.AFTER_TRANSLUCENT.register(LevelClientListener::onRenderLevelLast);
     }
 
     /**
-     * @see LevelClientHooks#renderDungeonBlockOverlays(RenderLevelStageEvent.Stage, PoseStack, Camera, Frustum, Minecraft)
+     * @see LevelClientHooks#renderDungeonBlockOverlays(PoseStack, Camera, Frustum, Minecraft)
      */
-    public static void onRenderLevelLast(RenderLevelStageEvent event) {
-        RenderLevelStageEvent.Stage stage = event.getStage();
-        PoseStack poseStack = event.getPoseStack();
-        Camera camera = event.getCamera();
-        Frustum frustum = event.getFrustum();
+    public static void onRenderLevelLast(WorldRenderContext context) {
+        PoseStack poseStack = context.matrixStack();
+        Camera camera = context.camera();
+        Frustum frustum = context.frustum();
         Minecraft minecraft = Minecraft.getInstance();
-        LevelClientHooks.renderDungeonBlockOverlays(stage, poseStack, camera, frustum, minecraft);
+        LevelClientHooks.renderDungeonBlockOverlays(poseStack, camera, frustum, minecraft);
     }
 }

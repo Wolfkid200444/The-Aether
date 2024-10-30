@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -59,7 +60,7 @@ public interface AetherBossMob<T extends Mob & AetherBossMob<T>> extends BossMob
      * @param check  An additional check using a {@link BlockState} {@link Predicate}.
      */
     default void evaporate(T entity, BlockPos min, BlockPos max, Predicate<BlockState> check) {
-        if (EventHooks.canEntityGrief(entity.level(), entity)) {
+        if (entity.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
             for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
                 if (entity.level().getBlockState(pos).getBlock() instanceof LiquidBlock && check.test(entity.level().getBlockState(pos))) {
                     entity.level().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());

@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aether.fabric.events.EntityEvents;
+import com.aetherteam.aether.fabric.events.LivingEntityEvents;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,6 +22,6 @@ public class LivingEntitiesJumpMixin {
     @Expression("this.hasImpulse = true")
     @Inject(method = "jumpFromGround", at = @At(value = "MIXINEXTRAS:EXPRESSION", shift = At.Shift.AFTER))
     private void aetherFabric$fireJumpEvent(CallbackInfo ci){
-        EntityEvents.LIVING_JUMPED.invoker().onJump((LivingEntity) (Object) this);
+        LivingEntityEvents.ON_JUMP.invoker().onJump((LivingEntity) (Object) this);
     }
 }

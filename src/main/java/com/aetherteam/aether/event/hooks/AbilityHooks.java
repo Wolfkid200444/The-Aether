@@ -11,7 +11,7 @@ import com.aetherteam.aether.entity.projectile.PoisonNeedle;
 import com.aetherteam.aether.entity.projectile.dart.EnchantedDart;
 import com.aetherteam.aether.entity.projectile.dart.GoldenDart;
 import com.aetherteam.aether.entity.projectile.dart.PoisonDart;
-import com.aetherteam.aether.fabric.events.LivingFallEvent;
+import com.aetherteam.aether.fabric.events.FallHelper;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.aether.item.combat.abilities.weapon.ZaniteWeapon;
 import com.aetherteam.aether.item.tools.abilities.HolystoneTool;
@@ -175,7 +175,7 @@ public class AbilityHooks {
          *
          * @param entity The {@link LivingEntity} wearing the armor.
          * @return Whether the wearer's fall damage should be cancelled, as a {@link Boolean}.
-         * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityFall(LivingEntity, LivingFallEvent)
+         * @see com.aetherteam.aether.event.listeners.abilities.ArmorAbilityListener#onEntityFall(LivingEntity, FallHelper)
          */
         public static boolean fallCancellation(LivingEntity entity) {
             return EquipmentUtil.hasSentryBoots(entity) || EquipmentUtil.hasFullGravititeSet(entity) || EquipmentUtil.hasFullValkyrieSet(entity);

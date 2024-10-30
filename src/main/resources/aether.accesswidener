@@ -21,3 +21,5 @@ accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScr
 accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen imageHeight I
 accessible field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Map;
 mutable field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Map;
+
+accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/List;

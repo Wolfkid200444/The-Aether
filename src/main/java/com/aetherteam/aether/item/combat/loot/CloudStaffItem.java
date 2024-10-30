@@ -36,7 +36,7 @@ public class CloudStaffItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack heldItem = player.getItemInHand(hand);
-        var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+        var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
         if (data.getCloudMinions().isEmpty()) {
             player.swing(hand);
             if (!level.isClientSide()) {
@@ -70,7 +70,7 @@ public class CloudStaffItem extends Item {
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
         if (entity instanceof Player player) {
-            var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+            var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
             if (!player.getCooldowns().isOnCooldown(this) && data.isHitting()) {
                 boolean hasMinions = false;
                 for (int i = 0; i < data.getCloudMinions().size(); i++) {

@@ -1,6 +1,6 @@
 package com.aetherteam.aether.event;
 
-import com.aetherteam.aether.fabric.events.Cancellable;
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -14,14 +14,14 @@ import org.jetbrains.annotations.Nullable;
 /**
  * EggLayEvent is fired before a Moa lays an egg.
  * <br>
- * This event is {@link Cancellable}.<br>
+ * This event is {@link CancellableCallbackImpl}.<br>
  * If the event is not canceled, the Moa will lay an egg.
  * <br>
  * This event is only fired on the {@link EnvType#SERVER} side.<br>
  * <br>
  * If this event is canceled, the Moa will not lay an egg.
  */
-public class EggLayEvent extends Cancellable {
+public class EggLayEvent extends CancellableCallbackImpl {
     private final Entity entity;
     @Nullable
     private ItemStack item;

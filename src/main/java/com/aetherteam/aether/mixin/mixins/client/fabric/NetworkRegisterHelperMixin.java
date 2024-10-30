@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.BiConsumer;
 
 @Mixin(value = NetworkRegisterHelper.class, remap = false)
-public interface NetworkRegisterHelperMixin {
+public abstract class NetworkRegisterHelperMixin {
 
     @Inject(method = "playToClient", at = @At("TAIL"), remap = false)
     private <T extends CustomPacketPayload> void aether$registerClientPacketHandlers(CustomPacketPayload.Type<T> type, StreamCodec<RegistryFriendlyByteBuf, T> codec, BiConsumer<T, CommonPayloadContext> consumer, CallbackInfo ci) {

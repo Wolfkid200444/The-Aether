@@ -5,7 +5,7 @@ import com.aetherteam.aether.block.AetherWoodTypes;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class AetherAtlases {
     public static Material TREASURE_CHEST_MATERIAL;
@@ -13,7 +13,7 @@ public class AetherAtlases {
     public static Material TREASURE_CHEST_RIGHT_MATERIAL;
 
     /**
-     * Need to register these static values here from {@link AetherClient#clientSetup(FMLClientSetupEvent)},
+     * Need to register these static values here from {@link AetherClient#clientSetup()},
      * otherwise they'll be loaded too early from static initialization in the field.
      */
     public static void registerTreasureChestAtlases() {
@@ -23,10 +23,20 @@ public class AetherAtlases {
     }
 
     public static void registerWoodTypeAtlases() {
-        Sheets.addWoodType(AetherWoodTypes.SKYROOT);
+        Sheets.SIGN_MATERIALS.put(AetherWoodTypes.SKYROOT, createSignMaterial(AetherWoodTypes.SKYROOT));
+        Sheets.HANGING_SIGN_MATERIALS.put(AetherWoodTypes.SKYROOT, createHangingSignMaterial(AetherWoodTypes.SKYROOT));
     }
 
     public static Material getChestMaterial(String chestName) {
         return new Material(Sheets.CHEST_SHEET, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "entity/tiles/chest/" + chestName));
     }
+
+    private static Material createSignMaterial(WoodType woodType) {
+        return new Material(Sheets.SIGN_SHEET, ResourceLocation.withDefaultNamespace("entity/signs/" + woodType.name()));
+    }
+
+    private static Material createHangingSignMaterial(WoodType woodType) {
+        return new Material(Sheets.SIGN_SHEET, ResourceLocation.withDefaultNamespace("entity/signs/hanging/" + woodType.name()));
+    }
+
 }

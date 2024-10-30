@@ -2,8 +2,8 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
-import com.aetherteam.aether.fabric.events.EntityEvents;
-import com.aetherteam.aether.fabric.events.LivingFallEvent;
+import com.aetherteam.aether.fabric.events.FallHelper;
+import com.aetherteam.aether.fabric.events.LivingEntityEvents;
 import com.aetherteam.aether.item.combat.abilities.armor.GravititeArmor;
 import com.aetherteam.aether.item.combat.abilities.armor.NeptuneArmor;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
@@ -20,8 +20,8 @@ public class ArmorAbilityListener {
      */
     public static void listen() {
         EntityTickEvents.AFTER.register(ArmorAbilityListener::onEntityUpdate);
-        EntityEvents.LIVING_JUMPED.register(ArmorAbilityListener::onEntityJump);
-        LivingFallEvent.EVENT.register(ArmorAbilityListener::onEntityFall);
+        LivingEntityEvents.ON_JUMP.register(ArmorAbilityListener::onEntityJump);
+        LivingEntityEvents.ON_FALL.register(ArmorAbilityListener::onEntityFall);
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> ArmorAbilityListener.onEntityAttack(entity, source));
     }
 
@@ -50,7 +50,7 @@ public class ArmorAbilityListener {
     /**
      * @see AbilityHooks.ArmorHooks#fallCancellation(LivingEntity)
      */
-    public static void onEntityFall(LivingEntity entity, LivingFallEvent event) {
+    public static void onEntityFall(LivingEntity entity, FallHelper event) {
         if (!event.isCanceled()) {
             event.setCanceled(AbilityHooks.ArmorHooks.fallCancellation(entity));
         }

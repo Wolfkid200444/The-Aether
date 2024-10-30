@@ -1,8 +1,8 @@
 package com.aetherteam.aether.fabric.events;
 
-public abstract class Cancellable implements ICancellable {
+public class CancellableCallbackImpl implements CancellableCallback {
 
-    protected Cancellable() {}
+    public CancellableCallbackImpl() {}
 
     private boolean isCancelled = false;
 

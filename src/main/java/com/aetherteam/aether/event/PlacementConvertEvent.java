@@ -1,6 +1,6 @@
 package com.aetherteam.aether.event;
 
-import com.aetherteam.aether.fabric.events.Cancellable;
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * PlacementConvertEvent is fired after a {@link com.aetherteam.aether.recipe.AetherRecipeTypes#PLACEMENT_CONVERSION} recipe is checked as existing for the placement of a block, but before a converted block is placed from the recipe.
  * <br>
- * This event is {@link Cancellable}.<br>
+ * This event is {@link CancellableCallbackImpl}.<br>
  * If the event is not canceled, the block conversion will happen.
  * <br>
  * <br>
@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * <br>
  * If this event is canceled, block conversion will not happen.
  */
-public class PlacementConvertEvent extends Cancellable {
+public class PlacementConvertEvent extends CancellableCallbackImpl {
     private final LevelAccessor level;
     private final BlockPos pos;
     private final BlockState oldBlockState;

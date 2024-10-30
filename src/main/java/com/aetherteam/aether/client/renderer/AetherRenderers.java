@@ -245,18 +245,18 @@ public class AetherRenderers {
     /**
      * @see AetherClient#eventSetup()
      */
-    public static void bakeModels(ModelEvent.ModifyBakingResult event) {
-        List<Map.Entry<ModelResourceLocation, BakedModel>> models = new ArrayList<>();
-        for (Map.Entry<ModelResourceLocation, BakedModel> model : event.getModels().entrySet()) {
-            if (model.getKey().id().getNamespace().equals(Aether.MODID)) {
-                String path = model.getKey().id().getPath();
-                if (path.equals(AetherBlocks.BERRY_BUSH.getId().getPath())) {
-                    models.add(model);
-                } else if (path.equals(AetherBlocks.POTTED_BERRY_BUSH.getId().getPath())) {
-                    models.add(model);
-                }
-            }
-        }
-        models.forEach(entry -> event.getModels().put(entry.getKey(), new FastModel(entry.getValue())));
-    }
+//    public static void bakeModels(ModelEvent.ModifyBakingResult event) {
+//        List<Map.Entry<ModelResourceLocation, BakedModel>> models = new ArrayList<>();
+//        for (Map.Entry<ModelResourceLocation, BakedModel> model : event.getModels().entrySet()) {
+//            if (model.getKey().id().getNamespace().equals(Aether.MODID)) {
+//                String path = model.getKey().id().getPath();
+//                if (path.equals(AetherBlocks.BERRY_BUSH.getId().getPath())) {
+//                    models.add(model);
+//                } else if (path.equals(AetherBlocks.POTTED_BERRY_BUSH.getId().getPath())) {
+//                    models.add(model);
+//                }
+//            }
+//        }
+//        models.forEach(entry -> event.getModels().put(entry.getKey(), new FastModel(entry.getValue())));
+//    }
 }

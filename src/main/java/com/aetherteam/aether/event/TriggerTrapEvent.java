@@ -1,6 +1,6 @@
 package com.aetherteam.aether.event;
 
-import com.aetherteam.aether.fabric.events.Cancellable;
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -12,14 +12,14 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * TriggerTrapEvent is fired when a player steps on a trapped block.
  * <br>
- * This event is {@link Cancellable}.<br>
+ * This event is {@link CancellableCallbackImpl}.<br>
  * If the event is not canceled, the trapped block will be detected as having been stepped on.
  * <br>
  * This event is fired on both {@link EnvType sides}.<br>
  * <br>
  * If this event is canceled, the trapped block will not trigger.
  */
-public class TriggerTrapEvent extends Cancellable {
+public class TriggerTrapEvent extends CancellableCallbackImpl {
     private final LevelAccessor level;
     private final BlockPos pos;
     private final BlockState state;

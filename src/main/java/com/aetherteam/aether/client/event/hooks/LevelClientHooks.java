@@ -4,6 +4,7 @@ import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.AetherTags;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -36,10 +37,10 @@ public class LevelClientHooks {
      * [CODE COPY] - {@link ClientLevel#animateTick(int, int, int)}.
      * Checks to set up positions and render overlays for dungeon blocks from whatever block item the player is holding.
      *
-     * @see com.aetherteam.aether.client.event.listeners.LevelClientListener#onRenderLevelLast(RenderLevelStageEvent)
+     * @see com.aetherteam.aether.client.event.listeners.LevelClientListener#onRenderLevelLast(WorldRenderContext)
      */
-    public static void renderDungeonBlockOverlays(RenderLevelStageEvent.Stage stage, PoseStack poseStack, Camera camera, Frustum frustum, Minecraft minecraft) {
-        if (stage == RenderLevelStageEvent.Stage.AFTER_PARTICLES && minecraft.level != null) {
+    public static void renderDungeonBlockOverlays(PoseStack poseStack, Camera camera, Frustum frustum, Minecraft minecraft) {
+        if (minecraft.level != null) {
             LocalPlayer player = minecraft.player;
             ClientLevel level = minecraft.level;
             RenderBuffers renderBuffers = minecraft.renderBuffers();

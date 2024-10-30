@@ -13,7 +13,7 @@ import net.minecraft.world.item.SwordItem;
 
 public class VampireBladeItem extends SwordItem {
     public VampireBladeItem() {
-        super(AetherItemTiers.VAMPIRE, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.VAMPIRE, 3.0F, -2.4F)));
+        super(AetherItemTiers.VAMPIRE, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.VAMPIRE, 3, -2.4F)));
     }
 
     /**
@@ -30,7 +30,7 @@ public class VampireBladeItem extends SwordItem {
         if (EquipmentUtil.isFullStrength(attacker)) {
             if (attacker.getHealth() < attacker.getMaxHealth()) {
                 if (attacker instanceof Player player) {
-                    player.getData(AetherDataAttachments.AETHER_PLAYER).setVampireHealing(true);
+                    player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).setVampireHealing(true);
                 } else {
                     attacker.heal(1.0F);
                 }

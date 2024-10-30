@@ -14,6 +14,7 @@ import com.aetherteam.aether.mixin.mixins.client.accessor.HeartTypeAccessor;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.Util;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -63,17 +64,17 @@ public class AetherOverlays {
     private static final ResourceLocation TEXTURE_LIFE_SHARD_FROZEN_HALF = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "hud/heart/shard_frozen_half");
 
     /**
-     * @see AetherClient#eventSetup(IEventBus)
+     * @see AetherClient#eventSetup()
      */
-    public static void registerOverlays(RegisterGuiLayersEvent event) {
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "aether_portal_overlay"), (guiGraphics, partialTicks) -> {
+    public static void registerOverlays() {
+        HudRenderCallback.EVENT.register((guiGraphics, partialTicks) -> {
             Minecraft minecraft = Minecraft.getInstance();
             LocalPlayer player = minecraft.player;
             if (player != null) {
                 renderAetherPortalOverlay(guiGraphics, minecraft, player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER), partialTicks);
             }
         });
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "inebriation_vignette"), (guiGraphics, partialTicks) -> {
+        HudRenderCallback.EVENT.register((guiGraphics, partialTicks) -> {
             Minecraft minecraft = Minecraft.getInstance();
             Window window = minecraft.getWindow();
             LocalPlayer player = minecraft.player;
@@ -81,7 +82,7 @@ public class AetherOverlays {
                 renderInebriationOverlay(guiGraphics, minecraft, window, player);
             }
         });
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "remedy_vignette"), (guiGraphics, partialTicks) -> {
+        HudRenderCallback.EVENT.register((guiGraphics, partialTicks) -> {
             Minecraft minecraft = Minecraft.getInstance();
             Window window = minecraft.getWindow();
             LocalPlayer player = minecraft.player;
@@ -89,7 +90,7 @@ public class AetherOverlays {
                 renderRemedyOverlay(guiGraphics, minecraft, window, player);
             }
         });
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "shield_of_repulsion_vignette"), (guiGraphics, partialTicks) -> {
+        HudRenderCallback.EVENT.register((guiGraphics, partialTicks) -> {
             Minecraft minecraft = Minecraft.getInstance();
             Window window = minecraft.getWindow();
             LocalPlayer player = minecraft.player;
@@ -97,7 +98,7 @@ public class AetherOverlays {
                 renderRepulsionOverlay(guiGraphics, minecraft, window, player);
             }
         });
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "hammer_cooldown"), (guiGraphics, partialTicks) -> {
+        HudRenderCallback.EVENT.register((guiGraphics, partialTicks) -> {
             Minecraft minecraft = Minecraft.getInstance();
             Window window = minecraft.getWindow();
             LocalPlayer player = minecraft.player;
@@ -105,7 +106,7 @@ public class AetherOverlays {
                 renderHammerCooldownOverlay(guiGraphics, minecraft, window, player);
             }
         });
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "moa_jumps"), (guiGraphics, partialTicks) -> {
+        HudRenderCallback.EVENT.register((guiGraphics, partialTicks) -> {
             Minecraft minecraft = Minecraft.getInstance();
             Window window = minecraft.getWindow();
             LocalPlayer player = minecraft.player;
@@ -113,15 +114,16 @@ public class AetherOverlays {
                 renderMoaJumps(guiGraphics, window, player);
             }
         });
-        event.registerAbove(ResourceLocation.withDefaultNamespace("player_health"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "silver_life_shard_hearts"), (guiGraphics, partialTicks) -> {
-            Minecraft minecraft = Minecraft.getInstance();
-            Window window = minecraft.getWindow();
-            Gui gui = minecraft.gui;
-            LocalPlayer player = minecraft.player;
-            if (player != null) {
-                renderSilverLifeShardHearts(guiGraphics, minecraft, window, gui, player);
-            }
-        });
+        // TODO: [Fabric Port] Not much to do here besides a injection!!!
+//        event.registerAbove(ResourceLocation.withDefaultNamespace("player_health"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "silver_life_shard_hearts"), (guiGraphics, partialTicks) -> {
+//            Minecraft minecraft = Minecraft.getInstance();
+//            Window window = minecraft.getWindow();
+//            Gui gui = minecraft.gui;
+//            LocalPlayer player = minecraft.player;
+//            if (player != null) {
+//                renderSilverLifeShardHearts(guiGraphics, minecraft, window, gui, player);
+//            }
+//        });
     }
 
 
@@ -182,7 +184,7 @@ public class AetherOverlays {
         MobEffectInstance remedy = player.getEffect(AetherEffects.REMEDY);
         double effectScale = minecraft.options.screenEffectScale().get();
         if (remedy != null) {
-            int remedyStartDuration = player.getData(AetherDataAttachments.AETHER_PLAYER).getRemedyStartDuration();
+            int remedyStartDuration = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).getRemedyStartDuration();
             int remedyDuration = remedy.getDuration();
             if (remedyStartDuration > 0 && remedyDuration > 0) {
                 float alpha = ((float) remedyDuration / remedyStartDuration) / 1.5F;

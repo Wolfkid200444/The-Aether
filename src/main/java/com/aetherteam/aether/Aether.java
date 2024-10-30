@@ -47,7 +47,6 @@ import com.aetherteam.aether.item.combat.loot.PigSlayerItem;
 import com.aetherteam.aether.item.components.AetherDataComponents;
 import com.aetherteam.aether.loot.conditions.AetherLootConditions;
 import com.aetherteam.aether.loot.functions.AetherLootFunctions;
-import com.aetherteam.aether.loot.modifiers.AetherLootModifiers;
 import com.aetherteam.aether.network.packet.AetherPlayerSyncPacket;
 import com.aetherteam.aether.network.packet.AetherTimeSyncPacket;
 import com.aetherteam.aether.network.packet.PhoenixArrowSyncPacket;
@@ -123,34 +122,33 @@ public class Aether implements ModInitializer {
         DynamicRegistries.registerSynced(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY, MoaType.CODEC);
 
         DeferredRegister<?>[] registers = {
-                AetherBlocks.BLOCKS,
-                AetherItems.ITEMS,
-                AetherEntityTypes.ENTITY_TYPES,
-                AetherBlockEntityTypes.BLOCK_ENTITY_TYPES,
-                AetherMenuTypes.MENU_TYPES,
-                AetherEffects.EFFECTS,
-                AetherArmorMaterials.ARMOR_MATERIALS,
-                AetherParticleTypes.PARTICLES,
-                AetherFeatures.FEATURES,
-                AetherFoliagePlacerTypes.FOLIAGE_PLACERS,
-                AetherPlacementModifiers.PLACEMENT_MODIFIERS,
-                AetherTrunkPlacerTypes.TRUNK_PLACERS,
-                AetherTreeDecoratorTypes.TREE_DECORATORS,
-                AetherPoi.POI,
-                AetherStructureTypes.STRUCTURE_TYPES,
-                AetherStructurePieceTypes.STRUCTURE_PIECE_TYPES,
-                AetherStructureProcessors.STRUCTURE_PROCESSOR_TYPES,
-                AetherRecipeTypes.RECIPE_TYPES,
-                AetherRecipeSerializers.RECIPE_SERIALIZERS,
-                AetherLootFunctions.LOOT_FUNCTION_TYPES,
-                AetherLootConditions.LOOT_CONDITION_TYPES,
-                AetherLootModifiers.GLOBAL_LOOT_MODIFIERS,
-                AetherSoundEvents.SOUNDS,
-                AetherGameEvents.GAME_EVENTS,
-                AetherCreativeTabs.CREATIVE_MODE_TABS,
-                AetherAdvancementSoundOverrides.ADVANCEMENT_SOUND_OVERRIDES,
-                AetherAdvancementTriggers.TRIGGERS,
-                AetherDataComponents.DATA_COMPONENT_TYPES
+            AetherDataComponents.DATA_COMPONENT_TYPES,
+            AetherEntityTypes.ENTITY_TYPES,
+            AetherBlocks.BLOCKS,
+            AetherItems.ITEMS,
+            AetherBlockEntityTypes.BLOCK_ENTITY_TYPES,
+            AetherMenuTypes.MENU_TYPES,
+            AetherEffects.EFFECTS,
+            AetherArmorMaterials.ARMOR_MATERIALS,
+            AetherParticleTypes.PARTICLES,
+            AetherFeatures.FEATURES,
+            AetherFoliagePlacerTypes.FOLIAGE_PLACERS,
+            AetherPlacementModifiers.PLACEMENT_MODIFIERS,
+            AetherTrunkPlacerTypes.TRUNK_PLACERS,
+            AetherTreeDecoratorTypes.TREE_DECORATORS,
+            AetherPoi.POI,
+            AetherStructureTypes.STRUCTURE_TYPES,
+            AetherStructurePieceTypes.STRUCTURE_PIECE_TYPES,
+            AetherStructureProcessors.STRUCTURE_PROCESSOR_TYPES,
+            AetherRecipeTypes.RECIPE_TYPES,
+            AetherRecipeSerializers.RECIPE_SERIALIZERS,
+            AetherLootFunctions.LOOT_FUNCTION_TYPES,
+            AetherLootConditions.LOOT_CONDITION_TYPES,
+            AetherSoundEvents.SOUNDS,
+            AetherGameEvents.GAME_EVENTS,
+            AetherCreativeTabs.CREATIVE_MODE_TABS,
+            AetherAdvancementSoundOverrides.ADVANCEMENT_SOUND_OVERRIDES,
+            AetherAdvancementTriggers.TRIGGERS,
         };
 
         for (DeferredRegister<?> register : registers) {

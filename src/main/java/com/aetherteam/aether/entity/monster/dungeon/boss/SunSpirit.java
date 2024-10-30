@@ -54,6 +54,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import org.jetbrains.annotations.Nullable;
@@ -279,7 +280,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
                                 }
                                 this.playSound(this.getActivateSound(), 1.0F, this.getVoicePitch());
                                 AetherEventDispatch.onBossFightStart(this, this.getDungeon());
-                                player.getData(AetherDataAttachments.AETHER_PLAYER).setSeenSunSpiritDialogue(true);
+                                player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).setSeenSunSpiritDialogue(true);
                             }
                             default -> {
                                 this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line10").withStyle(ChatFormatting.RED));

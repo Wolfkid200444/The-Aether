@@ -46,15 +46,15 @@ public class WorldPreviewHooks {
      * @param stage The {@link net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage} of rendering.
      * @see com.aetherteam.aether.client.event.listeners.WorldPreviewListener#onRenderLevelLast(RenderLevelStageEvent)
      */
-    public static void renderMenuWithWorld(RenderLevelStageEvent.Stage stage) {
+    public static void renderMenuWithWorld() {
         Minecraft minecraft = Minecraft.getInstance();
-        if (stage == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
+        //if (stage == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
             if (WorldDisplayHelper.isActive()) {
                 if (minecraft.screen == null || minecraft.screen instanceof PauseScreen) { // The menu can only be rendered if there is no screen or a PauseScreen when the level loads.
                     WorldDisplayHelper.setupLevelForDisplay();
                 }
             }
-        }
+        //}
     }
 
     /**

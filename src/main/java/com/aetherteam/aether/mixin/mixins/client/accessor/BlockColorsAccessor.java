@@ -10,6 +10,6 @@ import java.util.Map;
 
 @Mixin(BlockColors.class)
 public interface BlockColorsAccessor {
-    @Accessor("blockColors")
-    Map<Block, BlockColor> aether$getBlockColors();
+//    @Accessor("blockColors")
+//    Map<Block, BlockColor> aether$getBlockColors();
 }

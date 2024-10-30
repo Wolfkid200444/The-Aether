@@ -1,23 +1,7 @@
 package com.aetherteam.aether.data;
 
-import com.aetherteam.aether.data.generators.*;
-import com.aetherteam.aether.data.generators.tags.*;
-import com.aetherteam.aether.data.resources.AetherMobCategory;
-import com.google.common.reflect.Reflection;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.minecraft.DetectedVersion;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.metadata.PackMetadataGenerator;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
-import net.minecraft.util.InclusiveRange;
-
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 public class AetherData implements DataGeneratorEntrypoint {
     @Override

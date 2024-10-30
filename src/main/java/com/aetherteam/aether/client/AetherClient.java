@@ -37,13 +37,13 @@ public class AetherClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         AetherClient.clientSetup();
-        bus.addListener(AetherClient::registerSpectatorShaders);
-        bus.addListener(AetherClient::registerDimensionTransitionScreens);
-        bus.addListener(AetherClient::loadComplete);
+        //bus.addListener(AetherClient::registerSpectatorShaders);
+        //bus.addListener(AetherClient::registerDimensionTransitionScreens);
+        AetherClient.loadComplete();
 
-        AetherMenus.MENUS.register(bus);
+        AetherMenus.MENUS.addEntriesToRegistry();
 
-        AetherClient.eventSetup(bus);
+        AetherClient.eventSetup();
     }
 
     public static void clientSetup() {
@@ -131,7 +131,7 @@ public class AetherClient implements ClientModInitializer {
 
     public static void eventSetup() {
         AccessoryAbilityClientListener.listen();
-        AetherPlayerClientListener.listen();
+        //AetherPlayerClientListener.listen();
         AudioListener.listen();
         DimensionClientListener.listen();
         GuiListener.listen();
@@ -139,31 +139,32 @@ public class AetherClient implements ClientModInitializer {
         MenuListener.listen();
         WorldPreviewListener.listen();
 
-        neoBus.addListener(AetherMenuTypes::registerMenuScreens);
-        neoBus.addListener(AetherColorResolvers::registerBlockColor);
-        neoBus.addListener(AetherColorResolvers::registerItemColor);
-        neoBus.addListener(AetherKeys::registerKeyMappings);
-        neoBus.addListener(AetherRecipeCategories::registerRecipeCategories);
-        neoBus.addListener(AetherParticleTypes::registerParticleFactories);
-        neoBus.addListener(AetherOverlays::registerOverlays);
-        neoBus.addListener(AetherRenderers::registerEntityRenderers);
-        neoBus.addListener(AetherRenderers::registerLayerDefinitions);
-        neoBus.addListener(AetherRenderers::addEntityLayers);
-        neoBus.addListener(AetherRenderers::bakeModels);
-        neoBus.addListener(AetherRenderEffects::registerRenderEffects);
+        AetherMenuTypes.registerMenuScreens();
+        AetherColorResolvers.registerBlockColor();
+        AetherColorResolvers.registerItemColor();
+        AetherKeys.registerKeyMappings();
+        //neoBus.addListener(AetherRecipeCategories::registerRecipeCategories);
+        AetherParticleTypes.registerParticleFactories();
+        AetherOverlays.registerOverlays();
+        AetherRenderers.registerEntityRenderers();
+        AetherRenderers.registerLayerDefinitions();
+        AetherRenderers.addEntityLayers();
+        //neoBus.addListener(AetherRenderers::bakeModels);
+        AetherRenderEffects.registerRenderEffects();
     }
 
     /**
      * Registers a unique shader for spectating the Sun Spirit, which tints the screen red.
      */
-    public static void registerSpectatorShaders(RegisterEntitySpectatorShadersEvent event) {
-        event.register(AetherEntityTypes.SUN_SPIRIT.get(), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "shaders/post/sun_spirit.json"));
-    }
+    // TODO: [Fabric Porting] FIGURE THESE OUT
+//    public static void registerSpectatorShaders(RegisterEntitySpectatorShadersEvent event) {
+//        event.register(AetherEntityTypes.SUN_SPIRIT.get(), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "shaders/post/sun_spirit.json"));
+//    }
 
-    public static void registerDimensionTransitionScreens(RegisterDimensionTransitionScreenEvent event) {
-        event.registerIncomingEffect(AetherDimensions.AETHER_LEVEL, AetherReceivingLevelScreen::new);
-        event.registerOutgoingEffect(AetherDimensions.AETHER_LEVEL, AetherReceivingLevelScreen::new);
-    }
+//    public static void registerDimensionTransitionScreens(RegisterDimensionTransitionScreenEvent event) {
+//        event.registerIncomingEffect(AetherDimensions.AETHER_LEVEL, AetherReceivingLevelScreen::new);
+//        event.registerOutgoingEffect(AetherDimensions.AETHER_LEVEL, AetherReceivingLevelScreen::new);
+//    }
 
     /**
      * Refreshes resource packs at the end of loading, so that auto-applied packs in {@link AetherClient#autoApplyPacks()} get processed.

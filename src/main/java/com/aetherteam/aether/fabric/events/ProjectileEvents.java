@@ -8,11 +8,11 @@ import org.apache.commons.lang3.mutable.MutableBoolean;
 
 public class ProjectileEvents {
 
-    public static final Event<OnImpact> ON_IMPACT = EventFactory.createArrayBacked(OnImpact.class, invokers -> (projectile, hitResult, isCancelled) -> {
-        for (var invoker : invokers) invoker.onImpact(projectile, hitResult, isCancelled);
+    public static final Event<OnImpact> ON_IMPACT = EventFactory.createArrayBacked(OnImpact.class, invokers -> (projectile, hitResult, callback) -> {
+        for (var invoker : invokers) invoker.onImpact(projectile, hitResult, callback);
     });
 
     public interface OnImpact {
-        void onImpact(Projectile projectile, HitResult hitResult, MutableBoolean isCancelled);
+        void onImpact(Projectile projectile, HitResult hitResult, CancellableCallback callback);
     }
 }

@@ -4,6 +4,8 @@ import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.item.miscellaneous.MoaEggItem;
 import com.aetherteam.aether.mixin.mixins.client.accessor.BlockColorsAccessor;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.FastColor;
@@ -21,18 +23,19 @@ public class AetherColorResolvers {
     private static final int ENCHANTED_GRASS_COLOR = 0xFCEA64;
 
     /**
-     * @see AetherClient#eventSetup(IEventBus)
+     * @see AetherClient#eventSetup()
      */
-    public static void registerBlockColor(RegisterColorHandlersEvent.Block event) {
+    public static void registerBlockColor() {
+        var blockColors = ColorProviderRegistry.BLOCK;
+
         Map<Block, BlockColor> map = new HashMap<>();
-        Map<Block, BlockColor> blockColors = ((BlockColorsAccessor) event.getBlockColors()).aether$getBlockColors();
         map.put(Blocks.SHORT_GRASS, blockColors.get(Blocks.SHORT_GRASS));
         map.put(Blocks.FERN, blockColors.get(Blocks.FERN));
         map.put(Blocks.TALL_GRASS, blockColors.get(Blocks.TALL_GRASS));
         map.put(Blocks.LARGE_FERN, blockColors.get(Blocks.LARGE_FERN));
 
         for (Map.Entry<Block, BlockColor> entry : map.entrySet()) { // Recolors tintable plants when placed on Aether Grass and Enchanted Grass.
-            event.register(((state, level, pos, tintIndex) -> {
+            blockColors.register(((state, level, pos, tintIndex) -> {
                 if (level != null && pos != null) {
                     BlockPos newPos = state.hasProperty(DoublePlantBlock.HALF) ? (state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER ? pos.below() : pos) : pos;
                     BlockPos baseBlock = newPos.below();
@@ -48,12 +51,14 @@ public class AetherColorResolvers {
     }
 
     /**
-     * @see AetherClient#eventSetup(IEventBus)
+     * @see AetherClient#eventSetup()
      */
-    public static void registerItemColor(RegisterColorHandlersEvent.Item event) {
-        event.register((color, itemProvider) -> itemProvider > 0 ? -1 : DyedItemColor.getOrDefault(color, -6265536), AetherItems.LEATHER_GLOVES.get());
+    public static void registerItemColor() {
+        var itemColors = ColorProviderRegistry.ITEM;
+
+        itemColors.register((color, itemProvider) -> itemProvider > 0 ? -1 : DyedItemColor.getOrDefault(color, -6265536), AetherItems.LEATHER_GLOVES.get());
         for (MoaEggItem moaEggItem : MoaEggItem.moaEggs()) {
-            event.register((color, itemProvider) -> FastColor.ARGB32.opaque(moaEggItem.getColor()), moaEggItem);
+            itemColors.register((color, itemProvider) -> FastColor.ARGB32.opaque(moaEggItem.getColor()), moaEggItem);
         }
     }
 }

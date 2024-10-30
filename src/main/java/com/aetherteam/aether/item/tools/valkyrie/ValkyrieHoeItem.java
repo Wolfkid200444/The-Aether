@@ -21,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.ItemAbilities;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -41,7 +40,7 @@ public class ValkyrieHoeItem extends HoeItem implements ValkyrieTool {
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
         BlockPos blockPos = context.getClickedPos();
-        BlockState toolModifiedState = level.getBlockState(blockPos).getToolModifiedState(context, ItemAbilities.HOE_TILL, false);
+        BlockState toolModifiedState = null;//level.getBlockState(blockPos).getToolModifiedState(context, ItemAbilities.HOE_TILL, false);
         Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = toolModifiedState == null ? null : Pair.of(ctx -> true, changeIntoState(toolModifiedState));
         if (pair == null) {
             return InteractionResult.PASS;

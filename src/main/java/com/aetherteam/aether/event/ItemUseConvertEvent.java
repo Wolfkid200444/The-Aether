@@ -1,6 +1,6 @@
 package com.aetherteam.aether.event;
 
-import com.aetherteam.aether.fabric.events.Cancellable;
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -16,14 +16,14 @@ import org.jetbrains.annotations.Nullable;
 /**
  * ItemUseConvertEvent is fired after an item that can convert blocks is used, but before the block is converted by the recipe.
  * <br>
- * This event is {@link Cancellable}.<br>
+ * This event is {@link CancellableCallbackImpl}.<br>
  * If the event is not canceled, the block conversion will happen and the item will be consumed.
  * <br>
  * This event is fired on both {@link EnvType sides}.<br>
  * <br>
  * If this event is canceled, block conversion will not happen and the item will not be consumed.
  */
-public class ItemUseConvertEvent extends Cancellable {
+public class ItemUseConvertEvent extends CancellableCallbackImpl {
     private final Player player;
     private final LevelAccessor level;
     private final BlockPos pos;

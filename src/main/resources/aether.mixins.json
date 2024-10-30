@@ -44,7 +44,10 @@
     "common.MinecraftServerMixin",
     "common.ServerPlayerMixin",
     "common.EntityHurtMixin",
-    "common.HolderLookupProviderMixin"
+    "common.HolderLookupProviderMixin",
+    "common.EnderDragonMixin",
+    "common.BushBlockMixin",
+    "common.BeardifierMixin"
   ],
   "client": [
     "client.AdvancementToastMixin",
@@ -76,7 +79,11 @@
     "client.optifine.BossHealthOverlayMixin",
     "client.fabric.NetworkRegisterHelperMixin",
     "client.ClientLevelMixin",
-    "client.MinecraftMixin"
+    "client.MinecraftMixin",
+    "client.LivingEntityRendererMixin",
+    "client.PlayerRendererMixin",
+    "client.ScreenMixin",
+    "client.AbstractContainerScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

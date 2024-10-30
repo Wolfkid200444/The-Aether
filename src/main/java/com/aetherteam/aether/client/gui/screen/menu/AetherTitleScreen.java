@@ -9,6 +9,7 @@ import com.aetherteam.aether.mixin.mixins.client.accessor.TitleScreenAccessor;
 import com.aetherteam.cumulus.mixin.mixins.client.accessor.SplashRendererAccessor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.fabricmc.loader.impl.game.minecraft.patch.BrandingPatch;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -104,11 +105,11 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
             titleScreenAccessor.aether$setSplash(this.minecraft.getSplashManager().getSplash());
         }
         float fadeAmount = TitleScreenBehavior.super.handleFading(guiGraphics, this, titleScreenAccessor, PANORAMA, PANORAMA_OVERLAY, partialTicks);
-        float scale = getScale(this, this.getMinecraft());
+        float scale = getScale(this, this.minecraft);
         this.setupLogo(guiGraphics, fadeAmount, scale);
         int roundedFadeAmount = Mth.ceil(fadeAmount * 255.0F) << 24;
         if ((roundedFadeAmount & -67108864) != 0) {
-            ClientHooks.renderMainMenu(this, guiGraphics, this.font, this.width, this.height, roundedFadeAmount);
+            //ClientHooks.renderMainMenu(this, guiGraphics, this.font, this.width, this.height, roundedFadeAmount);
             if (titleScreenAccessor.aether$getSplash() != null) {
                 SplashRendererAccessor splashRendererAccessor = (SplashRendererAccessor) titleScreenAccessor.aether$getSplash();
                 if (splashRendererAccessor.cumulus$getSplash() != null && !splashRendererAccessor.cumulus$getSplash().isEmpty()) {
@@ -129,12 +130,13 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
             if (this.alignedLeft) {
                 TitleScreenBehavior.super.renderRightBranding(guiGraphics, this, this.font, roundedFadeAmount);
             } else {
-                BrandingControl.forEachLine(true, true, (brandingLine, branding) ->
-                        guiGraphics.drawString(this.font, branding, 2, this.height - (10 + brandingLine * (this.font.lineHeight + 1)), 16777215 | roundedFadeAmount)
-                );
-                BrandingControl.forEachAboveCopyrightLine((brandingLine, branding) ->
-                        guiGraphics.drawString(this.font, branding, this.width - this.font.width(branding), this.height - (10 + (brandingLine + 1) * (this.font.lineHeight + 1)), 16777215 | roundedFadeAmount)
-                );
+                // TODO: [Fabric Porting] Find out what to do with this
+//                BrandingControl.forEachLine(true, true, (brandingLine, branding) ->
+//                        guiGraphics.drawString(this.font, branding, 2, this.height - (10 + brandingLine * (this.font.lineHeight + 1)), 16777215 | roundedFadeAmount)
+//                );
+//                BrandingControl.forEachAboveCopyrightLine((brandingLine, branding) ->
+//                        guiGraphics.drawString(this.font, branding, this.width - this.font.width(branding), this.height - (10 + (brandingLine + 1) * (this.font.lineHeight + 1)), 16777215 | roundedFadeAmount)
+//                );
             }
         }
 

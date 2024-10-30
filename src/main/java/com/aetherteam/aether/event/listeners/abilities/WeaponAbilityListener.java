@@ -2,6 +2,7 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
+import com.aetherteam.aether.fabric.events.CancellableCallback;
 import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -34,8 +35,8 @@ public class WeaponAbilityListener {
     /**
      * @see AbilityHooks.WeaponHooks#phoenixArrowHit(HitResult, Projectile)
      */
-    public static void onArrowHit(Projectile projectile, HitResult hitResult, MutableBoolean isCancelled) {
-        if (!isCancelled.getValue()) {
+    public static void onArrowHit(Projectile projectile, HitResult hitResult, CancellableCallback callback) {
+        if (!callback.isCanceled()) {
             AbilityHooks.WeaponHooks.phoenixArrowHit(hitResult, projectile);
         }
     }
@@ -43,9 +44,9 @@ public class WeaponAbilityListener {
     /**
      * @see AbilityHooks.WeaponHooks#lightningTracking(Entity, LightningBolt)
      */
-    public static void onLightningStrike(Entity entity, LightningBolt lightningBolt, MutableBoolean isCancelled) {
-        if (!isCancelled.getValue() && AbilityHooks.WeaponHooks.lightningTracking(entity, lightningBolt)) {
-            isCancelled.setValue(true);
+    public static void onLightningStrike(Entity entity, LightningBolt lightningBolt, CancellableCallback callback) {
+        if (!callback.isCanceled() && AbilityHooks.WeaponHooks.lightningTracking(entity, lightningBolt)) {
+            callback.setCanceled(true);
         }
     }
 

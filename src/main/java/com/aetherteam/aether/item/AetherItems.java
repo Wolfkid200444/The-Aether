@@ -76,7 +76,6 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -236,9 +235,9 @@ public class AetherItems {
     // Misc
     public static final DeferredItem<Item> VICTORY_MEDAL = ITEMS.register("victory_medal", () -> new Item(new Item.Properties().stacksTo(10).rarity(AETHER_LOOT)));
 
-    public static final DeferredItem<Item> BRONZE_DUNGEON_KEY = ITEMS.register("bronze_dungeon_key", () -> new Item(new Item.Properties().stacksTo(1).rarity(AETHER_LOOT).fireResistant().component(AetherDataComponents.DUNGEON_KIND, new DungeonKind(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "bronze")))));
-    public static final DeferredItem<Item> SILVER_DUNGEON_KEY = ITEMS.register("silver_dungeon_key", () -> new Item(new Item.Properties().stacksTo(1).rarity(AETHER_LOOT).fireResistant().component(AetherDataComponents.DUNGEON_KIND, new DungeonKind(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "silver")))));
-    public static final DeferredItem<Item> GOLD_DUNGEON_KEY = ITEMS.register("gold_dungeon_key", () -> new Item(new Item.Properties().stacksTo(1).rarity(AETHER_LOOT).fireResistant().component(AetherDataComponents.DUNGEON_KIND, new DungeonKind(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "gold")))));
+    public static final DeferredItem<Item> BRONZE_DUNGEON_KEY = ITEMS.register("bronze_dungeon_key", () -> new Item(new Item.Properties().stacksTo(1).rarity(AETHER_LOOT).fireResistant().component(AetherDataComponents.DUNGEON_KIND.get(), new DungeonKind(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "bronze")))));
+    public static final DeferredItem<Item> SILVER_DUNGEON_KEY = ITEMS.register("silver_dungeon_key", () -> new Item(new Item.Properties().stacksTo(1).rarity(AETHER_LOOT).fireResistant().component(AetherDataComponents.DUNGEON_KIND.get(), new DungeonKind(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "silver")))));
+    public static final DeferredItem<Item> GOLD_DUNGEON_KEY = ITEMS.register("gold_dungeon_key", () -> new Item(new Item.Properties().stacksTo(1).rarity(AETHER_LOOT).fireResistant().component(AetherDataComponents.DUNGEON_KIND.get(), new DungeonKind(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "gold")))));
 
     public static final DeferredItem<Item> MUSIC_DISC_AETHER_TUNE = ITEMS.register("music_disc_aether_tune", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AetherJukeboxSongs.AETHER_TUNE)));
     public static final DeferredItem<Item> MUSIC_DISC_ASCENDING_DAWN = ITEMS.register("music_disc_ascending_dawn", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(AetherJukeboxSongs.ASCENDING_DAWN)));
@@ -279,26 +278,26 @@ public class AetherItems {
 
     public static final DeferredItem<Item> AETHER_PORTAL_FRAME = ITEMS.register("aether_portal_frame", () -> new AetherPortalItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<SpawnEggItem> AECHOR_PLANT_SPAWN_EGG = ITEMS.register("aechor_plant_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.AECHOR_PLANT, 0x076178, 0x4BC69E, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> AERBUNNY_SPAWN_EGG = ITEMS.register("aerbunny_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.AERBUNNY, 0xE2FCFF, 0xFFDFF9, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> AERWHALE_SPAWN_EGG = ITEMS.register("aerwhale_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.AERWHALE, 0xC0E7FD, 0x879EAA, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> COCKATRICE_SPAWN_EGG = ITEMS.register("cockatrice_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.COCKATRICE, 0x6CB15C, 0x6C579D, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> FIRE_MINION_SPAWN_EGG = ITEMS.register("fire_minion_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.FIRE_MINION, 0xFF6D01, 0xFEF500, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> FLYING_COW_SPAWN_EGG = ITEMS.register("flying_cow_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.FLYING_COW, 0xD8D8D8, 0xFFD939, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> MIMIC_SPAWN_EGG = ITEMS.register("mimic_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.MIMIC, 0xB18132, 0x605A4E, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> MOA_SPAWN_EGG = ITEMS.register("moa_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.MOA, 0x87BFEF, 0x7A7A7A, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> PHYG_SPAWN_EGG = ITEMS.register("phyg_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.PHYG, 0xFFC1D0, 0xFFD939, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> SENTRY_SPAWN_EGG = ITEMS.register("sentry_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.SENTRY, 0x808080, 0x3A8AEC, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> SHEEPUFF_SPAWN_EGG = ITEMS.register("sheepuff_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.SHEEPUFF, 0xE2FCFF, 0xCB9090, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> BLUE_SWET_SPAWN_EGG = ITEMS.register("blue_swet_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.BLUE_SWET, 0x4FB1DA, 0xCDDA4F, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> GOLDEN_SWET_SPAWN_EGG = ITEMS.register("golden_swet_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.GOLDEN_SWET, 0xCDDA4F, 0x4FB1DA, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> WHIRLWIND_SPAWN_EGG = ITEMS.register("whirlwind_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.WHIRLWIND, 0x9FC3F7, 0xFFFFFF, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> EVIL_WHIRLWIND_SPAWN_EGG = ITEMS.register("evil_whirlwind_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.EVIL_WHIRLWIND, 0x9FC3F7, 0x111111, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> VALKYRIE_SPAWN_EGG = ITEMS.register("valkyrie_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.VALKYRIE, 0xF9F5E3, 0xF2D200, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> VALKYRIE_QUEEN_SPAWN_EGG = ITEMS.register("valkyrie_queen_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.VALKYRIE_QUEEN, 0xF2D200, 0xF9F5E3, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> AECHOR_PLANT_SPAWN_EGG = ITEMS.register("aechor_plant_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.AECHOR_PLANT.get(), 0x076178, 0x4BC69E, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> AERBUNNY_SPAWN_EGG = ITEMS.register("aerbunny_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.AERBUNNY.get(), 0xE2FCFF, 0xFFDFF9, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> AERWHALE_SPAWN_EGG = ITEMS.register("aerwhale_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.AERWHALE.get(), 0xC0E7FD, 0x879EAA, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> COCKATRICE_SPAWN_EGG = ITEMS.register("cockatrice_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.COCKATRICE.get(), 0x6CB15C, 0x6C579D, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> FIRE_MINION_SPAWN_EGG = ITEMS.register("fire_minion_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.FIRE_MINION.get(), 0xFF6D01, 0xFEF500, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> FLYING_COW_SPAWN_EGG = ITEMS.register("flying_cow_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.FLYING_COW.get(), 0xD8D8D8, 0xFFD939, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> MIMIC_SPAWN_EGG = ITEMS.register("mimic_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.MIMIC.get(), 0xB18132, 0x605A4E, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> MOA_SPAWN_EGG = ITEMS.register("moa_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.MOA.get(), 0x87BFEF, 0x7A7A7A, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> PHYG_SPAWN_EGG = ITEMS.register("phyg_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.PHYG.get(), 0xFFC1D0, 0xFFD939, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> SENTRY_SPAWN_EGG = ITEMS.register("sentry_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.SENTRY.get(), 0x808080, 0x3A8AEC, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> SHEEPUFF_SPAWN_EGG = ITEMS.register("sheepuff_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.SHEEPUFF.get(), 0xE2FCFF, 0xCB9090, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> BLUE_SWET_SPAWN_EGG = ITEMS.register("blue_swet_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.BLUE_SWET.get(), 0x4FB1DA, 0xCDDA4F, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> GOLDEN_SWET_SPAWN_EGG = ITEMS.register("golden_swet_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.GOLDEN_SWET.get(), 0xCDDA4F, 0x4FB1DA, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> WHIRLWIND_SPAWN_EGG = ITEMS.register("whirlwind_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.WHIRLWIND.get(), 0x9FC3F7, 0xFFFFFF, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> EVIL_WHIRLWIND_SPAWN_EGG = ITEMS.register("evil_whirlwind_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.EVIL_WHIRLWIND.get(), 0x9FC3F7, 0x111111, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> VALKYRIE_SPAWN_EGG = ITEMS.register("valkyrie_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.VALKYRIE.get(), 0xF9F5E3, 0xF2D200, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> VALKYRIE_QUEEN_SPAWN_EGG = ITEMS.register("valkyrie_queen_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.VALKYRIE_QUEEN.get(), 0xF2D200, 0xF9F5E3, new Item.Properties()));
     public static final DeferredItem<SpawnEggItem> SLIDER_SPAWN_EGG = ITEMS.register("slider_spawn_egg", () -> new SliderSpawnEggItem(AetherEntityTypes.SLIDER, 0xA7A7A7, 0x5C9FF2, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> SUN_SPIRIT_SPAWN_EGG = ITEMS.register("sun_spirit_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.SUN_SPIRIT, 0xFEF500, 0xFF6D01, new Item.Properties()));
-    public static final DeferredItem<SpawnEggItem> ZEPHYR_SPAWN_EGG = ITEMS.register("zephyr_spawn_egg", () -> new DeferredSpawnEggItem(AetherEntityTypes.ZEPHYR, 0xDFDFDF, 0x99CFE8, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> SUN_SPIRIT_SPAWN_EGG = ITEMS.register("sun_spirit_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.SUN_SPIRIT.get(), 0xFEF500, 0xFF6D01, new Item.Properties()));
+    public static final DeferredItem<SpawnEggItem> ZEPHYR_SPAWN_EGG = ITEMS.register("zephyr_spawn_egg", () -> new SpawnEggItem(AetherEntityTypes.ZEPHYR.get(), 0xDFDFDF, 0x99CFE8, new Item.Properties()));
 
     public static void registerAccessories() {
         AccessoriesAPI.registerAccessory(AetherItems.IRON_RING.get(), (Accessory) AetherItems.IRON_RING.get());

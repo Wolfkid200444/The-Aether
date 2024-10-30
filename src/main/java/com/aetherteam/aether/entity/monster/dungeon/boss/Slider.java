@@ -30,6 +30,7 @@ import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.Difficulty;
@@ -51,7 +52,6 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.tuple.Pair;
@@ -255,7 +255,8 @@ public class Slider extends PathfinderMob implements AetherBossMob<Slider>, Enem
         if (this.level().getDifficulty() != Difficulty.PEACEFUL) {
             if (source.getDirectEntity() instanceof LivingEntity attacker) {
                 if (this.getDungeon() == null || this.getDungeon().isPlayerWithinRoomInterior(attacker)) { // Only allow damage within the boss room.
-                    if (attacker.getMainHandItem().canPerformAction(ItemAbilities.PICKAXE_DIG)
+                    //  TODO: [Fabric Porting] FIND BETTER SOLUTION?
+                    if (attacker.getMainHandItem().is(ItemTags.PICKAXES)/*.canPerformAction(ItemAbilities.PICKAXE_DIG)*/
                         || attacker.getMainHandItem().is(AetherTags.Items.SLIDER_DAMAGING_ITEMS)
                         || attacker.getMainHandItem().isCorrectToolForDrops(AetherBlocks.CARVED_STONE.get().defaultBlockState())) { // Check for correct tool.
                         return Optional.of(attacker);

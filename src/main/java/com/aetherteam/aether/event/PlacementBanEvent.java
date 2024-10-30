@@ -1,6 +1,6 @@
 package com.aetherteam.aether.event;
 
-import com.aetherteam.aether.fabric.events.ICancellable;
+import com.aetherteam.aether.fabric.events.CancellableCallback;
 import com.google.common.base.Preconditions;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.event.Event;
@@ -142,14 +142,14 @@ public abstract class PlacementBanEvent {
     /**
      * PlacementBanEvent.SpawnParticles is fired after a placement ban has occurred.
      * <br>
-     * This event is {@link ICancellable}.<br>
+     * This event is {@link CancellableCallback}.<br>
      * If the event is not canceled, the particles will spawn.
      * <br>
      * This event is fired on both {@link EnvType sides}.<br>
      * <br>
      * If this event is canceled, the particles will not be spawned.
      */
-    public static class SpawnParticles extends PlacementBanEvent implements ICancellable {
+    public static class SpawnParticles extends PlacementBanEvent implements CancellableCallback {
         private final LevelAccessor level;
         private final BlockPos pos;
         @Nullable

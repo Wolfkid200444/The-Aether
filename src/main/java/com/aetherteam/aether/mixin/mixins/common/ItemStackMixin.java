@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aether.fabric.events.ItemAttributeModifierEvent;
+import com.aetherteam.aether.fabric.events.ItemAttributeModifierHelper;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.core.Holder;
@@ -23,7 +23,7 @@ public abstract class ItemStackMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;forEach(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V")
     )
     private void aetherFabric$modifyAttributeEvent_1(ItemAttributeModifiers instance, EquipmentSlot equipmentSlot, BiConsumer<Holder<Attribute>, AttributeModifier> action, Operation<Void> original) {
-        var event = ItemAttributeModifierEvent.invokeEvent((ItemStack) (Object) this, instance);
+        var event = ItemAttributeModifierHelper.invokeEvent((ItemStack) (Object) this, instance);
 
         instance = new ItemAttributeModifiers(event.getModifiers(), instance.showInTooltip());
 
@@ -35,7 +35,7 @@ public abstract class ItemStackMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;forEach(Lnet/minecraft/world/entity/EquipmentSlotGroup;Ljava/util/function/BiConsumer;)V")
     )
     private void aetherFabric$modifyAttributeEvent_2(ItemAttributeModifiers instance, EquipmentSlotGroup slotGroup, BiConsumer<Holder<Attribute>, AttributeModifier> action, Operation<Void> original) {
-        var event = ItemAttributeModifierEvent.invokeEvent((ItemStack) (Object) this, instance);
+        var event = ItemAttributeModifierHelper.invokeEvent((ItemStack) (Object) this, instance);
 
         instance = new ItemAttributeModifiers(event.getModifiers(), instance.showInTooltip());
 

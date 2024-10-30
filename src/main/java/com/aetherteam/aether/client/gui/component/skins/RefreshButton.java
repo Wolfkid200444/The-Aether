@@ -1,13 +1,14 @@
 package com.aetherteam.aether.client.gui.component.skins;
 
 import com.aetherteam.aether.Aether;
+import com.aetherteam.aether.fabric.BuilderMadeButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.resources.ResourceLocation;
 
-public class RefreshButton extends Button {
+public class RefreshButton extends BuilderMadeButton {
     public static final WidgetSprites REFRESH_WIDGET = new WidgetSprites(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "skins/refresh_button"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "skins/refresh_button_highlighted"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "skins/refresh_button_highlighted"));
 
     public static final int reboundMax = 1200;

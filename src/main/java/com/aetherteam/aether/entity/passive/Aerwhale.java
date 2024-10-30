@@ -115,7 +115,7 @@ public class Aerwhale extends FlyingMob {
 
                     vector = new Vec3(player.xxa, 0.0, (player.zza <= 0.0F) ? player.zza * 0.25F : player.zza);
 
-                    if (player.getData(AetherDataAttachments.AETHER_PLAYER).isJumping()) {
+                    if (player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).isJumping()) {
                         this.setDeltaMovement(new Vec3(0.0, 0.0, 0.0));
                     } else {
                         double d0 = Math.toRadians(this.getYRot());

@@ -7,6 +7,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CloudStatus;
 import net.minecraft.client.Minecraft;
@@ -43,11 +45,52 @@ public class AetherSkyRenderEffects extends DimensionSpecialEffects {
         super(9.5F, true, DimensionSpecialEffects.SkyType.NORMAL, false, false);
     }
 
+    //--
+
+    public final DimensionRenderingRegistry.CloudRenderer CLOUD_RENDERER = context ->{
+        renderClouds(
+            context.world(),
+            ((LevelRendererAccessor)context.worldRenderer()).aetherFabric$getTicks(),
+            context.tickCounter().getGameTimeDeltaPartialTick(false),
+            context.matrixStack(),
+            context.camera().getPosition().x(),
+            context.camera().getPosition().y(),
+            context.camera().getPosition().z(),
+            context.positionMatrix(),
+            context.projectionMatrix()
+        );
+    };
+
+    public final DimensionRenderingRegistry.SkyRenderer SKY_RENDERER = context ->{
+        var camera = context.camera();
+
+        double x = camera.getPosition().x();
+        double y = camera.getPosition().y();
+
+        var isFoggy = Minecraft.getInstance().level.effects().isFoggyAt(Mth.floor(x), Mth.floor(y)) || Minecraft.getInstance().gui.getBossOverlay().shouldCreateWorldFog();
+
+        var partialTicks = context.tickCounter().getGameTimeDeltaPartialTick(false);
+
+        Runnable setupFog = () -> FogRenderer.setupFog(camera, FogRenderer.FogMode.FOG_SKY, context.gameRenderer().getRenderDistance(), isFoggy, partialTicks);
+
+        renderSky(
+            context.world(),
+            ((LevelRendererAccessor)context.worldRenderer()).aetherFabric$getTicks(),
+            context.tickCounter().getGameTimeDeltaPartialTick(false),
+            context.positionMatrix(),
+            context.camera(),
+            context.projectionMatrix(),
+            isFoggy,
+            setupFog
+        );
+    };
+
+    //--
+
     /**
      * [CODE COPY] - {@link LightTexture#updateLightTexture(float)}.<br><br>
      * Copied from a specific section, and modified to make the lightmap not be tinted with any color. Checks for {@link AetherConfig.Client#colder_lightmap}.
      */
-    @Override
     public void adjustLightmapColors(ClientLevel level, float partialTicks, float skyDarken, float skyLight, float blockLight, int pixelX, int pixelY, Vector3f colors) {
         if (AetherConfig.CLIENT.colder_lightmap.get()) {
             Vector3f vector3f = (new Vector3f(skyDarken, skyDarken, 1.0F)).lerp(new Vector3f(1.0F, 1.0F, 1.0F), 0.35F);
@@ -132,7 +175,6 @@ public class AetherSkyRenderEffects extends DimensionSpecialEffects {
     /**
      * [CODE COPY] - {@link LevelRenderer#renderClouds(PoseStack, Matrix4f, Matrix4f, float, double, double, double)}.
      */
-    @Override
     public boolean renderClouds(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, double camX, double camY, double camZ, Matrix4f modelViewMatrix, Matrix4f projectionMatrix) {
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         float cloudHeight = level.effects().getCloudHeight();
@@ -234,7 +276,6 @@ public class AetherSkyRenderEffects extends DimensionSpecialEffects {
      * [CODE COPY] - {@link LevelRenderer#renderSky(Matrix4f, Matrix4f, float, Camera, boolean, Runnable)}.<br><br>
      * Modified to make the sun and moon fade out when they dip under the horizon.
      */
-    @Override
     public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f modelViewMatrix, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
         setupFog.run();
         if (!isFoggy) {

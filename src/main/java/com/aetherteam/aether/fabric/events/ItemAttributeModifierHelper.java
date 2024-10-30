@@ -16,39 +16,31 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class ItemAttributeModifierEvent {
+public class ItemAttributeModifierHelper {
 
-    public static final Event<Callback> EVENT = EventFactory.createArrayBacked(Callback.class, invokers -> event -> {
-        for (var invoker : invokers) invoker.onAttributes(event);
-    });
-
-    private final ItemStack stack;
     private final ItemAttributeModifiers defaultModifiers;
     private ItemAttributeModifiersBuilder builder;
 
     @ApiStatus.Internal
-    protected ItemAttributeModifierEvent(ItemStack stack, ItemAttributeModifiers defaultModifiers) {
-        this.stack = stack;
+    protected ItemAttributeModifierHelper(ItemAttributeModifiers defaultModifiers) {
         this.defaultModifiers = defaultModifiers;
     }
 
-    public static ItemAttributeModifierEvent invokeEvent(ItemStack stack, ItemAttributeModifiers defaultModifiers) {
-        var event = new ItemAttributeModifierEvent(stack, defaultModifiers);
+    public static final Event<Callback> ON_MODIFICATION = EventFactory.createArrayBacked(Callback.class, invokers -> (stack, event) -> {
+        for (var invoker : invokers) invoker.onAttributes(stack, event);
+    });
 
-        EVENT.invoker().onAttributes(event);
 
-        return event;
+    public static ItemAttributeModifierHelper invokeEvent(ItemStack stack, ItemAttributeModifiers defaultModifiers) {
+        var helper = new ItemAttributeModifierHelper(defaultModifiers);
+
+        ON_MODIFICATION.invoker().onAttributes(stack, helper);
+
+        return helper;
     }
 
     public interface Callback {
-        void onAttributes(ItemAttributeModifierEvent event);
-    }
-
-    /**
-     * {@return the item stack whose attribute modifiers are being computed}
-     */
-    public ItemStack getItemStack() {
-        return this.stack;
+        void onAttributes(ItemStack stack, ItemAttributeModifierHelper event);
     }
 
     /**

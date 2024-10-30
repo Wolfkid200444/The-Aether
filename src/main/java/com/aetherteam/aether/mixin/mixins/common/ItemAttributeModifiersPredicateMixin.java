@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aether.fabric.events.ItemAttributeModifierEvent;
+import com.aetherteam.aether.fabric.events.ItemAttributeModifierHelper;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -20,7 +20,7 @@ public abstract class ItemAttributeModifiersPredicateMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;modifiers()Ljava/util/List;")
     )
     private List<ItemAttributeModifiers.Entry> aetherFabric$modifyAttributeEvent(ItemAttributeModifiers instance, Operation<List<ItemAttributeModifiers.Entry>> original, @Local(argsOnly = true) ItemStack stack) {
-        var event = ItemAttributeModifierEvent.invokeEvent(stack, instance);
+        var event = ItemAttributeModifierHelper.invokeEvent(stack, instance);
 
         instance = new ItemAttributeModifiers(event.getModifiers(), instance.showInTooltip());
 

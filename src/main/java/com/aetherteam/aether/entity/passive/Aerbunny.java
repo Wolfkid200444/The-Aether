@@ -39,7 +39,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import org.jetbrains.annotations.Nullable;
@@ -246,7 +245,7 @@ public class Aerbunny extends AetherAnimal {
                 Vec3 playerMovement = player.getDeltaMovement();
                 this.setDeltaMovement(playerMovement.x() * 5, playerMovement.y() * 0.5 + 0.5, playerMovement.z() * 5);
             } else if (this.startRiding(player)) { // Mount segment.
-                player.getData(AetherDataAttachments.AETHER_PLAYER).setMountedAerbunny(this);
+                player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).setMountedAerbunny(this);
                 this.level().playSound(player, this, AetherSoundEvents.ENTITY_AERBUNNY_LIFT.get(), SoundSource.NEUTRAL, 1.0F, (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.2F + 1.0F);
             }
             return InteractionResult.SUCCESS;
@@ -260,7 +259,7 @@ public class Aerbunny extends AetherAnimal {
     @Override
     public void stopRiding() {
         if (this.getVehicle() instanceof Player player) {
-            player.getData(AetherDataAttachments.AETHER_PLAYER).setMountedAerbunny(null);
+            player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).setMountedAerbunny(null);
         }
         super.stopRiding();
     }

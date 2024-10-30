@@ -47,7 +47,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.neoforged.neoforge.common.IShearable;
 
 import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
@@ -62,7 +61,7 @@ import java.util.stream.Collectors;
  * Warning for "deprecation" is suppressed because we still need to use vanilla shearing behavior from {@link Shearable}.
  */
 @SuppressWarnings("deprecation")
-public class Sheepuff extends AetherAnimal implements Shearable, IShearable {
+public class Sheepuff extends AetherAnimal implements Shearable/*, IShearable*/ { // TODO: [Fabric Porting] What dose IShearable do exactly?
     private static final EntityDataAccessor<Byte> DATA_WOOL_COLOR_ID = SynchedEntityData.defineId(Sheepuff.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> DATA_PUFFED_ID = SynchedEntityData.defineId(Sheepuff.class, EntityDataSerializers.BOOLEAN);
 

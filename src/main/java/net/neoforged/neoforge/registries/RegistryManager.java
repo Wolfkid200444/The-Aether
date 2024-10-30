@@ -68,9 +68,9 @@ public class RegistryManager {
 
     public static final AttributeKey<Map<ResourceKey<? extends Registry<?>>, Collection<ResourceLocation>>> ATTRIBUTE_KNOWN_DATA_MAPS = AttributeKey.valueOf("neoforge:known_data_maps");
 
-    @ApiStatus.Internal
-    public static void handleKnownDataMapsReply(final KnownRegistryDataMapsReplyPayload payload, final IPayloadContext context) {
-        context.channelHandlerContext().attr(ATTRIBUTE_KNOWN_DATA_MAPS).set(payload.dataMaps());
-        context.finishCurrentTask(RegistryDataMapNegotiation.TYPE);
-    }
+//    @ApiStatus.Internal
+//    public static void handleKnownDataMapsReply(final KnownRegistryDataMapsReplyPayload payload, final IPayloadContext context) {
+//        context.channelHandlerContext().attr(ATTRIBUTE_KNOWN_DATA_MAPS).set(payload.dataMaps());
+//        context.finishCurrentTask(RegistryDataMapNegotiation.TYPE);
+//    }
 }

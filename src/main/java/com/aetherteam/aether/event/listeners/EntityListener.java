@@ -2,9 +2,7 @@ package com.aetherteam.aether.event.listeners;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.EntityHooks;
-import com.aetherteam.aether.fabric.events.EntityEvents;
-import com.aetherteam.aether.fabric.events.PlayerTickEvents;
-import com.aetherteam.aether.fabric.events.ProjectileEvents;
+import com.aetherteam.aether.fabric.events.*;
 import io.wispforest.accessories.api.events.OnDeathCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
@@ -27,7 +25,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -40,17 +37,17 @@ public class EntityListener {
      * @see Aether#eventSetup()
      */
     public static void listen() {
-        ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> EntityListener.onEntityJoin(entity));
-        bus.addListener(EntityListener::onMountEntity);
+        ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> onEntityJoin(entity));
+        EntityEvents.ENTITY_MOUNT.register(EntityListener::onMountEntity);
         PlayerTickEvents.AFTER.register(EntityListener::onRiderTick);
-        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> EntityListener.onInteractWithEntity(entity, player, hand, hitResult));
+        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> onInteractWithEntity(entity, player, hand, hitResult));
         ProjectileEvents.ON_IMPACT.register(EntityListener::onProjectileHitEntity);
-        bus.addListener(EntityListener::onShieldBlock);
+        LivingEntityEvents.ON_SHIELD_BLOCK.register(EntityListener::onShieldBlock);
         EntityEvents.STRUCK_BY_LIGHTNING.register(EntityListener::onLightningStrike);
-        bus.addListener(EntityListener::onPlayerDrops);
-        bus.addListener(EntityListener::onDropExperience);
-        bus.addListener(EntityListener::onEffectApply);
-        bus.addListener(EntityListener::onEntitySplit);
+        LivingEntityEvents.ON_DROPS.register((entity, source, drops, recentlyHit, callback) -> onPlayerDrops(entity, drops));
+        LivingEntityEvents.ON_EXPERIENCE_DROP.register((entity, attackingPlayer, helper) -> onDropExperience(entity, helper));
+        //bus.addListener(EntityListener::onEffectApply);
+        // SlimeMixin.aetherFabric$dontSplitForSwets -> EntityHooks.preventSplit
 
         OnDeathCallback.EVENT.register((currentState, entity, capability, damageSource, droppedStacks) -> {
             List<ItemStack> droppedStacksCopy = new ArrayList<>(droppedStacks);
@@ -73,11 +70,8 @@ public class EntityListener {
     /**
      * @see EntityHooks#dismountPrevention(Entity, Entity, boolean)
      */
-    public static void onMountEntity(EntityMountEvent event) {
-        Entity riderEntity = event.getEntityMounting();
-        Entity mountEntity = event.getEntityBeingMounted();
-        boolean isDismounting = event.isDismounting();
-        event.setCanceled(EntityHooks.dismountPrevention(riderEntity, mountEntity, isDismounting));
+    public static void onMountEntity(Entity mountEntity, Entity riderEntity, boolean isDismounting, CancellableCallback callback) {
+        callback.setCanceled(EntityHooks.dismountPrevention(riderEntity, mountEntity, isDismounting));
     }
 
     /**
@@ -118,42 +112,39 @@ public class EntityListener {
     /**
      * @see EntityHooks#preventEntityHooked(Entity, HitResult)
      */
-    public static void onProjectileHitEntity(Entity projectileEntity, HitResult rayTraceResult, MutableBoolean isCancelled) {
-        isCancelled.setValue(EntityHooks.preventEntityHooked(projectileEntity, rayTraceResult));
+    public static void onProjectileHitEntity(Entity projectileEntity, HitResult rayTraceResult, CancellableCallback callback) {
+        callback.setCanceled(EntityHooks.preventEntityHooked(projectileEntity, rayTraceResult));
     }
 
     /**
      * @see EntityHooks#preventSliderShieldBlock(DamageSource)
      */
-    public static void onShieldBlock(LivingShieldBlockEvent event) {
-        if (!event.isCanceled()) {
-            event.setCanceled(EntityHooks.preventSliderShieldBlock(event.getDamageSource()));
+    public static void onShieldBlock(DamageSource damageSource, CancellableCallback callback) {
+        if (!callback.isCanceled()) {
+            callback.setCanceled(EntityHooks.preventSliderShieldBlock(damageSource));
         }
     }
 
     /**
      * @see EntityHooks#lightningHitKeys(Entity)
      */
-    public static void onLightningStrike(Entity entity, LightningBolt lightningBolt, MutableBoolean isCancelled) {
+    public static void onLightningStrike(Entity entity, LightningBolt lightningBolt, CancellableCallback callback) {
         if (EntityHooks.lightningHitKeys(entity) || EntityHooks.thunderCrystalHitItems(entity, lightningBolt)) {
-            isCancelled.setValue(true);
+            callback.setCanceled(true);
         }
     }
 
     /**
      * @see EntityHooks#trackDrops(LivingEntity, Collection)
      */
-    public static void onPlayerDrops(LivingDropsEvent event) {
-        LivingEntity entity = event.getEntity();
-        Collection<ItemEntity> itemDrops = event.getDrops();
+    public static void onPlayerDrops(LivingEntity entity, Collection<ItemEntity> itemDrops) {
         EntityHooks.trackDrops(entity, itemDrops);
     }
 
     /**
      * @see EntityHooks#modifyExperience(LivingEntity, int)
      */
-    public static void onDropExperience(LivingExperienceDropEvent event) {
-        LivingEntity livingEntity = event.getEntity();
+    public static void onDropExperience(LivingEntity livingEntity, ExperienceDropHelper event) {
         int experience = event.getDroppedExperience();
         int newExperience = EntityHooks.modifyExperience(livingEntity, experience);
         event.setDroppedExperience(newExperience);
@@ -162,21 +153,21 @@ public class EntityListener {
     /**
      * @see EntityHooks#preventInebriation(LivingEntity, MobEffectInstance)
      */
-    public static void onEffectApply(MobEffectEvent.Applicable event) {
-        LivingEntity livingEntity = event.getEntity();
-        MobEffectInstance effectInstance = event.getEffectInstance();
-        if (EntityHooks.preventInebriation(livingEntity, effectInstance)) {
-            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
-        }
-    }
+    // TODO: [Fabric Porting] IMPLEMENT THIS
+//    public static void onEffectApply(MobEffectEvent.Applicable event) {
+//        LivingEntity livingEntity = event.getEntity();
+//        MobEffectInstance effectInstance = event.getEffectInstance();
+//        if (EntityHooks.preventInebriation(livingEntity, effectInstance)) {
+//            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+//        }
+//    }
 
-    /**
-     * @see EntityHooks#preventSplit(Mob)
-     */
-    public static void onEntitySplit(MobSplitEvent event) {
-        Mob mob = event.getParent();
-        if (EntityHooks.preventSplit(mob)) {
-            event.setCanceled(true);
-        }
-    }
+//    /**
+//     * @see EntityHooks#preventSplit(Mob)
+//     */
+//    public static void onEntitySplit(Mob mob, CancellableCallback callback) {
+//        if (EntityHooks.preventSplit(mob)) {
+//            callback.setCanceled(true);
+//        }
+//    }
 }

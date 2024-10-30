@@ -32,6 +32,7 @@
     "${mod_id}.mixins.json",
     "neoforge.mixins.json"
   ],
+  "accessWidener": "aether.accesswidener",
   "depends": {
     "fabricloader": "${fabric_loader_version_range}",
     "minecraft": "${minecraft_version_range}",
@@ -41,10 +42,11 @@
   "custom": {
     "loom:injected_interfaces": {
       "net/minecraft/class_6880": [
-        "net/neoforged/neoforge/common/extensions/IHolderExtension"
+        "net/neoforged/neoforge/common/extensions/IHolderExtension",
+        "net/neoforged/neoforge/registries/datamaps/IWithData<TT;>"
       ],
       "net/minecraft/class_2378": [
-        "net/neoforged/neoforge/common/extensions/IMappedRegistryExtension<TT;>"
+        "net/neoforged/neoforge/common/extensions/IRegistryExtension<TT;>"
       ],
       "net/minecraft/class_1937": [
         "net/fabricmc/fabric/api/attachment/v1/AttachmentTarget"
@@ -57,6 +59,9 @@
       ],
       "net/minecraft/class_1297": [
         "com/aetherteam/aether/fabric/EntityExtension"
+      ],
+      "net/minecraft/class_437": [
+        "com/aetherteam/aether/fabric/ScreenExtension"
       ]
     }
   }

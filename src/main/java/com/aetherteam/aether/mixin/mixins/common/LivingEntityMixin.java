@@ -3,27 +3,47 @@ package com.aetherteam.aether.mixin.mixins.common;
 import com.aetherteam.aether.entity.monster.dungeon.boss.ValkyrieQueen;
 import com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener;
 import com.aetherteam.aether.fabric.ExtraServerLivingEntityEvents;
-import com.aetherteam.aether.fabric.events.LivingFallEvent;
+import com.aetherteam.aether.fabric.events.*;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.apache.commons.lang3.mutable.MutableFloat;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
+public abstract class LivingEntityMixin extends Entity {
+    @Shadow
+    @Nullable
+    protected Player lastHurtByPlayer;
+
+    @Shadow
+    protected int lastHurtByPlayerTime;
+
+    public LivingEntityMixin(EntityType<?> entityType, Level level) {
+        super(entityType, level);
+    }
+
     /**
      * Handles vertical swimming for Phoenix Armor in lava without being affected by the upwards speed debuff from lava.
      *
@@ -40,6 +60,8 @@ public class LivingEntityMixin {
     private boolean hurt(LivingEntity instance, double strength, double x, double z, @Local(argsOnly = true) DamageSource source) {
         return (!(instance instanceof ValkyrieQueen) || !(source.getDirectEntity() instanceof Projectile));
     }
+
+    //--
 
     @Inject(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"))
     private void aetherFabric$adjustDamageAmount(DamageSource damageSource, float damageAmount, CallbackInfo ci, @Local(argsOnly = true) LocalFloatRef damageAmountRef) {
@@ -61,11 +83,48 @@ public class LivingEntityMixin {
 
     @Inject(method = "causeFallDamage", at = @At("HEAD"), cancellable = true)
     private void aetherFabric$adjustFallDamage(float fallDistance, float multiplier, DamageSource source, CallbackInfoReturnable<Boolean> cir, @Local(argsOnly = true, ordinal = 0) LocalFloatRef fallDistanceRef, @Local(argsOnly = true, ordinal = 1) LocalFloatRef multiplierRef) {
-        var event = LivingFallEvent.invokeEvent((LivingEntity) (Object) this, fallDistance, multiplier);
+        var helper = new FallHelper(fallDistance, multiplier);
 
-        if (event.isCanceled()) cir.setReturnValue(false);
+        LivingEntityEvents.ON_FALL.invoker().onFall((LivingEntity) (Object) this, helper);
 
-        fallDistanceRef.set(event.getDistance());
-        multiplierRef.set(event.getDamageMultiplier());
+        if (helper.isCanceled()) cir.setReturnValue(false);
+
+        fallDistanceRef.set(helper.getDistance());
+        multiplierRef.set(helper.getDamageMultiplier());
+    }
+
+    @WrapOperation(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isDamageSourceBlocked(Lnet/minecraft/world/damagesource/DamageSource;)Z"))
+    private boolean aetherFabric$checkIfBlock(LivingEntity instance, DamageSource damageSource, Operation<Boolean> original) {
+        var callback = new CancellableCallbackImpl();
+
+        LivingEntityEvents.ON_SHIELD_BLOCK.invoker().onBlock(damageSource, callback);
+
+        return original.call(instance, damageSource) && callback.isCanceled();
+    }
+
+    @WrapOperation(method = "dropExperience", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V"))
+    private void aetherFabric$adjustExperienceAmount(ServerLevel level, Vec3 pos, int amount, Operation<Void> original) {
+        var helper = new ExperienceDropHelper(amount);
+
+        LivingEntityEvents.ON_EXPERIENCE_DROP.invoker().onExperienceDrop((LivingEntity) (Object) this, this.lastHurtByPlayer, helper);
+
+        original.call(level, pos, helper.getFinalExperienceAmount());
+    }
+
+    @WrapMethod(method = "dropAllDeathLoot")
+    private void aetherFabric$onDrops(ServerLevel level, DamageSource damageSource, Operation<Void> original) {
+        this.capturingDrops(true);
+
+        original.call(level, damageSource);
+
+        var drops = this.getCapturedDrops();
+
+        this.capturingDrops(false);
+
+        var callback = new CancellableCallbackImpl();
+
+        LivingEntityEvents.ON_DROPS.invoker().onDrops((LivingEntity)(Object) this, damageSource, drops, this.lastHurtByPlayerTime > 0, callback);
+
+        if (!callback.isCanceled() && drops != null) drops.forEach(level::addFreshEntity);
     }
 }

@@ -1,6 +1,6 @@
 package com.aetherteam.aether.fabric.events;
 
-public interface ICancellable {
+public interface CancellableCallback {
 
     boolean isCanceled();
 

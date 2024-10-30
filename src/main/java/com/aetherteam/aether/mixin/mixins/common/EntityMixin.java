@@ -4,12 +4,17 @@ import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.event.hooks.DimensionHooks;
 import com.aetherteam.aether.fabric.EntityExtension;
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
 import com.aetherteam.aether.fabric.events.EntityEvents;
+import com.aetherteam.aether.fabric.events.EntityTickEvents;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
 import com.aetherteam.aether.network.packet.clientbound.SetVehiclePacket;
 import com.aetherteam.aether.world.LevelUtil;
+import com.llamalad7.mixinextras.expression.Definition;
+import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -21,29 +26,33 @@ import net.minecraft.world.entity.Saddleable;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
-import com.aetherteam.aether.fabric.events.EntityTickEvents;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Mixin(Entity.class)
 public class EntityMixin implements EntityExtension {
     @Shadow
     protected Object2DoubleMap<TagKey<Fluid>> fluidHeight;
+
+    @Shadow
+    private @Nullable Entity vehicle;
 
     /**
      * Handles entities falling out of the Aether. If an entity is not a player, vehicle, or tracked item, it is removed.
@@ -139,5 +148,72 @@ public class EntityMixin implements EntityExtension {
     @Override
     public boolean isInFluidType() {
         return !this.fluidHeight.isEmpty();
+    }
+
+    @Definition(id = "vehicle", field = "Lnet/minecraft/world/entity/Entity;vehicle:Lnet/minecraft/world/entity/Entity;")
+    @Expression("this.vehicle = null")
+    @Inject(method = "removeVehicle", at = @At("MIXINEXTRAS:EXPRESSION"))
+    private void aetherFabric$entityMountEvent_remove(CallbackInfo ci) {
+        var callback = new CancellableCallbackImpl();
+
+        var entityMounting = (Entity)(Object) this;
+
+        EntityEvents.ENTITY_MOUNT.invoker().onMount(entityMounting, this.vehicle, false, callback);
+
+        if (callback.isCanceled()) {
+            entityMounting.absMoveTo(entityMounting.getX(), entityMounting.getY(), entityMounting.getZ(), entityMounting.yRotO, entityMounting.xRotO);
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;canRide(Lnet/minecraft/world/entity/Entity;)Z"))
+    private void aetherFabric$entityMountEvent_add(Entity vehicle, boolean force, CallbackInfoReturnable<Boolean> cir) {
+        var callback = new CancellableCallbackImpl();
+
+        var entityMounting = (Entity)(Object) this;
+
+        EntityEvents.ENTITY_MOUNT.invoker().onMount(entityMounting, this.vehicle, true, callback);
+
+        if (callback.isCanceled()) {
+            entityMounting.absMoveTo(entityMounting.getX(), entityMounting.getY(), entityMounting.getZ(), entityMounting.yRotO, entityMounting.xRotO);
+            cir.setReturnValue(false);
+        }
+    }
+
+    @Unique
+    private boolean capturingDrops = false;
+
+    @Unique
+    private final List<ItemEntity> capturedDrops = new ArrayList<>();
+
+    @Override
+    public void capturingDrops(boolean value) {
+        this.capturingDrops = value;
+
+        if (!value) this.capturedDrops.clear();
+    }
+
+    @Override
+    public boolean addCapturedDrops(Collection<ItemEntity> captureDrops) {
+        if (!this.capturingDrops) return false;
+
+        this.capturedDrops.addAll(captureDrops);
+
+        return true;
+    }
+
+    @Override
+    public @Nullable Collection<ItemEntity> getCapturedDrops() {
+        return this.capturingDrops ? this.capturedDrops : null;
+    }
+
+    @Inject(method = "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
+    private void aetherFabric$captureDroppedStack(ItemStack stack, float offsetY, CallbackInfoReturnable<ItemEntity> cir, @Local() ItemEntity itemEntity) {
+        this.addCapturedDrops(itemEntity);
+    }
+
+    @WrapOperation(method = "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
+    private boolean aetherFabric$preventLevelSpawn(Level instance, Entity entity, Operation<Boolean> original) {
+        return (!this.capturingDrops) ? original.call(instance, entity) : false;
     }
 }

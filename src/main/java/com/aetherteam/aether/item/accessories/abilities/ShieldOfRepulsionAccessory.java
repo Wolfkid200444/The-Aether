@@ -11,6 +11,7 @@ import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.slot.SlotEntryReference;
 import net.minecraft.client.player.Input;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
@@ -74,7 +75,7 @@ public interface ShieldOfRepulsionAccessory {
                 damagingProjectileEntity.accelerationPower *= -0.25;
             }
             if (impactedLiving.level() instanceof ServerLevel serverLevel) {
-                slotResult.stack().hurtAndBreak(1, serverLevel, impactedLiving, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
+                slotResult.stack().hurtAndBreak(1, serverLevel, impactedLiving instanceof ServerPlayer player ? player : null, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
             }
         }
 

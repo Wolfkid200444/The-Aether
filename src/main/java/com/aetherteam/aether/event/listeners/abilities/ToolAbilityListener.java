@@ -2,7 +2,7 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
-import com.aetherteam.aether.fabric.events.ItemAttributeModifierEvent;
+import com.aetherteam.aether.fabric.events.ItemAttributeModifierHelper;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +19,7 @@ public class ToolAbilityListener {
      */
     public static void listen() {
 //        bus.addListener(ToolAbilityListener::setupToolModifications);
-        ItemAttributeModifierEvent.EVENT.register(ToolAbilityListener::modifyItemAttributes);
+        ItemAttributeModifierHelper.ON_MODIFICATION.register(ToolAbilityListener::modifyItemAttributes);
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> doHolystoneAbility(player, world, pos, player.getMainHandItem(), state));
         // PlayerMixin.aetherFabric$modifySpeed -> ToolAbilityListener::doGoldenOakStripping;
     }
@@ -38,8 +38,7 @@ public class ToolAbilityListener {
 //        }
 //    }
 
-    public static void modifyItemAttributes(ItemAttributeModifierEvent event) {
-        ItemStack itemStack = event.getItemStack();
+    public static void modifyItemAttributes(ItemStack itemStack, ItemAttributeModifierHelper event) {
         ItemAttributeModifiers modifiers = event.getDefaultModifiers();
         ItemAttributeModifiers.Entry modifierEntry = AbilityHooks.ToolHooks.handleZaniteAbilityModifiers(modifiers, itemStack);
         if (modifierEntry != null) {

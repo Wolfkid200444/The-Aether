@@ -28,7 +28,7 @@ public class LifeShardItem extends Item implements ConsumableItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
         if (!player.isCreative()) {
-            var aetherPlayer = player.getData(AetherDataAttachments.AETHER_PLAYER);
+            var aetherPlayer = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
             if (aetherPlayer.getLifeShardCount() < aetherPlayer.getLifeShardLimit()) {
                 player.swing(hand);
                 if (!level.isClientSide()) {

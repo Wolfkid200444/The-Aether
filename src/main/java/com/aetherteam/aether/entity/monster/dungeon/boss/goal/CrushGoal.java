@@ -9,11 +9,11 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.EventHooks;
 
 public class CrushGoal extends Goal {
     private final Slider slider;
@@ -35,7 +35,8 @@ public class CrushGoal extends Goal {
     @Override
     public void start() {
         boolean crushed = false;
-        if (EventHooks.canEntityGrief(this.slider.level(), this.slider)) {
+        // TODO: [Fabric Porting] Protection API?
+        if (this.slider.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
             AABB crushBox = this.slider.getBoundingBox().inflate(0.2);
             for (BlockPos pos : BlockPos.betweenClosed(Mth.floor(crushBox.minX), Mth.floor(crushBox.minY), Mth.floor(crushBox.minZ), Mth.floor(crushBox.maxX), Mth.floor(crushBox.maxY), Mth.floor(crushBox.maxZ))) {
                 if (this.slider.getDungeon() == null || this.slider.getDungeon().roomBounds().contains(pos.getCenter())) {

@@ -139,12 +139,12 @@ public class IncubatorBlockEntity extends BaseContainerBlockEntity implements Wo
                 blockEntity.litDuration = blockEntity.litTime;
                 if (blockEntity.isLit()) {
                     flag1 = true;
-                    if (itemstack.hasCraftingRemainingItem()) {
-                        blockEntity.items.set(1, itemstack.getCraftingRemainingItem());
+                    if (!itemstack.getRecipeRemainder().isEmpty()) {
+                        blockEntity.items.set(1, itemstack.getRecipeRemainder());
                     } else if (flag3) {
                         itemstack.shrink(1);
                         if (itemstack.isEmpty()) {
-                            blockEntity.items.set(1, itemstack.getCraftingRemainingItem());
+                            blockEntity.items.set(1, itemstack.getRecipeRemainder());
                         }
                     }
                 }

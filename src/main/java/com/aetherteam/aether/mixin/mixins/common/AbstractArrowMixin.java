@@ -1,6 +1,7 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.attachment.AetherDataAttachments;
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
 import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import com.llamalad7.mixinextras.expression.Definition;
@@ -80,11 +81,11 @@ public class AbstractArrowMixin {
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;hitTargetOrDeflectSelf(Lnet/minecraft/world/phys/HitResult;)Lnet/minecraft/world/entity/projectile/ProjectileDeflection;"))
     private ProjectileDeflection aether$projectileImpactEvent(AbstractArrow instance, HitResult hitResult, Operation<ProjectileDeflection> original) {
-        var isCancelled = new MutableBoolean(false);
+        var callback = new CancellableCallbackImpl();
 
-        ProjectileEvents.ON_IMPACT.invoker().onImpact(instance, hitResult, isCancelled);
+        ProjectileEvents.ON_IMPACT.invoker().onImpact(instance, hitResult, callback);
 
-        return isCancelled.getValue() ? EMPTY_DEFLECTION : original.call(instance, hitResult);
+        return callback.isCanceled() ? EMPTY_DEFLECTION : original.call(instance, hitResult);
     }
 
     @Definition(id = "hasImpulse", field = "Lnet/minecraft/world/entity/projectile/AbstractArrow;hasImpulse:Z")
