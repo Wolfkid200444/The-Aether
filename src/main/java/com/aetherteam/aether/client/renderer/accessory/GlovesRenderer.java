@@ -103,7 +103,7 @@ public class GlovesRenderer implements AccessoryRenderer {
 
     @Override
     public boolean shouldRenderInFirstPerson(HumanoidArm arm, ItemStack stack, SlotReference reference) {
-        return !(reference.entity() instanceof Player player) || !player.getData(AetherDataAttachments.AETHER_PLAYER).isWearingInvisibilityCloak();
+        return !(reference.entity() instanceof Player player) || !player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).isWearingInvisibilityCloak();
     }
 
     @Override

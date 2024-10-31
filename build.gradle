@@ -63,6 +63,8 @@ dependencies {
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixin_extra_version}"))
     include("io.github.llamalad7:mixinextras-fabric:${project.mixin_extra_version}:slim")
 
+    modImplementation("me.shedaniel:mm:2.4.1")
+
     modImplementation("com.aetherteam.nitrogen:nitrogen_internals:${project.nitrogen_version}")
     modImplementation("com.aetherteam.cumulus:cumulus_menus:${project.cumulus_version}")
 
@@ -104,6 +106,8 @@ repositories {
     maven { url = "https://api.modrinth.com/maven" }
     maven { url = "https://maven.parchmentmc.org" }
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
+    maven { url = "https://maven.shedaniel.me/" }
+    maven { url = "https://maven.architectury.dev/" }
 }
 
 tasks.withType(ProcessResources).configureEach {

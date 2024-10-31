@@ -80,7 +80,7 @@ public class DartLayer<T extends LivingEntity, M extends PlayerModel<T>> extends
     @Override
     protected int numStuck(T entity) {
         if (entity instanceof Player player) {
-            return this.dartCount.apply(player.getData(AetherDataAttachments.AETHER_PLAYER));
+            return this.dartCount.apply(player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER));
         }
         return 0;
     }

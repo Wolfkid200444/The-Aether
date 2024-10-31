@@ -47,17 +47,17 @@ public class DartShooterItem extends ProjectileWeaponItem { //implements Vanisha
         ItemStack heldStack = player.getItemInHand(hand);
         boolean hasAmmo = !player.getProjectile(heldStack).isEmpty();
 
-        InteractionResultHolder<ItemStack> result = EventHooks.onArrowNock(heldStack, level, player, hand, hasAmmo);
-        if (result == null) {
+//        InteractionResultHolder<ItemStack> result = EventHooks.onArrowNock(heldStack, level, player, hand, hasAmmo);
+//        if (result == null) {
             if (player.getAbilities().instabuild || hasAmmo) {
                 player.startUsingItem(hand);
                 return InteractionResultHolder.consume(heldStack);
             } else {
                 return InteractionResultHolder.fail(heldStack);
             }
-        } else {
-            return result;
-        }
+//        } else {
+//            return result;
+//        }
     }
 
     /**
@@ -73,7 +73,7 @@ public class DartShooterItem extends ProjectileWeaponItem { //implements Vanisha
         if (user instanceof Player player) {
             ItemStack itemStack = player.getProjectile(stack);
             if (!itemStack.isEmpty()) {
-                net.neoforged.neoforge.event.EventHooks.onArrowLoose(stack, level, player, 0, !itemStack.isEmpty());
+                //net.neoforged.neoforge.event.EventHooks.onArrowLoose(stack, level, player, 0, !itemStack.isEmpty());
 
                 List<ItemStack> list = draw(stack, itemStack, player);
                 if (level instanceof ServerLevel serverlevel && !list.isEmpty()) {
@@ -141,10 +141,10 @@ public class DartShooterItem extends ProjectileWeaponItem { //implements Vanisha
         return true;
     }
 
-    @Override
-    public boolean isPrimaryItemFor(ItemStack stack, Holder<Enchantment> enchantment) {
-        return ImmutableSet.of(Enchantments.POWER, Enchantments.PUNCH).contains(enchantment.getKey());
-    }
+//    @Override
+//    public boolean isPrimaryItemFor(ItemStack stack, Holder<Enchantment> enchantment) {
+//        return ImmutableSet.of(Enchantments.POWER, Enchantments.PUNCH).contains(enchantment.getKey());
+//    }
 
     /**
      * @return A {@link Supplier Supplier&lt;? extends Item&gt;} that gives the Dart item that this Dart Shooter is capable of using as ammo.

@@ -1,13 +1,12 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
 import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
-import com.aetherteam.aether.fabric.events.client.PlayerRenderEvents;
+import com.aetherteam.aether.fabric.client.events.PlayerRenderEvents;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;

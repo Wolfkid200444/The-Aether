@@ -1,13 +1,13 @@
 package net.neoforged.neoforge.common.conditions;
 
+import com.aetherteam.aether.mixin.mixins.common.accessor.HolderLookupAdapterAccessor;
+import com.aetherteam.aether.mixin.mixins.common.accessor.RegistryOpsAccessor;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.*;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
-import net.fabricmc.fabric.impl.resource.conditions.ResourceConditionsImpl;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.RegistryOps;
-import net.minecraft.util.ExtraCodecs;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -126,7 +126,7 @@ public class ConditionalOps {
         // If this turns out to be a problem, please change it but also document it and write some test cases.
         @Override
         public <T> DataResult<Pair<Optional<WithConditions<A>>, T>> decode(DynamicOps<T> ops, T input) {
-            @Nullable var ctx = (ops instanceof RegistryOps<T> registryOps) ? (HolderLookup.Provider) registryOps.lookupProvider : null;
+            @Nullable var ctx = (ops instanceof RegistryOps<T> registryOps) ? ((HolderLookupAdapterAccessor)((RegistryOpsAccessor) registryOps).aetherFabric$lookup()).aetherFabric$lookupProvider() : null;
 
             if (ops.compressMaps()) {
                 // Compressing ops are not supported at the moment because they require special handling.

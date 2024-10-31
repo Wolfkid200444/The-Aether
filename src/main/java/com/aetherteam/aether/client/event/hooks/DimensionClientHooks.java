@@ -5,6 +5,9 @@ import com.aetherteam.aether.client.renderer.level.AetherSkyRenderEffects;
 import com.aetherteam.aether.data.resources.registries.AetherDimensions;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.aether.mixin.mixins.common.accessor.LevelAccessor;
+import net.fabricmc.fabric.api.biome.v1.BiomeModification;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.impl.biome.modification.BiomeModificationContextImpl;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -109,7 +112,7 @@ public class DimensionClientHooks {
             if (clientLevel.effects() instanceof AetherSkyRenderEffects) {
                 FogType fluidState = camera.getFluidInCamera();
                 if (fluidState == FogType.NONE) {
-                    Vec3 defaultSky = Vec3.fromRGB24(clientLevel.getBiome(camera.getBlockPosition()).value().getModifiedSpecialEffects().getFogColor());
+                    Vec3 defaultSky = Vec3.fromRGB24(clientLevel.getBiome(camera.getBlockPosition()).value().getFogColor());
                     if (clientLevel.rainLevel > 0.0) { // Check for rain.
                         float f14 = 1.0F + clientLevel.rainLevel * 0.8F;
                         float f17 = 1.0F + clientLevel.rainLevel * 0.56F;

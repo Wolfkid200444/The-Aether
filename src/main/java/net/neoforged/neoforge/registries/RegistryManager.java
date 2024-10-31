@@ -1,49 +1,36 @@
 package net.neoforged.neoforge.registries;
 
-import com.mojang.logging.LogUtils;
+import com.aetherteam.aether.mixin.mixins.common.accessor.ConnectionAccessor;
+import com.aetherteam.aether.mixin.mixins.common.accessor.ServerCommonPacketListenerImplAccessor;
 import io.netty.util.AttributeKey;
-import net.minecraft.core.MappedRegistry;
-import net.minecraft.core.RegistrationInfo;
+import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerConfigurationNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.extensions.IRegistryExtension;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.PackType;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.payload.KnownRegistryDataMapsPayload;
+import net.neoforged.neoforge.network.payload.KnownRegistryDataMapsReplyPayload;
+import net.neoforged.neoforge.network.payload.RegistryDataMapSyncPayload;
+import net.neoforged.neoforge.network.tasks.RegistryDataMapNegotiation;
 import net.neoforged.neoforge.registries.datamaps.DataMapType;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
-import org.apache.http.config.RegistryBuilder;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @ApiStatus.Internal
 public class RegistryManager {
-    private static final Logger LOGGER = LogUtils.getLogger();
-    private static final Marker REGISTRIES = MarkerFactory.getMarker("REGISTRIES");
-    private static Set<ResourceLocation> pendingModdedRegistries = new HashSet<>();
-    private static Set<ResourceLocation> vanillaRegistryKeys = Set.of();
     private static Map<ResourceKey<Registry<?>>, Map<ResourceLocation, DataMapType<?, ?>>> dataMaps = Map.of();
-
-    /**
-     * Called by {@link RegistryBuilder} to make sure that modders don't forget to register their registries.
-     */
-    static synchronized void trackModdedRegistry(ResourceLocation registry) {
-        Objects.requireNonNull(registry);
-
-        if (pendingModdedRegistries == null) {
-            throw new IllegalStateException("Attempting to instantiate registry with name " + registry + " after NewRegistryEvent was fired!");
-        }
-
-        if (!pendingModdedRegistries.add(registry)) {
-            throw new IllegalStateException("Registry with name " + registry + " was already instantiated once, cannot instantiate it again!");
-        }
-    }
 
     @Nullable
     public static <R> DataMapType<R, ?> getDataMap(ResourceKey<? extends Registry<R>> registry, ResourceLocation key) {
@@ -68,9 +55,58 @@ public class RegistryManager {
 
     public static final AttributeKey<Map<ResourceKey<? extends Registry<?>>, Collection<ResourceLocation>>> ATTRIBUTE_KNOWN_DATA_MAPS = AttributeKey.valueOf("neoforge:known_data_maps");
 
-//    @ApiStatus.Internal
-//    public static void handleKnownDataMapsReply(final KnownRegistryDataMapsReplyPayload payload, final IPayloadContext context) {
-//        context.channelHandlerContext().attr(ATTRIBUTE_KNOWN_DATA_MAPS).set(payload.dataMaps());
-//        context.finishCurrentTask(RegistryDataMapNegotiation.TYPE);
-//    }
+    @ApiStatus.Internal
+    public static void handleKnownDataMapsReply(final KnownRegistryDataMapsReplyPayload payload, ServerConfigurationNetworking.Context context) {
+        var channel = ((ConnectionAccessor) ((ServerCommonPacketListenerImplAccessor) context.networkHandler()).aetherFabric$connection()).aetherFabric$getChannel();
+        channel.attr(RegistryManager.ATTRIBUTE_KNOWN_DATA_MAPS).set(payload.dataMaps());
+        context.networkHandler().completeTask(RegistryDataMapNegotiation.TYPE);
+    }
+
+    public static void init() {
+        PayloadTypeRegistry.configurationS2C().register(KnownRegistryDataMapsPayload.TYPE, KnownRegistryDataMapsPayload.STREAM_CODEC);
+        PayloadTypeRegistry.configurationC2S().register(KnownRegistryDataMapsReplyPayload.TYPE, KnownRegistryDataMapsReplyPayload.STREAM_CODEC);
+
+        PayloadTypeRegistry.playS2C().register(RegistryDataMapSyncPayload.TYPE, RegistryDataMapSyncPayload.STREAM_CODEC);
+
+        ServerConfigurationConnectionEvents.CONFIGURE.register((handler, server) -> handler.addTask(new RegistryDataMapNegotiation(handler)));
+
+        ServerConfigurationNetworking.registerGlobalReceiver(KnownRegistryDataMapsReplyPayload.TYPE, RegistryManager::handleKnownDataMapsReply);
+
+        RegistryManager.initDataMaps();
+
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(DataMapLoader.ID, DataMapLoader::new);
+
+        ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> {
+            RegistryManager.getDataMaps().forEach((registry, values) -> {
+                final var regOpt = player.getServer().overworld().registryAccess().registry(registry);
+                if (regOpt.isEmpty()) return;
+                if (!ServerPlayNetworking.canSend(player, RegistryDataMapSyncPayload.TYPE)) return;
+                var connection = ((ServerCommonPacketListenerImplAccessor) player.connection).aetherFabric$connection();
+                // Note: don't send data maps over in-memory connections, else the client-side handling will wipe non-synced data maps.
+                if (connection.isMemoryConnection()) return;
+                final var playerMaps = ((ConnectionAccessor) connection).aetherFabric$getChannel().attr(RegistryManager.ATTRIBUTE_KNOWN_DATA_MAPS).get();
+                if (playerMaps == null) return; // Skip gametest players for instance
+                handleSync(player, regOpt.get(), playerMaps.getOrDefault(registry, List.of()));
+            });
+        });
+
+        CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> {
+            if (client) return;
+
+            DataMapLoader.apply(registries);
+        });
+    }
+
+    public static <T> void handleSync(ServerPlayer player, Registry<T> registry, Collection<ResourceLocation> attachments) {
+        if (attachments.isEmpty()) return;
+        final Map<ResourceLocation, Map<ResourceKey<T>, ?>> att = new HashMap<>();
+        attachments.forEach(key -> {
+            final var attach = RegistryManager.getDataMap(registry.key(), key);
+            if (attach == null || attach.networkCodec() == null) return;
+            att.put(key, registry.getDataMap(attach));
+        });
+        if (!att.isEmpty()) {
+            PacketDistributor.sendToPlayer(player, new RegistryDataMapSyncPayload<>(registry.key(), att));
+        }
+    }
 }

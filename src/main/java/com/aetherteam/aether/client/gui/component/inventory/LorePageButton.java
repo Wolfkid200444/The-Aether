@@ -29,7 +29,7 @@ public class LorePageButton extends BuilderMadeButton {
         Minecraft minecraft = Minecraft.getInstance();
         Font fontRenderer = minecraft.font;
         guiGraphics.blitSprite(location, this.getX(), this.getY(), this.width, this.height);
-        int color = this.getFGColor();
+        int color = this.active ? 16777215 : 10526880;
         guiGraphics.drawCenteredString(fontRenderer, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color | 255 << 24);
     }
 }

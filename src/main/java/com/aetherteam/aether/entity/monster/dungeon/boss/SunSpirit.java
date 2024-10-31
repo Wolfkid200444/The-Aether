@@ -396,11 +396,11 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     @SuppressWarnings("deprecation")
     @Override //code copy
     public boolean canBeAffected(MobEffectInstance pEffectInstance) {
-        MobEffectEvent.Applicable event = new MobEffectEvent.Applicable(this, pEffectInstance);
-        NeoForge.EVENT_BUS.post(event);
-        if (event.getResult() != MobEffectEvent.Applicable.Result.DEFAULT) {
-            return event.getResult() == MobEffectEvent.Applicable.Result.APPLY;
-        }
+//        MobEffectEvent.Applicable event = new MobEffectEvent.Applicable(this, pEffectInstance);
+//        NeoForge.EVENT_BUS.post(event);
+//        if (event.getResult() != MobEffectEvent.Applicable.Result.DEFAULT) {
+//            return event.getResult() == MobEffectEvent.Applicable.Result.APPLY;
+//        }
         return false;
     }
 

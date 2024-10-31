@@ -1,4 +1,4 @@
-package net.neoforged.neoforge.common.extensions;
+package com.aetherteam.aether.fabric.pond;
 
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.neoforge.pond.FullDataMapAccess;

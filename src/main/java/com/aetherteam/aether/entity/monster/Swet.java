@@ -592,10 +592,10 @@ public class Swet extends Slime implements MountableMob {
         return true;
     }
 
-    @Override
-    protected boolean spawnCustomParticles() {
-        return true;
-    }
+//    @Override
+//    protected boolean spawnCustomParticles() {
+//        return true;
+//    }
 
     @Override
     public void handleEntityEvent(byte id) {

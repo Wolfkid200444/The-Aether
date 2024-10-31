@@ -70,7 +70,7 @@ public class EntityListener {
     /**
      * @see EntityHooks#dismountPrevention(Entity, Entity, boolean)
      */
-    public static void onMountEntity(Entity mountEntity, Entity riderEntity, boolean isDismounting, CancellableCallback callback) {
+    public static void onMountEntity(Entity riderEntity, Entity mountEntity, boolean isDismounting, CancellableCallback callback) {
         callback.setCanceled(EntityHooks.dismountPrevention(riderEntity, mountEntity, isDismounting));
     }
 

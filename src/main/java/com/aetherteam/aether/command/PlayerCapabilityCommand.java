@@ -52,7 +52,7 @@ public class PlayerCapabilityCommand {
         for (GameProfile gameProfile : gameProfiles) {
             ServerPlayer player = playerList.getPlayer(gameProfile.getId());
             if (player != null) {
-                var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
+                var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
                 data.setSynched(player.getId(), INBTSynchable.Direction.CLIENT, "setLifeShardCount", value);
                 AttributeInstance attribute = player.getAttribute(Attributes.MAX_HEALTH);
                 if (attribute != null) {

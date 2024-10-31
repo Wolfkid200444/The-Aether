@@ -3,10 +3,7 @@ package com.aetherteam.aether.client.event.listeners.abilities;
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.fabric.events.CancellableCallback;
-import com.aetherteam.aether.fabric.events.client.PlayerRenderEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRenderEvents;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
+import com.aetherteam.aether.fabric.client.events.PlayerRenderEvents;
 import net.minecraft.world.entity.player.Player;
 
 public class AccessoryAbilityClientListener {

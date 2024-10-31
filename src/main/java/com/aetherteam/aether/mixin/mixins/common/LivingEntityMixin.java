@@ -2,9 +2,9 @@ package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.entity.monster.dungeon.boss.ValkyrieQueen;
 import com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener;
-import com.aetherteam.aether.fabric.ExtraServerLivingEntityEvents;
 import com.aetherteam.aether.fabric.events.*;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
+import com.aetherteam.aether.item.combat.loot.CloudStaffItem;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
@@ -13,12 +13,14 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.mutable.MutableDouble;
@@ -39,6 +41,9 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow
     protected int lastHurtByPlayerTime;
+
+    @Shadow
+    public abstract ItemStack getItemInHand(InteractionHand hand);
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -67,7 +72,7 @@ public abstract class LivingEntityMixin extends Entity {
     private void aetherFabric$adjustDamageAmount(DamageSource damageSource, float damageAmount, CallbackInfo ci, @Local(argsOnly = true) LocalFloatRef damageAmountRef) {
         var newDamage = new MutableFloat(damageAmount);
 
-        ExtraServerLivingEntityEvents.MODIFY_DAMAGE.invoker().modifyDamage((LivingEntity) (Object) this, damageSource, damageAmount, newDamage);
+        LivingEntityEvents.MODIFY_DAMAGE.invoker().modifyDamage((LivingEntity) (Object) this, damageSource, damageAmount, newDamage);
 
         damageAmountRef.set(newDamage.getValue());
     }
@@ -126,5 +131,14 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntityEvents.ON_DROPS.invoker().onDrops((LivingEntity)(Object) this, damageSource, drops, this.lastHurtByPlayerTime > 0, callback);
 
         if (!callback.isCanceled() && drops != null) drops.forEach(level::addFreshEntity);
+    }
+
+    @Inject(method = "swing(Lnet/minecraft/world/InteractionHand;Z)V", at = @At("HEAD"))
+    private void aetherFabric$onSwing(InteractionHand hand, boolean updateSelf, CallbackInfo ci) {
+        var stack = this.getItemInHand(hand);
+
+        if (!stack.isEmpty() && stack.getItem() instanceof CloudStaffItem staffItem) {
+            staffItem.onEntitySwing(stack, (LivingEntity)(Object) this, hand);
+        }
     }
 }

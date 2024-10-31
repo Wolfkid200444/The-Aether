@@ -2,6 +2,7 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
+import com.aetherteam.aether.fabric.events.CancellableCallback;
 import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import com.aetherteam.aether.item.accessories.abilities.ShieldOfRepulsionAccessory;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -58,9 +59,9 @@ public class AccessoryAbilityListener {
     /**
      * @see ShieldOfRepulsionAccessory#deflectProjectile(HitResult, Projectile)
      */
-    public static void onProjectileImpact(Projectile projectile, HitResult hitResult, MutableBoolean isCancelled) {
+    public static void onProjectileImpact(Projectile projectile, HitResult hitResult, CancellableCallback callback) {
         if (ShieldOfRepulsionAccessory.deflectProjectile(hitResult, projectile)) { // Has to take event due to the event being canceled within a lambda and also mid-behavior.
-            isCancelled.setValue(true);
+            callback.setCanceled(true);
         }
     }
 

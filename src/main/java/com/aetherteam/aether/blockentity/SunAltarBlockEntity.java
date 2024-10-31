@@ -68,8 +68,10 @@ public class SunAltarBlockEntity extends BlockEntity implements Nameable {
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+    public boolean handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
         this.loadAdditional(tag, lookupProvider);
+
+        return true;
     }
 
     @Override
@@ -94,8 +96,10 @@ public class SunAltarBlockEntity extends BlockEntity implements Nameable {
     }
 
     @Override
-    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider lookupProvider) {
+    public boolean onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider lookupProvider) {
         CompoundTag compound = packet.getTag();
         this.handleUpdateTag(compound, lookupProvider);
+
+        return true;
     }
 }

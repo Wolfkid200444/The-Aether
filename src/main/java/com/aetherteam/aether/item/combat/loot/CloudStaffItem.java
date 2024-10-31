@@ -5,6 +5,7 @@ import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.attachment.AetherPlayerAttachment;
 import com.aetherteam.aether.entity.EntityUtil;
 import com.aetherteam.aether.entity.miscellaneous.CloudMinion;
+import com.aetherteam.aether.fabric.events.LivingEntityEvents;
 import com.aetherteam.aether.item.AetherItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -67,7 +68,6 @@ public class CloudStaffItem extends Item {
      * @param hand The {@link InteractionHand} being swung.
      * @return Whether the item was successfully swung (we don't change this, so it uses the superclass' behavior), as a {@link Boolean}.
      */
-    @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
         if (entity instanceof Player player) {
             var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
@@ -85,7 +85,7 @@ public class CloudStaffItem extends Item {
                 }
             }
         }
-        return super.onEntitySwing(stack, entity, hand);
+        return false;
     }
 
     /**

@@ -2,6 +2,7 @@ package com.aetherteam.aether.world.processor;
 
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.block.AetherBlocks;
+import com.aetherteam.aether.fabric.ExtendedStructureProcessor;
 import com.aetherteam.aether.mixin.mixins.common.accessor.ChunkAccessAccessor;
 import com.aetherteam.aether.world.BlockLogicUtil;
 import com.mojang.serialization.MapCodec;
@@ -29,7 +30,7 @@ import java.util.function.Function;
 /**
  * This processor is used to replace grass blocks in the Aether with blocks determined by the biome's surface rules.
  */
-public class SurfaceRuleProcessor extends StructureProcessor {
+public class SurfaceRuleProcessor extends ExtendedStructureProcessor {
     public static final SurfaceRuleProcessor INSTANCE = new SurfaceRuleProcessor();
 
     public static final MapCodec<SurfaceRuleProcessor> CODEC = MapCodec.unit(SurfaceRuleProcessor.INSTANCE);

@@ -5,6 +5,7 @@
 
 package net.neoforged.neoforge.registries.datamaps;
 
+import com.aetherteam.aether.fabric.pond.IWithData;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
 import java.util.Objects;

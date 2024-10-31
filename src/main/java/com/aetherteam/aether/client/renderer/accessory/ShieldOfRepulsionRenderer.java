@@ -69,7 +69,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
         if (livingEntity instanceof Player player && entityModel instanceof PlayerModel<?> playerModel) {
             PlayerModelAccessor playerModelAccessor = (PlayerModelAccessor) playerModel;
             model = playerModelAccessor.aether$getSlim() ? this.shieldModelSlim : this.shieldModel;
-            if (!player.getData(AetherDataAttachments.AETHER_PLAYER).isMoving()) {
+            if (!player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).isMoving()) {
                 texture = playerModelAccessor.aether$getSlim() ? shield.getShieldOfRepulsionSlimTexture() : shield.getShieldOfRepulsionTexture();
             } else {
                 texture = playerModelAccessor.aether$getSlim() ? shield.getShieldOfRepulsionSlimInactiveTexture() : shield.getShieldOfRepulsionInactiveTexture();
@@ -92,7 +92,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
 
     @Override
     public boolean shouldRenderInFirstPerson(HumanoidArm arm, ItemStack stack, SlotReference reference) {
-        return !(reference.entity() instanceof Player player) || !player.getData(AetherDataAttachments.AETHER_PLAYER).isWearingInvisibilityCloak();
+        return !(reference.entity() instanceof Player player) || !player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).isWearingInvisibilityCloak();
     }
 
     @Override
@@ -138,7 +138,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
         ResourceLocation texture;
         ShieldOfRepulsionItem shield = (ShieldOfRepulsionItem) stack.getItem();
 
-        if (!player.getData(AetherDataAttachments.AETHER_PLAYER).isMoving()) {
+        if (!player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).isMoving()) {
             texture = shield.getShieldOfRepulsionTexture();
         } else {
             texture = shield.getShieldOfRepulsionInactiveTexture();

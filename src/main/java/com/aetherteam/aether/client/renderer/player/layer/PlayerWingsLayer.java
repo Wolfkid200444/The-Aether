@@ -44,7 +44,7 @@ public class PlayerWingsLayer<T extends Player, M extends PlayerModel<T>> extend
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (EquipmentUtil.hasFullValkyrieSet(entity)) {
-            var data = entity.getData(AetherDataAttachments.AETHER_PLAYER);
+            var data = entity.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
             this.setupWingRotation(entity, Mth.lerp(partialTicks, data.getWingRotationO(), data.getWingRotation()));
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(VALKYRIE_TEXTURE));
             this.wings.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);

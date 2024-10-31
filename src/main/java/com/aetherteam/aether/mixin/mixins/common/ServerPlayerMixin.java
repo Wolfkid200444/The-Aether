@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aether.fabric.EntityExtension;
+import com.aetherteam.aether.fabric.pond.EntityExtension;
 import com.aetherteam.aether.fabric.events.EntityEvents;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

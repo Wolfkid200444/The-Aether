@@ -2,6 +2,8 @@ package com.aetherteam.aether.entity.projectile;
 
 import com.aetherteam.aether.client.particle.AetherParticleTypes;
 import com.aetherteam.aether.entity.AetherEntityTypes;
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
+import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.aether.mixin.mixins.common.accessor.PlayerAccessor;
 import com.aetherteam.aether.network.packet.clientbound.ZephyrSnowballHitPacket;
@@ -57,7 +59,9 @@ public class ZephyrSnowball extends Fireball implements ItemSupplier {
         }
         if (this.level().isClientSide() || (this.getOwner() == null || this.getOwner().isAlive()) && this.level().hasChunkAt(this.blockPosition())) {
             HitResult hitResult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-            if (hitResult.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, hitResult)) {
+            var callBack = new CancellableCallbackImpl();
+            ProjectileEvents.ON_IMPACT.invoker().onImpact(this, hitResult, callBack);
+            if (hitResult.getType() != HitResult.Type.MISS && !callBack.isCanceled()) {
                 this.onHit(hitResult);
             }
 

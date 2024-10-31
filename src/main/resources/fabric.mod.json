@@ -26,6 +26,18 @@
     ],
     "fabric-datagen": [
       "com.aetherteam.aether.data.AetherData"
+    ],
+    "rei_client": [
+      "com.aetherteam.aether.integration.rei.AetherREIClientPlugin"
+    ],
+    "rei_server": [
+      "com.aetherteam.aether.integration.rei.AetherREIServerPlugin"
+    ],
+    "jei_mod_plugin": [
+      "com.aetherteam.aether.integration.jei.AetherJEIPlugin"
+    ],
+    "mm_shedaniel:early_risers": [
+      "com.aetherteam.aether.fabric.AetherASM"
     ]
   },
   "mixins": [
@@ -42,26 +54,45 @@
   "custom": {
     "loom:injected_interfaces": {
       "net/minecraft/class_6880": [
-        "net/neoforged/neoforge/common/extensions/IHolderExtension",
-        "net/neoforged/neoforge/registries/datamaps/IWithData<TT;>"
+        "com/aetherteam/aether/fabric/pond/IHolderExtension<TT;>",
+        "com/aetherteam/aether/fabric/pond/IWithData<TT;>"
       ],
       "net/minecraft/class_2378": [
-        "net/neoforged/neoforge/common/extensions/IRegistryExtension<TT;>"
+        "com/aetherteam/aether/fabric/pond/IRegistryExtension<TT;>"
       ],
       "net/minecraft/class_1937": [
         "net/fabricmc/fabric/api/attachment/v1/AttachmentTarget"
       ],
       "net/minecraft/class_1799": [
-        "net/fabricmc/fabric/api/item/v1/FabricItemStack"
+        "net/fabricmc/fabric/api/item/v1/FabricItemStack",
+        "com/aetherteam/aether/fabric/pond/ItemStackExtension"
+      ],
+      "net/minecraft/class_8610": [
+        "net/fabricmc/fabric/api/networking/v1/FabricServerConfigurationNetworkHandler"
       ],
       "net/minecraft/class_7225\u0024class_7874": [
-        "net/neoforged/neoforge/common/extensions/IHolderLookupProviderExtension"
+        "com/aetherteam/aether/fabric/pond/IHolderLookupProviderExtension"
       ],
       "net/minecraft/class_1297": [
-        "com/aetherteam/aether/fabric/EntityExtension"
+        "com/aetherteam/aether/fabric/pond/EntityExtension"
       ],
       "net/minecraft/class_437": [
-        "com/aetherteam/aether/fabric/ScreenExtension"
+        "com/aetherteam/aether/fabric/pond/client/ScreenExtension"
+      ],
+      "net/minecraft/class_2680": [
+        "com/aetherteam/aether/fabric/pond/BlockStateExtension"
+      ],
+      "net/minecraft/class_2248": [
+        "com/aetherteam/aether/fabric/pond/BlockExtension"
+      ],
+      "net/minecraft/class_304": [
+        "com/aetherteam/aether/fabric/pond/client/KeyMappingExtension"
+      ],
+      "net/minecraft/class_2586": [
+        "com/aetherteam/aether/fabric/pond/BlockEntityExtension"
+      ],
+      "net/minecraft/class_7225\u0024class_7226": [
+        "com/aetherteam/aether/fabric/pond/RegistryLookupExtension<TT;>"
       ]
     }
   }

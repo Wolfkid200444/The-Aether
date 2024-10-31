@@ -2,6 +2,7 @@ package com.aetherteam.aether.block.dungeon;
 
 import com.aetherteam.aether.client.particle.AetherParticleTypes;
 import com.aetherteam.aether.entity.EntityUtil;
+import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -42,6 +43,8 @@ public class DoorwayBlock extends Block {
         super(properties);
         this.registerDefaultState(this.getStateDefinition().any().setValue(INVISIBLE, false));
         this.blockedEntityTypeSupplier = blockedEntityTypeSupplier;
+
+        LandPathNodeTypesRegistry.register(this, (state, neighbor) -> PathType.BLOCKED);
     }
 
     @Override
@@ -156,9 +159,9 @@ public class DoorwayBlock extends Block {
      * @param mob   The {@link Mob} trying to pathfind in respect to this block.
      * @return The {@link PathType} corresponding to this block.
      */
-    @Nullable
-    @Override
-    public PathType getBlockPathType(BlockState state, BlockGetter level, BlockPos pos, @Nullable Mob mob) {
-        return PathType.BLOCKED;
-    }
+//    @Nullable
+//    @Override
+//    public PathType getBlockPathType(BlockState state, BlockGetter level, BlockPos pos, @Nullable Mob mob) {
+//        return PathType.BLOCKED;
+//    }
 }

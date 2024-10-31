@@ -1,4 +1,4 @@
-package com.aetherteam.aether.fabric.events.client;
+package com.aetherteam.aether.fabric.client.events;
 
 import com.aetherteam.aether.fabric.events.CancellableCallback;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -7,9 +7,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 
 public class LivingEntityRenderEvents {
 

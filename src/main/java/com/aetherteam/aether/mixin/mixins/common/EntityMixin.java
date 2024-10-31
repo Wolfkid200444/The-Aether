@@ -3,7 +3,7 @@ package com.aetherteam.aether.mixin.mixins.common;
 import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.event.hooks.DimensionHooks;
-import com.aetherteam.aether.fabric.EntityExtension;
+import com.aetherteam.aether.fabric.pond.EntityExtension;
 import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
 import com.aetherteam.aether.fabric.events.EntityEvents;
 import com.aetherteam.aether.fabric.events.EntityTickEvents;
@@ -152,7 +152,7 @@ public class EntityMixin implements EntityExtension {
 
     @Definition(id = "vehicle", field = "Lnet/minecraft/world/entity/Entity;vehicle:Lnet/minecraft/world/entity/Entity;")
     @Expression("this.vehicle = null")
-    @Inject(method = "removeVehicle", at = @At("MIXINEXTRAS:EXPRESSION"))
+    @Inject(method = "removeVehicle", at = @At(value = "MIXINEXTRAS:EXPRESSION", shift = At.Shift.BEFORE))
     private void aetherFabric$entityMountEvent_remove(CallbackInfo ci) {
         var callback = new CancellableCallbackImpl();
 

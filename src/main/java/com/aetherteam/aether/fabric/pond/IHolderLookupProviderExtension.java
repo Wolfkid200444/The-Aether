@@ -1,4 +1,4 @@
-package net.neoforged.neoforge.common.extensions;
+package com.aetherteam.aether.fabric.pond;
 
 import java.util.Optional;
 import net.minecraft.core.Holder;

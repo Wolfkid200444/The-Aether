@@ -16,7 +16,7 @@ public class QuicksoilBlock extends AetherDoubleDropBlock implements FrictionCap
      * @see FrictionCapped#getCappedFriction(Entity, float)
      */
     @Override
-    public float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
+    public Float getFriction(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
         return this.getCappedFriction(entity, super.getFriction());
     }
 }

@@ -26,6 +26,7 @@ import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
@@ -119,7 +120,7 @@ public class MoaSkinsScreen extends Screen {
             // Button for saving a selected skin as the one that will be applied to the player's Moa.
             this.applyButton = this.addRenderableWidget(new ChangeSkinButton(ChangeSkinButton.ButtonType.APPLY, Button.builder(Component.translatable("gui.aether.moa_skins.button.apply"),
                     (pressed) -> {
-                        PacketDistributor.sendToServer(new ServerMoaSkinPacket.Apply(this.getMinecraft().player.getUUID(), new MoaData(this.getMinecraft().player.getData(AetherDataAttachments.AETHER_PLAYER).getLastRiddenMoa(), this.getSelectedSkin())));
+                        PacketDistributor.sendToServer(new ServerMoaSkinPacket.Apply(this.getMinecraft().player.getUUID(), new MoaData(this.getMinecraft().player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).getLastRiddenMoa(), this.getSelectedSkin())));
                         this.customizations.setMoaSkin(this.getSelectedSkin().getId());
                         this.customizations.save();
                         this.customizations.load();
@@ -375,7 +376,7 @@ public class MoaSkinsScreen extends Screen {
         List<FormattedText> formattedTextList = new ArrayList<>();
         formattedTextList.add(title.withStyle(ChatFormatting.GOLD));
         formattedTextList.addAll(this.getMinecraft().font.getSplitter().splitLines(description, this.width / 3, Style.EMPTY));
-        guiGraphics.renderComponentTooltip(this.getMinecraft().font, formattedTextList, mouseX, mouseY, ItemStack.EMPTY);
+        guiGraphics.renderTooltip(this.getMinecraft().font, Language.getInstance().getVisualOrder(formattedTextList), mouseX, mouseY/*, ItemStack.EMPTY*/);
     }
 
     /**
@@ -440,7 +441,7 @@ public class MoaSkinsScreen extends Screen {
                 PacketDistributor.sendToServer(new ServerMoaSkinPacket.Remove(this.getMinecraft().player.getUUID()));
                 this.userConnectionExists = false;
             } else if (user != null && !this.userConnectionExists && MoaSkins.getMoaSkins().get(this.customizations.getMoaSkin()) != null) { // Add skin data if the user has started existing.
-                PacketDistributor.sendToServer(new ServerMoaSkinPacket.Apply(this.getMinecraft().player.getUUID(), new MoaData(this.getMinecraft().player.getData(AetherDataAttachments.AETHER_PLAYER).getLastRiddenMoa(), MoaSkins.getMoaSkins().get(this.customizations.getMoaSkin()))));
+                PacketDistributor.sendToServer(new ServerMoaSkinPacket.Apply(this.getMinecraft().player.getUUID(), new MoaData(this.getMinecraft().player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).getLastRiddenMoa(), MoaSkins.getMoaSkins().get(this.customizations.getMoaSkin()))));
                 this.userConnectionExists = true;
             }
         }

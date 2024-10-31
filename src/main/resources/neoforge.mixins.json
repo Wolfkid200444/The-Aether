@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "aether.refmap.json",
   "mixins": [
-    "HolderReferenceMixin"
+    "HolderReferenceMixin",
+    "MappedRegistryMixin",
+    "MappedRegistryMixin$InnerClass"
   ],
   "client": [],
   "injectors": {

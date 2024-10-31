@@ -16,7 +16,7 @@ public class AetherReceivingLevelScreen extends ReceivingLevelScreen {
     public AetherReceivingLevelScreen(BooleanSupplier levelReceived, Reason reason) {
         super(levelReceived, reason);
         if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.portalProcess != null && Minecraft.getInstance().player.portalProcess.isSamePortal(AetherBlocks.AETHER_PORTAL.get())) {
-            var data = Minecraft.getInstance().player.getData(AetherDataAttachments.AETHER_PLAYER);
+            var data = Minecraft.getInstance().player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
             this.isInAetherPortal = true;
             this.portalIntensity = data.getPortalIntensity();
             this.oPortalIntensity = data.getOldPortalIntensity();
@@ -33,7 +33,7 @@ public class AetherReceivingLevelScreen extends ReceivingLevelScreen {
     @Override
     public void onClose() {
         if (Minecraft.getInstance().player != null && this.isInAetherPortal) {
-            var data = Minecraft.getInstance().player.getData(AetherDataAttachments.AETHER_PLAYER);
+            var data = Minecraft.getInstance().player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
             data.portalIntensity = this.portalIntensity;
             data.oPortalIntensity = this.oPortalIntensity;
         }

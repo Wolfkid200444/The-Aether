@@ -18,6 +18,7 @@ public class BossHealthOverlayMixin {
      * @param event The original net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent.BossEventProgress parameter value.
      * @return The modified net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent.BossEventProgress parameter value.
      */
+    // TODO: [Fabric Porting] NEED TO DEAL WITH THIS?
 //    @ModifyVariable(at = @At(value = "STORE"), method = "render(Lnet/minecraft/client/gui/GuiGraphics;)V", index = 7)
 //    private CustomizeGuiOverlayEvent.BossEventProgress event(CustomizeGuiOverlayEvent.BossEventProgress event) {
 //        if (Minecraft.getInstance().level != null &&

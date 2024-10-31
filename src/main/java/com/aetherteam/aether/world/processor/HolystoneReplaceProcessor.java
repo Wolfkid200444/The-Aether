@@ -1,6 +1,7 @@
 package com.aetherteam.aether.world.processor;
 
 import com.aetherteam.aether.block.AetherBlocks;
+import com.aetherteam.aether.fabric.ExtendedStructureProcessor;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.Util;
@@ -22,7 +23,7 @@ import java.util.Map;
 /**
  * This processor replaces Cobblestone blocks Holystone Brick blocks.
  */
-public class HolystoneReplaceProcessor extends StructureProcessor {
+public class HolystoneReplaceProcessor extends ExtendedStructureProcessor {
     public static final MapCodec<HolystoneReplaceProcessor> CODEC = MapCodec.unit(() -> HolystoneReplaceProcessor.INSTANCE);
     public static final HolystoneReplaceProcessor INSTANCE = new HolystoneReplaceProcessor();
     private final Map<Block, Block> replacements = Util.make(Maps.newHashMap(), (map) -> {

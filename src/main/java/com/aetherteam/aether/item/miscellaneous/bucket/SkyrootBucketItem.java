@@ -2,6 +2,7 @@ package com.aetherteam.aether.item.miscellaneous.bucket;
 
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.item.AetherItems;
+import com.aetherteam.aether.mixin.mixins.common.accessor.BucketItemAccessor;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -52,7 +53,7 @@ public class SkyrootBucketItem extends BucketItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
-        BlockHitResult blockhitResult = getPlayerPOVHitResult(level, player, this.content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE);
+        BlockHitResult blockhitResult = getPlayerPOVHitResult(level, player, ((BucketItemAccessor)this).aetherFabric$content() == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE);
         if (blockhitResult.getType() == HitResult.Type.MISS) {
             return InteractionResultHolder.pass(heldStack);
         } else if (blockhitResult.getType() != HitResult.Type.BLOCK) {
@@ -62,7 +63,7 @@ public class SkyrootBucketItem extends BucketItem {
             Direction direction = blockhitResult.getDirection();
             BlockPos relativePos = blockPos.relative(direction);
             if (level.mayInteract(player, blockPos) && player.mayUseItemAt(relativePos, direction, heldStack)) {
-                if (this.content == Fluids.EMPTY) {
+                if (((BucketItemAccessor)this).aetherFabric$content() == Fluids.EMPTY) {
                     BlockState blockState = level.getBlockState(blockPos);
                     FluidState fluidState = level.getFluidState(blockPos);
                     if (blockState.getBlock() instanceof BucketPickup bucketPickup && (blockState.is(AetherTags.Blocks.ALLOWED_BUCKET_PICKUP) || fluidState.is(AetherTags.Fluids.ALLOWED_BUCKET_PICKUP))) {
@@ -70,7 +71,7 @@ public class SkyrootBucketItem extends BucketItem {
                         bucketStack = swapBucketType(bucketStack);
                         if (!bucketStack.isEmpty()) {
                             player.awardStat(Stats.ITEM_USED.get(this));
-                            bucketPickup.getPickupSound(blockState).ifPresent((soundEvent) -> player.playSound(soundEvent, 1.0F, 1.0F));
+                            bucketPickup.getPickupSound().ifPresent((soundEvent) -> player.playSound(soundEvent, 1.0F, 1.0F));
                             level.gameEvent(player, GameEvent.FLUID_PICKUP, blockPos);
                             ItemStack resultStack = ItemUtils.createFilledResult(heldStack, player, bucketStack);
                             if (!level.isClientSide()) {
@@ -83,7 +84,7 @@ public class SkyrootBucketItem extends BucketItem {
                 } else {
                     BlockState blockState = level.getBlockState(blockPos);
                     BlockPos newPos = canBlockContainFluid(player, level, blockPos, blockState) ? blockPos : relativePos;
-                    if (this.emptyContents(player, level, newPos, blockhitResult, heldStack)) {
+                    if (this.emptyContents(player, level, newPos, blockhitResult)) {
                         this.checkExtraContent(player, level, heldStack, newPos);
                         if (player instanceof ServerPlayer serverPlayer) {
                             CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, newPos, heldStack);
@@ -131,6 +132,6 @@ public class SkyrootBucketItem extends BucketItem {
      * [CODE COPY] - {@link BucketItem#canBlockContainFluid(Player, Level, BlockPos, BlockState)}.
      */
     protected boolean canBlockContainFluid(Player player, Level level, BlockPos pos, BlockState state) {
-        return state.getBlock() instanceof LiquidBlockContainer liquidBlockContainer && liquidBlockContainer.canPlaceLiquid(player, level, pos, state, this.content);
+        return state.getBlock() instanceof LiquidBlockContainer liquidBlockContainer && liquidBlockContainer.canPlaceLiquid(player, level, pos, state, ((BucketItemAccessor)this).aetherFabric$content());
     }
 }

@@ -26,6 +26,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -120,11 +121,11 @@ public class FloatingBlockEntity extends Entity {
             if (!this.level().isClientSide() && this.level() instanceof ServerLevel serverLevel && (this.isAlive() || this.forceTickAfterTeleportToDuplicate)) {
                 BlockPos blockPos1 = this.blockPosition();
                 boolean isConcrete = this.getBlockState().getBlock() instanceof ConcretePowderBlock;
-                boolean canConvert = isConcrete && this.blockState.canBeHydrated(this.level(), blockPos1, this.level().getFluidState(blockPos1), blockPos1);
+                boolean canConvert = isConcrete && this.level().getFluidState(blockPos1).is(FluidTags.WATER);
                 double d0 = this.getDeltaMovement().lengthSqr();
                 if (isConcrete && d0 > 1.0) {
                     BlockHitResult blockHitResult = this.level().clip(new ClipContext(new Vec3(this.xo, this.yo, this.zo), this.position(), ClipContext.Block.COLLIDER, ClipContext.Fluid.SOURCE_ONLY, this));
-                    if (blockHitResult.getType() != HitResult.Type.MISS && this.blockState.canBeHydrated(this.level(), blockPos1, this.level().getFluidState(blockHitResult.getBlockPos()), blockHitResult.getBlockPos())) {
+                    if (blockHitResult.getType() != HitResult.Type.MISS && this.level().getFluidState(blockHitResult.getBlockPos()).is(FluidTags.WATER)) {
                         blockPos1 = blockHitResult.getBlockPos();
                         canConvert = true;
                     }

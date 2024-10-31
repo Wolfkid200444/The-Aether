@@ -201,8 +201,8 @@ public class TreasureChestBlock extends AbstractChestBlock<TreasureChestBlockEnt
             if (f < 0.0F) {
                 return 0.0F;
             } else {
-                int i = EventHooks.doPlayerHarvestCheck(player, state, level, pos) ? 30 : 100;
-                return player.getDigSpeed(state, pos) / f / (float) i;
+                int i = player.hasCorrectToolForDrops(state) ? 30 : 100;
+                return player.getDestroySpeed(state) / f / (float) i;
             }
         }
         return super.getDestroyProgress(state, player, level, pos);
@@ -218,10 +218,10 @@ public class TreasureChestBlock extends AbstractChestBlock<TreasureChestBlockEnt
      * @return The {@link Float} for the explosion resistance.
      */
     @Override
-    public float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
+    public Float getExplosionResistance(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof TreasureChestBlockEntity treasureChestBlockEntity) {
-            return treasureChestBlockEntity.getLocked() ? super.getExplosionResistance(state, level, pos, explosion) : 3.0F;
+        if (blockEntity instanceof TreasureChestBlockEntity treasureChestBlockEntity && treasureChestBlockEntity.getLocked()) {
+            return 3.0F;
         }
         return super.getExplosionResistance(state, level, pos, explosion);
     }

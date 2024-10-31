@@ -2,6 +2,7 @@ package com.aetherteam.aether.world.processor;
 
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.block.AetherBlocks;
+import com.aetherteam.aether.fabric.ExtendedStructureProcessor;
 import com.aetherteam.aether.world.BlockLogicUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * This processor is used to randomly place extra dirt near the top of the gold dungeon. It runs on any holystone block
  * that is right below aether dirt.
  */
-public class VerticalGradientProcessor extends StructureProcessor {
+public class VerticalGradientProcessor extends ExtendedStructureProcessor {
     public static final VerticalGradientProcessor INSTANCE = new VerticalGradientProcessor();
 
     public static final MapCodec<VerticalGradientProcessor> CODEC = MapCodec.unit(VerticalGradientProcessor.INSTANCE);

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -58,7 +59,7 @@ public class FoxEatBerryBushGoal extends MoveToBlockGoal {
     }
 
     protected void onReachedTarget() {
-        if (EventHooks.canEntityGrief(this.fox.level(), this.fox)) {
+        if (this.fox.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
             BlockState blockState = this.mob.level().getBlockState(this.blockPos);
             if (blockState.is(AetherBlocks.BERRY_BUSH.get())) {
                 this.pickBlueBerries();

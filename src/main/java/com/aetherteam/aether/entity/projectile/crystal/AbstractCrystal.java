@@ -1,5 +1,7 @@
 package com.aetherteam.aether.entity.projectile.crystal;
 
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
+import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -46,7 +48,9 @@ public abstract class AbstractCrystal extends Projectile {
         }
         HitResult result = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
         boolean flag = false;
-        if (result.getType() != HitResult.Type.MISS && !flag && !EventHooks.onProjectileImpact(this, result)) {
+        var callBack = new CancellableCallbackImpl();
+        ProjectileEvents.ON_IMPACT.invoker().onImpact(this, result, callBack);
+        if (result.getType() != HitResult.Type.MISS && !flag && !callBack.isCanceled()) {
             this.onHit(result);
         }
         this.checkInsideBlocks();

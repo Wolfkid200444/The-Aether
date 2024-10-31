@@ -5,6 +5,7 @@ import com.aetherteam.aether.api.AetherAdvancementSoundOverrides;
 import com.aetherteam.aether.api.registers.MoaType;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.block.AetherCauldronInteractions;
+import com.aetherteam.aether.block.AetherWoodTypes;
 import com.aetherteam.aether.block.dispenser.AetherDispenseBehaviors;
 import com.aetherteam.aether.block.dispenser.DispenseUsableItemBehavior;
 import com.aetherteam.aether.block.dispenser.SkyrootBoatDispenseBehavior;
@@ -32,9 +33,9 @@ import com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener;
 import com.aetherteam.aether.event.listeners.capability.AetherPlayerListener;
 import com.aetherteam.aether.event.listeners.capability.AetherTimeListener;
 import com.aetherteam.aether.fabric.events.AddPackFindersEvent;
-import com.aetherteam.aether.fabric.ExtraServerLivingEntityEvents;
 import com.aetherteam.aether.fabric.NetworkRegisterHelper;
 import com.aetherteam.aether.fabric.WrappedInventoryStorage;
+import com.aetherteam.aether.fabric.events.LivingEntityEvents;
 import com.aetherteam.aether.inventory.AetherAccessorySlots;
 import com.aetherteam.aether.inventory.AetherRecipeBookTypes;
 import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
@@ -98,12 +99,12 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryManager;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.UnaryOperator;
 
 public class Aether implements ModInitializer {
@@ -115,11 +116,10 @@ public class Aether implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        this.registerCapabilities();
-        this.registerPackets();
-        RegisterDataMapTypesEvent.EVENT.register(this::registerDataMaps);
-        AddPackFindersEvent.EVENT.register(this::packSetup);
-        DynamicRegistries.registerSynced(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY, MoaType.CODEC);
+        DIRECTORY.toFile().mkdirs(); // Ensures the Aether's config folder is generated.
+        NeoForgeConfigRegistry.INSTANCE.register(Aether.MODID, ModConfig.Type.SERVER, AetherConfig.SERVER_SPEC);
+        NeoForgeConfigRegistry.INSTANCE.register(Aether.MODID, ModConfig.Type.COMMON, AetherConfig.COMMON_SPEC);
+        NeoForgeConfigRegistry.INSTANCE.register(Aether.MODID, ModConfig.Type.CLIENT, AetherConfig.CLIENT_SPEC);
 
         DeferredRegister<?>[] registers = {
             AetherDataComponents.DATA_COMPONENT_TYPES,
@@ -155,14 +155,17 @@ public class Aether implements ModInitializer {
             register.addEntriesToRegistry();
         }
 
+        AetherWoodTypes.init();
+
+        this.registerCapabilities();
+        this.registerPackets();
+        RegisterDataMapTypesEvent.EVENT.register(this::registerDataMaps);
+        AddPackFindersEvent.EVENT.register(this::packSetup);
+        DynamicRegistries.registerSynced(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY, MoaType.CODEC);
+
         this.eventSetup();
 
         AetherBlocks.registerWoodTypes(); // Registered this early to avoid bugs with WoodTypes and signs.
-
-        DIRECTORY.toFile().mkdirs(); // Ensures the Aether's config folder is generated.
-        NeoForgeConfigRegistry.INSTANCE.register(Aether.MODID, ModConfig.Type.SERVER, AetherConfig.SERVER_SPEC);
-        NeoForgeConfigRegistry.INSTANCE.register(Aether.MODID, ModConfig.Type.COMMON, AetherConfig.COMMON_SPEC);
-        NeoForgeConfigRegistry.INSTANCE.register(Aether.MODID, ModConfig.Type.CLIENT, AetherConfig.CLIENT_SPEC);
 
         Reflection.initialize(SunAltarWhitelist.class);
         Reflection.initialize(AetherRecipeBookTypes.class);
@@ -180,6 +183,10 @@ public class Aether implements ModInitializer {
         this.registerCauldronInteractions();
 
         UniqueSlotHandling.EVENT.register(AetherAccessorySlots.INSTANCE);
+
+        //--
+
+        RegistryManager.init();
     }
 
     public void registerPackets() {
@@ -496,7 +503,7 @@ public class Aether implements ModInitializer {
         CommandRegistrationCallback.EVENT.register(AetherCommands::registerCommands);
         ReloadListeners.reloadListenerSetup(ResourceManagerHelper.get(PackType.SERVER_DATA));
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> FlamingSwordItem.onLivingDamage(entity, source));
-        ExtraServerLivingEntityEvents.MODIFY_DAMAGE.register((entity, source, originalDamage, newDamage) -> {
+        LivingEntityEvents.MODIFY_DAMAGE.register((entity, source, originalDamage, newDamage) -> {
             HolySwordItem.onLivingDamage(entity, source, newDamage);
             PigSlayerItem.onLivingDamage(entity, source, newDamage);
         });

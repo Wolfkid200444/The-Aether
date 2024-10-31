@@ -6,10 +6,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.minecraft.core.Holder;
-import net.minecraft.core.MappedRegistry;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.*;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
@@ -37,10 +34,10 @@ public class DataMapLoader implements PreparableReloadListener, IdentifiableReso
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final String PATH = "data_maps";
     public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("neoforge", PATH);
-    private Map<ResourceKey<? extends Registry<?>>, LoadResult<?>> results;
-    private final RegistryAccess registryAccess;
+    private static Map<ResourceKey<? extends Registry<?>>, LoadResult<?>> results = null;
+    private final HolderLookup.Provider registryAccess;
 
-    public DataMapLoader(RegistryAccess registryAccess) {
+    public DataMapLoader(HolderLookup.Provider registryAccess) {
         this.registryAccess = registryAccess;
     }
 
@@ -56,20 +53,22 @@ public class DataMapLoader implements PreparableReloadListener, IdentifiableReso
             .thenAcceptAsync(values -> this.results = values, gameExecutor);
     }
 
-    public void apply() {
-        results.forEach((key, result) -> this.apply((MappedRegistry) registryAccess.registryOrThrow(key), result));
+    public static void apply(RegistryAccess registryAccess) {
+        if (results == null) return;
+
+        results.forEach((key, result) -> apply((MappedRegistry) registryAccess.registryOrThrow(key), result));
 
         // Clear the intermediary maps and objects
         results = null;
     }
 
-    private <T> void apply(MappedRegistry<T> registry, LoadResult<T> result) {
+    private static <T> void apply(MappedRegistry<T> registry, LoadResult<T> result) {
         ((FullDataMapAccess<T>)registry).setDataMaps(dataMaps -> {
-            result.results().forEach((key, entries) -> dataMaps.put(key, this.buildDataMap(registry, key, (List) entries)));
+            result.results().forEach((key, entries) -> dataMaps.put(key, buildDataMap(registry, key, (List) entries)));
         });
     }
 
-    private <T, R> Map<ResourceKey<R>, T> buildDataMap(Registry<R> registry, DataMapType<R, T> attachment, List<DataMapFile<T, R>> entries) {
+    private static <T, R> Map<ResourceKey<R>, T> buildDataMap(Registry<R> registry, DataMapType<R, T> attachment, List<DataMapFile<T, R>> entries) {
         record WithSource<T, R>(T attachment, Either<TagKey<R>, ResourceKey<R>> source) {}
         final Map<ResourceKey<R>, WithSource<T, R>> result = new IdentityHashMap<>();
         final BiConsumer<Either<TagKey<R>, ResourceKey<R>>, Consumer<Holder<R>>> valueResolver = (key, cons) -> key.ifLeft(tag -> registry.getTagOrEmpty(tag).forEach(cons)).ifRight(k -> cons.accept(registry.getHolderOrThrow(k)));
@@ -121,12 +120,11 @@ public class DataMapLoader implements PreparableReloadListener, IdentifiableReso
         return CompletableFuture.supplyAsync(() -> load(manager, profiler, registryAccess), executor);
     }
 
-    private static Map<ResourceKey<? extends Registry<?>>, LoadResult<?>> load(ResourceManager manager, ProfilerFiller profiler, RegistryAccess access) {
+    private static Map<ResourceKey<? extends Registry<?>>, LoadResult<?>> load(ResourceManager manager, ProfilerFiller profiler, HolderLookup.Provider access) {
         final RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, access);
 
         final Map<ResourceKey<? extends Registry<?>>, LoadResult<?>> values = new HashMap<>();
-        access.registries().forEach(registryEntry -> {
-            final var registryKey = registryEntry.key();
+        access.listRegistries().forEach(registryKey -> {
             profiler.push("registry_data_maps/" + registryKey.location() + "/locating");
             final var fileToId = FileToIdConverter.json(PATH + "/" + getFolderLocation(registryKey.location()));
             for (Map.Entry<ResourceLocation, List<Resource>> entry : fileToId.listMatchingResourceStacks(manager).entrySet()) {

@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
@@ -40,10 +41,10 @@ public class SkyrootBoatDispenseBehavior extends DefaultDispenseItemBehavior {
         EntityType.createDefaultStackConfig(serverLevel, stack, null).accept(boat);
         boat.setYRot(direction.toYRot());
         double d4;
-        if (boat.canBoatInFluid(serverLevel.getFluidState(blockpos))) {
+        if (serverLevel.getFluidState(blockpos).is(FluidTags.WATER)) {
             d4 = 1.0;
         } else {
-            if (!serverLevel.getBlockState(blockpos).isAir() || !boat.canBoatInFluid(serverLevel.getFluidState(blockpos.below()))) {
+            if (!serverLevel.getBlockState(blockpos).isAir() || !serverLevel.getFluidState(blockpos).is(FluidTags.WATER)) {
                 return this.defaultDispenseItemBehavior.dispense(source, stack);
             }
 

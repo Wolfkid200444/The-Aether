@@ -2,6 +2,7 @@ package net.neoforged.neoforge.entity;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 
+// TODO: [Fabric Porting] MUST IMPLEMENT!
 public interface IEntityWithComplexSpawn {
     /**
      * Called by the server when constructing the spawn packet.

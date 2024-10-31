@@ -5,11 +5,13 @@ import com.aetherteam.aether.attachment.PhoenixArrowAttachment;
 import com.aetherteam.aether.item.AetherItems;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 
 public class PhoenixBowItem extends BowItem {
     public PhoenixBowItem() {
@@ -24,7 +26,8 @@ public class PhoenixBowItem extends BowItem {
      * @return The original {@link AbstractArrow} (the Phoenix Bow doesn't modify it).
      */
     @Override
-    public AbstractArrow customArrow(AbstractArrow arrow, ItemStack projectileStack, ItemStack weaponStack) {
+    protected Projectile createProjectile(Level level, LivingEntity shooter, ItemStack weaponStack, ItemStack projectileStack, boolean isCrit) {
+        var arrow = super.createProjectile(level, shooter, weaponStack, projectileStack, isCrit);
         var data = arrow.getAttachedOrCreate(AetherDataAttachments.PHOENIX_ARROW);
         data.setPhoenixArrow(true);
         int defaultTime = 20;
@@ -32,7 +35,8 @@ public class PhoenixBowItem extends BowItem {
             defaultTime = 40;
         }
         data.setFireTime(defaultTime);
-
-        return super.customArrow(arrow, projectileStack, weaponStack);
+        return arrow;
     }
+
+
 }

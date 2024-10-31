@@ -21,7 +21,6 @@ public class SkyrootBoatRenderer extends BoatRenderer {
         this.skyrootBoatResource = Pair.of(chest ? SKYROOT_CHEST_BOAT : SKYROOT_BOAT, chest ? new ChestBoatModel(context.bakeLayer(AetherModelLayers.SKYROOT_CHEST_BOAT)) : new BoatModel(context.bakeLayer(AetherModelLayers.SKYROOT_BOAT)));
     }
 
-    @Override
     public Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(Boat boat) {
         return this.skyrootBoatResource;
     }

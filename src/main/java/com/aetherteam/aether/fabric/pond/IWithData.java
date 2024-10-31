@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: LGPL-2.1-only
  */
 
-package net.neoforged.neoforge.registries.datamaps;
+package com.aetherteam.aether.fabric.pond;
 
+import net.neoforged.neoforge.registries.datamaps.DataMapType;
 import org.jetbrains.annotations.Nullable;
 
 /**

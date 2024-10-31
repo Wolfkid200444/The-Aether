@@ -3,6 +3,9 @@ package com.aetherteam.aether.client;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.api.AetherMenus;
+import com.aetherteam.aether.block.AetherBlocks;
+import com.aetherteam.aether.block.natural.BerryBushBlock;
+import com.aetherteam.aether.block.natural.BerryBushStemBlock;
 import com.aetherteam.aether.client.event.listeners.*;
 import com.aetherteam.aether.client.event.listeners.abilities.AccessoryAbilityClientListener;
 import com.aetherteam.aether.client.event.listeners.capability.AetherPlayerClientListener;
@@ -13,23 +16,48 @@ import com.aetherteam.aether.client.renderer.AetherOverlays;
 import com.aetherteam.aether.client.renderer.AetherRenderers;
 import com.aetherteam.aether.client.renderer.level.AetherRenderEffects;
 import com.aetherteam.aether.data.resources.registries.AetherDimensions;
+import com.aetherteam.aether.effect.AetherEffects;
 import com.aetherteam.aether.entity.AetherEntityTypes;
+import com.aetherteam.aether.fabric.events.RecipeBookCategoriesHelper;
 import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
 import com.aetherteam.aether.inventory.menu.LoreBookMenu;
 import com.aetherteam.aether.item.AetherItems;
+import com.aetherteam.aether.mixin.mixins.client.accessor.RecipeBookCategoriesAccessor;
 import com.aetherteam.aether.perk.CustomizationsOptions;
+import com.aetherteam.aether.world.treegrower.AetherTreeGrowers;
 import com.aetherteam.cumulus.CumulusConfig;
 import com.aetherteam.nitrogen.event.listeners.TooltipListeners;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.Reflection;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.RecipeBookCategories;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.neoforged.neoforge.network.payload.KnownRegistryDataMapsPayload;
+import net.neoforged.neoforge.network.payload.KnownRegistryDataMapsReplyPayload;
+import net.neoforged.neoforge.network.payload.RegistryDataMapSyncPayload;
+import net.neoforged.neoforge.registries.ClientRegistryManager;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.RegistryManager;
+
+import java.util.HashMap;
 
 public class AetherClient implements ClientModInitializer {
     private static boolean refreshPacks = false;
@@ -44,6 +72,10 @@ public class AetherClient implements ClientModInitializer {
         AetherMenus.MENUS.addEntriesToRegistry();
 
         AetherClient.eventSetup();
+
+        setupRenderTypes();
+
+        ClientRegistryManager.initNetworking();
     }
 
     public static void clientSetup() {
@@ -140,10 +172,11 @@ public class AetherClient implements ClientModInitializer {
         WorldPreviewListener.listen();
 
         AetherMenuTypes.registerMenuScreens();
-        AetherColorResolvers.registerBlockColor();
+
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> AetherColorResolvers.registerBlockColor());
         AetherColorResolvers.registerItemColor();
         AetherKeys.registerKeyMappings();
-        //neoBus.addListener(AetherRecipeCategories::registerRecipeCategories);
+        AetherRecipeCategories.registerRecipeCategories();
         AetherParticleTypes.registerParticleFactories();
         AetherOverlays.registerOverlays();
         AetherRenderers.registerEntityRenderers();
@@ -151,6 +184,14 @@ public class AetherClient implements ClientModInitializer {
         AetherRenderers.addEntityLayers();
         //neoBus.addListener(AetherRenderers::bakeModels);
         AetherRenderEffects.registerRenderEffects();
+
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+            var aggregatedCategories = new HashMap<>(RecipeBookCategories.AGGREGATE_CATEGORIES);
+
+            aggregatedCategories.putAll(RecipeBookCategoriesHelper.INSTANCE.aggregateCategories);
+
+            RecipeBookCategoriesAccessor.aetherFabric$setAGGREGATE_CATEGORIES(ImmutableMap.copyOf(aggregatedCategories));
+        });
     }
 
     /**
@@ -181,5 +222,30 @@ public class AetherClient implements ClientModInitializer {
      */
     public static void setToSunAltarScreen(Component name, int timeScale) {
         Minecraft.getInstance().setScreen(new SunAltarScreen(name, timeScale));
+    }
+
+    public static void setupRenderTypes() {
+        RenderType cutout = RenderType.cutout();
+
+        BlockRenderLayerMap.INSTANCE.putBlocks(cutout,
+            AetherBlocks.BERRY_BUSH.get(),
+            AetherBlocks.BERRY_BUSH_STEM.get(),
+            AetherBlocks.PURPLE_FLOWER.get(),
+            AetherBlocks.WHITE_FLOWER.get(),
+            AetherBlocks.SKYROOT_SAPLING.get(),
+            AetherBlocks.GOLDEN_OAK_SAPLING.get(),
+            AetherBlocks.SKYROOT_DOOR.get(),
+            AetherBlocks.SKYROOT_TRAPDOOR.get(),
+            AetherBlocks.AMBROSIUM_TORCH.get(),
+            AetherBlocks.AMBROSIUM_WALL_TORCH.get());
+
+        RenderType translucent = RenderType.translucent();
+        BlockRenderLayerMap.INSTANCE.putBlocks(translucent,
+            AetherBlocks.AETHER_PORTAL.get(),
+            AetherBlocks.COLD_AERCLOUD.get(),
+            AetherBlocks.BLUE_AERCLOUD.get(),
+            AetherBlocks.GOLDEN_AERCLOUD.get(),
+            AetherBlocks.QUICKSOIL_GLASS.get(),
+            AetherBlocks.QUICKSOIL_GLASS_PANE.get());
     }
 }

@@ -29,7 +29,7 @@ public class WorldOpenFlowsMixin {
      * @return The new {@link Boolean} value.
      * @see WorldDisplayHelper#isActive()
      */
-    @ModifyVariable(method = "openWorldCheckWorldStemCompatibility(Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/server/WorldStem;Lnet/minecraft/server/packs/repository/PackRepository;Ljava/lang/Runnable;)V", at = @At("STORE"), ordinal = 2)
+    @ModifyVariable(method = "openWorldCheckWorldStemCompatibility(Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/server/WorldStem;Lnet/minecraft/server/packs/repository/PackRepository;Ljava/lang/Runnable;)V", at = @At("STORE"), ordinal = 1)
     private boolean confirmExperimentalWarning(boolean confirmExperimentalWarning) {
         return WorldDisplayHelper.isActive() || confirmExperimentalWarning;
     }

@@ -1,6 +1,7 @@
 package com.aetherteam.aether.integration.jei.categories.ban;
 
 import com.aetherteam.aether.integration.jei.categories.BiomeTooltip;
+import com.aetherteam.aether.mixin.mixins.common.accessor.LiquidBlockAccessor;
 import com.aetherteam.aether.recipe.recipes.ban.AbstractPlacementBanRecipe;
 import com.aetherteam.nitrogen.integration.jei.BlockStateRenderer;
 import com.aetherteam.nitrogen.integration.jei.FluidStateRenderer;
@@ -76,7 +77,7 @@ public abstract class AbstractPlacementBanRecipeCategory<T, S extends Predicate<
         if (Minecraft.getInstance().level != null) {
             for (BlockPropertyPair pair : pairs) {
                 if (pair.block() instanceof LiquidBlock liquidBlock) {
-                    ingredients.add(this.fluidHelper.create(liquidBlock.fluid.builtInRegistryHolder(), 1000));
+                    ingredients.add(this.fluidHelper.create(((LiquidBlockAccessor) liquidBlock).aetherFabric$fluid().builtInRegistryHolder(), 1000));
                 } else {
                     BlockState state = pair.block().defaultBlockState();
                     if (pair.properties().isPresent()) {

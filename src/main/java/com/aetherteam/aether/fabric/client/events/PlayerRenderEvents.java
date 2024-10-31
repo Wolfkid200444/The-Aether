@@ -1,4 +1,4 @@
-package com.aetherteam.aether.fabric.events.client;
+package com.aetherteam.aether.fabric.client.events;
 
 import com.aetherteam.aether.fabric.events.CancellableCallback;
 import com.mojang.blaze3d.vertex.PoseStack;

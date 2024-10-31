@@ -193,7 +193,7 @@ public interface MountableMob {
      * @param vehicle The vehicle {@link Mob}.
      */
     default void onJump(Mob vehicle) {
-        CommonHooks.onLivingJump(vehicle);
+        //CommonHooks.onLivingJump(vehicle);
     }
 
     default AttributeModifier getMountStepHeightModifier() {

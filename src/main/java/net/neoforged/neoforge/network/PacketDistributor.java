@@ -38,7 +38,8 @@ public class PacketDistributor {
      */
     @Environment(EnvType.CLIENT)
     public static void sendToServer(CustomPacketPayload payload, CustomPacketPayload... payloads) {
-        Preconditions.checkState(isClient, "Cannot send serverbound payloads on the server");
+        // TODO: [Fabric Porting] Better check within the future is needed
+        //Preconditions.checkState(isClient, "Cannot send serverbound payloads on the server");
         ClientPacketListener listener = Objects.requireNonNull(Minecraft.getInstance().getConnection());
         listener.send(ClientPlayNetworking.createC2SPacket(payload));
         for (CustomPacketPayload otherPayload : payloads) {

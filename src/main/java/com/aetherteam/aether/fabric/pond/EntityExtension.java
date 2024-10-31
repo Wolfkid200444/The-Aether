@@ -1,4 +1,4 @@
-package com.aetherteam.aether.fabric;
+package com.aetherteam.aether.fabric.pond;
 
 import net.minecraft.world.entity.item.ItemEntity;
 import org.jetbrains.annotations.Nullable;
@@ -7,6 +7,11 @@ import java.util.Collection;
 import java.util.List;
 
 public interface EntityExtension {
+
+    default boolean shouldRiderSit() {
+        return true;
+    }
+
     default boolean canRiderInteract() {
         return false;
     }

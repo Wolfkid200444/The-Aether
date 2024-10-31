@@ -23,8 +23,8 @@ public class AetherAtlases {
     }
 
     public static void registerWoodTypeAtlases() {
-        Sheets.SIGN_MATERIALS.put(AetherWoodTypes.SKYROOT, createSignMaterial(AetherWoodTypes.SKYROOT));
-        Sheets.HANGING_SIGN_MATERIALS.put(AetherWoodTypes.SKYROOT, createHangingSignMaterial(AetherWoodTypes.SKYROOT));
+//        Sheets.SIGN_MATERIALS.put(AetherWoodTypes.SKYROOT, Sheets.createSignMaterial(AetherWoodTypes.SKYROOT));
+//        Sheets.HANGING_SIGN_MATERIALS.put(AetherWoodTypes.SKYROOT, Sheets.createHangingSignMaterial(AetherWoodTypes.SKYROOT));
     }
 
     public static Material getChestMaterial(String chestName) {

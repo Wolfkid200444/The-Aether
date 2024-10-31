@@ -12,10 +12,6 @@ import org.apache.commons.lang3.Validate;
 
 public record WithConditions<A>(List<ResourceCondition> conditions, A carrier) {
 
-    public static <A> Codec<Optional<WithConditions<A>>> createCodec(Codec<A> codec) {
-        var conditionMapCodec = ResourceCondition.CONDITION_CODEC.fieldOf(ResourceConditions.CONDITIONS_KEY);
-    }
-
     public WithConditions(A carrier, ResourceCondition... conditions) {
         this(List.of(conditions), carrier);
     }

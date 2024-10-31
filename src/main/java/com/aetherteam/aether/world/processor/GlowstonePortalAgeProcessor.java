@@ -1,5 +1,6 @@
 package com.aetherteam.aether.world.processor;
 
+import com.aetherteam.aether.fabric.ExtendedStructureProcessor;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -17,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * This processor replaces Cobblestone blocks with Mossy Cobblestone blocks.
  */
-public class GlowstonePortalAgeProcessor extends StructureProcessor {
+public class GlowstonePortalAgeProcessor extends ExtendedStructureProcessor {
     public static final MapCodec<GlowstonePortalAgeProcessor> CODEC = Codec.FLOAT.fieldOf("mossiness").xmap(GlowstonePortalAgeProcessor::new, (codec) -> codec.mossiness);
     private final float mossiness;
 

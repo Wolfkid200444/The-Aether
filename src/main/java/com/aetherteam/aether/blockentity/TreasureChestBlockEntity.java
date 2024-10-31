@@ -2,6 +2,7 @@ package com.aetherteam.aether.blockentity;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.block.AetherBlocks;
+import com.aetherteam.aether.fabric.Utils;
 import com.aetherteam.aether.item.components.AetherDataComponents;
 import com.aetherteam.aether.item.components.DungeonKind;
 import net.minecraft.core.BlockPos;
@@ -89,7 +90,7 @@ public class TreasureChestBlockEntity extends RandomizableContainerBlockEntity i
         if (this.getLocked() && this.level != null) {
             this.setLocked(false);
             this.setChanged();
-            this.level.markAndNotifyBlock(this.worldPosition, this.level.getChunkAt(this.worldPosition), this.getBlockState(), this.getBlockState(), 2, 512);
+            Utils.markAndNotifyBlock(this.level, this.worldPosition, this.level.getChunkAt(this.worldPosition), this.getBlockState(), this.getBlockState(), 2, 512);
             return true;
         } else {
             return false;
@@ -234,8 +235,8 @@ public class TreasureChestBlockEntity extends RandomizableContainerBlockEntity i
     @Override
     protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
         super.applyImplicitComponents(componentInput);
-        this.setLocked(componentInput.getOrDefault(AetherDataComponents.LOCKED, true));
-        DungeonKind kind = componentInput.get(AetherDataComponents.DUNGEON_KIND);
+        this.setLocked(componentInput.getOrDefault(AetherDataComponents.LOCKED.get(), true));
+        DungeonKind kind = componentInput.get(AetherDataComponents.DUNGEON_KIND.get());
         if (kind != null) {
             this.setKind(kind.id());
         } else {
@@ -246,8 +247,8 @@ public class TreasureChestBlockEntity extends RandomizableContainerBlockEntity i
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
-        components.set(AetherDataComponents.LOCKED, this.getLocked());
-        components.set(AetherDataComponents.DUNGEON_KIND, new DungeonKind(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "bronze")));
+        components.set(AetherDataComponents.LOCKED.get(), this.getLocked());
+        components.set(AetherDataComponents.DUNGEON_KIND.get(), new DungeonKind(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "bronze")));
     }
 
     @Override
@@ -263,8 +264,10 @@ public class TreasureChestBlockEntity extends RandomizableContainerBlockEntity i
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+    public boolean handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
         this.loadAdditional(tag, registries);
+
+        return true;
     }
 
     @Override
@@ -294,8 +297,10 @@ public class TreasureChestBlockEntity extends RandomizableContainerBlockEntity i
     }
 
     @Override
-    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider lookupProvider) {
+    public boolean onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider lookupProvider) {
         CompoundTag compound = packet.getTag();
         this.handleUpdateTag(compound, lookupProvider);
+
+        return true;
     }
 }

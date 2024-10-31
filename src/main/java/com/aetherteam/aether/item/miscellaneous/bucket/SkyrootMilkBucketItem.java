@@ -23,7 +23,7 @@ public class SkyrootMilkBucketItem extends MilkBucketItem implements ConsumableI
      */
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
         if (!level.isClientSide()) {
-            user.removeEffectsCuredBy(EffectCures.MILK);
+            user.removeAllEffects();
         }
         this.consume(this, stack, user);
         return stack.isEmpty() ? new ItemStack(AetherItems.SKYROOT_BUCKET.get()) : stack;

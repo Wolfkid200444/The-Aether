@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class AetherColorResolvers {
     private static final int AETHER_GRASS_COLOR = 0xB1FFCB;
