@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import java.util.function.BooleanSupplier;
 
 @Mixin(MinecraftServer.class)
-public class MinecraftServerMixin {
+public abstract class MinecraftServerMixin {
     @WrapOperation(method = "tickChildren", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;tick(Ljava/util/function/BooleanSupplier;)V"))
     private void aetherFabric$levelTickEvents(ServerLevel instance, BooleanSupplier hasTimeLeft, Operation<Void> original) {
         LevelEvents.BEFORE.invoker().beforeTick(instance);

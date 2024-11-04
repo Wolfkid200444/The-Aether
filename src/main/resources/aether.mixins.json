@@ -71,7 +71,17 @@
     "common.accessor.HolderLookupAdapterAccessor",
     "common.LiquidBlockMixin",
     "common.ServerEntityMixin",
-    "common.ProjectileUtilMixin"
+    "common.ProjectileUtilMixin",
+    "common.AxeItemMixin",
+    "common.ItemAttributeModifiersPredicateMixin",
+    "common.ItemStackMixin",
+    "common.LightningBoltMixin",
+    "common.LivingEntitiesJumpMixin",
+    "common.RegistryLookupMixin",
+    "common.RegistryLookupMixin$DelegateMixin",
+    "common.SlimeMixin",
+    "common.ServerPacksSourceMixin",
+    "common.PackRepositoryAccessor"
   ],
   "client": [
     "client.AdvancementToastMixin",
@@ -127,7 +137,8 @@
     "client.SoundEngineMixin",
     "client.GameRendererMixin",
     "client.CameraMixin",
-    "client.FogRendererMixin"
+    "client.FogRendererMixin",
+    "client.LightTextureMixin"
   ],
   "injectors": {
     "defaultRequire": 1

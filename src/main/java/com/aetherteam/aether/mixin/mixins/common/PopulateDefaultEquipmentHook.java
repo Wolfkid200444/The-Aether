@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = {Mob.class, Piglin.class})
-public class PopulateDefaultEquipmentHook {
+public abstract class PopulateDefaultEquipmentHook {
 
     @Inject(at = @At(value = "TAIL"), method = "populateDefaultEquipmentSlots")
-    private void onFinalizeSpawn(RandomSource random, DifficultyInstance difficulty, CallbackInfo ci) {
+    private void aetherFabric$onFinalizeSpawn(RandomSource random, DifficultyInstance difficulty, CallbackInfo ci) {
         if (EntityHooks.canMobSpawnWithAccessories((Mob)(Object) this)) {
             EntityHooks.spawnWithAccessories((Mob)(Object) this, difficulty);
         }

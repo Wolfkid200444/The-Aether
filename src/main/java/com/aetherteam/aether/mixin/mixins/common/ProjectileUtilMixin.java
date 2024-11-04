@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ProjectileUtil.class)
-public class ProjectileUtilMixin {
+public abstract class ProjectileUtilMixin {
 
     @Definition(id = "entity2", local = @Local(type = Entity.class, ordinal = 2))
     @Definition(id = "shooter", local = @Local(type = Entity.class, ordinal = 0, argsOnly = true))

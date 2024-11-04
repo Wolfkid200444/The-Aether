@@ -1,11 +1,14 @@
 package com.aetherteam.aether.fabric.events;
 
+import com.aetherteam.aether.mixin.mixins.common.PackRepositoryAccessor;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.packs.repository.RepositorySource;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.function.Consumer;
 
 /**
@@ -15,7 +18,7 @@ public class AddPackFindersEvent {
     private final PackType packType;
     private final Consumer<RepositorySource> sources;
 
-    protected AddPackFindersEvent(PackType packType, Consumer<RepositorySource> sources) {
+    public AddPackFindersEvent(PackType packType, Consumer<RepositorySource> sources) {
         this.packType = packType;
         this.sources = sources;
     }
@@ -48,6 +51,18 @@ public class AddPackFindersEvent {
 
     public interface Callback {
         void findPacks(AddPackFindersEvent event);
+    }
+
+    public static AddPackFindersEvent invokeEvent(PackType packType, PackRepository repository) {
+        var accessor = (PackRepositoryAccessor) repository;
+
+        var sources = new LinkedHashSet<>(accessor.aetherFabric$sources());
+
+        var result = invokeEvent(packType, sources::add);
+
+        accessor.aetherFabric$sources(sources);
+
+        return result;
     }
 
     public static AddPackFindersEvent invokeEvent(PackType packType, Consumer<RepositorySource> sources) {

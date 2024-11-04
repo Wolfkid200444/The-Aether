@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(Language.class)
-public class LanguageMixin implements LanguageExtension {
+public abstract class LanguageMixin implements LanguageExtension {
 
     @Unique
     private Map<String, String> languageData = new HashMap<>();

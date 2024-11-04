@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = {Player.class, LivingEntity.class})
-public class EntityHurtMixin {
+public abstract class EntityHurtMixin {
     @Inject(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"))
     private void aetherFabric$adjustDamageAmount(DamageSource damageSource, float damageAmount, CallbackInfo ci, @Local(argsOnly = true) LocalFloatRef damageAmountRef) {
         damageAmountRef.set(WeaponAbilityListener.onEntityDamage((LivingEntity)(Object)this, damageSource, damageAmountRef.get()));

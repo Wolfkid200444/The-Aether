@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LightTexture.class)
-public class LightTextureMixin {
+public abstract class LightTextureMixin {
     @Inject(method = "updateLightTexture", at = @At(value = "JUMP", opcode = Opcodes.IFLE, ordinal = 4))
     private void aetherFabric$adjustLightTexture(float partialTicks, CallbackInfo ci, @Local() ClientLevel clientLevel,
                                                  @Local(ordinal = 1) float skyDarken, @Local(ordinal = 9) float skyLight,

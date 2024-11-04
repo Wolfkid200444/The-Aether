@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 public interface RegistryLookupMixin<T> extends RegistryLookupExtension<T> {
 
     @Mixin(HolderLookup.RegistryLookup.Delegate.class)
-    public interface DelegateMixin<T> extends RegistryLookupExtension<T> {
+    interface DelegateMixin<T> extends RegistryLookupExtension<T> {
         @Shadow
         HolderLookup.RegistryLookup<T> parent();
 

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = {LivingEntity.class, MagmaCube.class, Slime.class})
-public class LivingEntitiesJumpMixin {
+public abstract class LivingEntitiesJumpMixin {
 
     @Definition(id = "hasImpulse", field = {
         "Lnet/minecraft/world/entity/LivingEntity;hasImpulse:Z",
