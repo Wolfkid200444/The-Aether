@@ -46,7 +46,7 @@ public class EntityListener {
         EntityEvents.STRUCK_BY_LIGHTNING.register(EntityListener::onLightningStrike);
         LivingEntityEvents.ON_DROPS.register((entity, source, drops, recentlyHit, callback) -> onPlayerDrops(entity, drops));
         LivingEntityEvents.ON_EXPERIENCE_DROP.register((entity, attackingPlayer, helper) -> onDropExperience(entity, helper));
-        //bus.addListener(EntityListener::onEffectApply);
+        LivingEntityEvents.ON_EFFECT.register((entity, instance, result) -> EntityListener.onEffectApply(entity, instance));
         // SlimeMixin.aetherFabric$dontSplitForSwets -> EntityHooks.preventSplit
 
         OnDeathCallback.EVENT.register((currentState, entity, capability, damageSource, droppedStacks) -> {
@@ -153,14 +153,13 @@ public class EntityListener {
     /**
      * @see EntityHooks#preventInebriation(LivingEntity, MobEffectInstance)
      */
-    // TODO: [Fabric Porting] IMPLEMENT THIS
-//    public static void onEffectApply(MobEffectEvent.Applicable event) {
-//        LivingEntity livingEntity = event.getEntity();
-//        MobEffectInstance effectInstance = event.getEffectInstance();
-//        if (EntityHooks.preventInebriation(livingEntity, effectInstance)) {
-//            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
-//        }
-//    }
+    public static TriState onEffectApply(LivingEntity livingEntity, MobEffectInstance effectInstance) {
+        if (EntityHooks.preventInebriation(livingEntity, effectInstance)) {
+            return TriState.FALSE;
+        }
+
+        return null;
+    }
 
 //    /**
 //     * @see EntityHooks#preventSplit(Mob)

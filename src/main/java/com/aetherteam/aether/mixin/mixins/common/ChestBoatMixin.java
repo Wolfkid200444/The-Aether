@@ -13,7 +13,7 @@ public class ChestBoatMixin {
 
     @WrapMethod(method = "getDropItem")
     private Item aetherFabric$adjustBoatItemDrop(Operation<Item> original) {
-        if (((Boat)(Object) this).getVariant().getName().equals("AETHER_SKYROOT")) {
+        if (((Boat)(Object) this).getVariant().getName().equals("aether:skyroot")) {
             return AetherItems.SKYROOT_CHEST_BOAT.get();
         }
 

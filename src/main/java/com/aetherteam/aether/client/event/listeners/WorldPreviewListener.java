@@ -22,11 +22,10 @@ public class WorldPreviewListener {
             onGuiOpenLowest(newScreen);
             return null;
         });
-        // TODO: [Fabric Porting] Deal with this within the future
-        //bus.addListener(WorldPreviewListener::onScreenRender);
+        // GameRendererMixin.aetherFabric$wrapScreenRenderer -> WorldPreviewListener.onScreenRender
         WorldRenderEvents.LAST.register(context -> onRenderLevelLast());
         ClientTickEvents.END_CLIENT_TICK.register(client -> WorldPreviewListener.onClientTick());
-        //bus.addListener(WorldPreviewListener::onCameraView);
+        // CameraMixin.aetherFabric$beforeCameraSetup -> WorldPreviewListener.onCameraView
         //bus.addListener(WorldPreviewListener::onRenderOverlay);
         PlayerRenderEvents.BEFORE_RENDER.register((player, renderer, partialTick, poseStack, multiBufferSource, packedLight, callback) -> WorldPreviewListener.onRenderPlayer(renderer, callback));
         LivingEntityRenderEvents.BEFORE_RENDER.register((livingEntity, renderer, partialTick, poseStack, multiBufferSource, packedLight, callback) -> onRenderEntity(livingEntity, renderer, callback));
@@ -39,15 +38,14 @@ public class WorldPreviewListener {
         WorldPreviewHooks.setupWorldPreview(newScreen);
     }
 
-//    /**
-//     * @see WorldPreviewHooks#hideScreen(Screen)
-//     */
-//    public static void onScreenRender(ScreenEvent.Render.Pre event) {
-//        Screen screen = event.getScreen();
-//        if (WorldPreviewHooks.hideScreen(screen)) {
-//            event.setCanceled(true);
-//        }
-//    }
+    /**
+     * @see WorldPreviewHooks#hideScreen(Screen)
+     */
+    public static void onScreenRender(Screen screen, CancellableCallback callback) {
+        if (WorldPreviewHooks.hideScreen(screen)) {
+            callback.setCanceled(true);
+        }
+    }
 
     /**
      * @see WorldPreviewHooks#renderMenuWithWorld(RenderLevelStageEvent.Stage)
@@ -63,14 +61,12 @@ public class WorldPreviewListener {
         WorldPreviewHooks.tickMenuWhenPaused();
     }
 
-//    /**
-//     * @see WorldPreviewHooks#angleCamera(double)
-//     */
-//    public static void onCameraView(ViewportEvent.ComputeCameraAngles event) {
-//        double partialTick = event.getPartialTick();
-//
-//        WorldPreviewHooks.angleCamera(partialTick);
-//    }
+    /**
+     * @see WorldPreviewHooks#angleCamera(double)
+     */
+    public static void onCameraView(double partialTick) {
+        WorldPreviewHooks.angleCamera(partialTick);
+    }
 //
 //    /**
 //     * @see WorldPreviewHooks#hideOverlays()

@@ -60,6 +60,6 @@ public class ArmorAbilityListener {
      * @see PhoenixArmor#extinguishUser(LivingEntity, DamageSource)
      */
     public static boolean onEntityAttack(LivingEntity livingEntity, DamageSource damageSource) {
-        return PhoenixArmor.extinguishUser(livingEntity, damageSource);
+        return !PhoenixArmor.extinguishUser(livingEntity, damageSource);
     }
 }

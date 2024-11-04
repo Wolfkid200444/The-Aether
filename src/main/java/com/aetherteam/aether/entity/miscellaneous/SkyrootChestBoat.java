@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 public class SkyrootChestBoat extends ChestBoat {
     public SkyrootChestBoat(EntityType<? extends SkyrootChestBoat> entityType, Level level) {
         super(entityType, level);
-        this.setVariant(SkyrootBoat.SKYROOT);
+        this.setVariant(SkyrootBoat.SKYROOT.get());
     }
 
     public SkyrootChestBoat(Level level, double x, double y, double z) {

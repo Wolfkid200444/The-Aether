@@ -12,9 +12,11 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -72,7 +74,7 @@ public abstract class LivingEntityMixin extends Entity {
     private void aetherFabric$adjustDamageAmount(DamageSource damageSource, float damageAmount, CallbackInfo ci, @Local(argsOnly = true) LocalFloatRef damageAmountRef) {
         var newDamage = new MutableFloat(damageAmount);
 
-        LivingEntityEvents.MODIFY_DAMAGE.invoker().modifyDamage((LivingEntity) (Object) this, damageSource, damageAmount, newDamage);
+        LivingEntityEvents.ON_DAMAGE.invoker().modifyDamage((LivingEntity) (Object) this, damageSource, damageAmount, newDamage);
 
         damageAmountRef.set(newDamage.getValue());
     }
@@ -140,5 +142,15 @@ public abstract class LivingEntityMixin extends Entity {
         if (!stack.isEmpty() && stack.getItem() instanceof CloudStaffItem staffItem) {
             staffItem.onEntitySwing(stack, (LivingEntity)(Object) this, hand);
         }
+    }
+
+    @WrapOperation(
+        method = {"addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", "forceAddEffect"},
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;canBeAffected(Lnet/minecraft/world/effect/MobEffectInstance;)Z")
+    )
+    private boolean aetherFabric$adjustIfEffectIsApplicable(LivingEntity instance, MobEffectInstance effectInstance, Operation<Boolean> original) {
+        var result = LivingEntityEvents.ON_EFFECT.invoker().onEffect(instance, effectInstance, TriState.DEFAULT);
+
+        return result != TriState.DEFAULT ? result.get() : original.call(instance, effectInstance);
     }
 }

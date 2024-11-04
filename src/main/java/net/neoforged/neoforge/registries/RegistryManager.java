@@ -62,41 +62,6 @@ public class RegistryManager {
         context.networkHandler().completeTask(RegistryDataMapNegotiation.TYPE);
     }
 
-    public static void init() {
-        PayloadTypeRegistry.configurationS2C().register(KnownRegistryDataMapsPayload.TYPE, KnownRegistryDataMapsPayload.STREAM_CODEC);
-        PayloadTypeRegistry.configurationC2S().register(KnownRegistryDataMapsReplyPayload.TYPE, KnownRegistryDataMapsReplyPayload.STREAM_CODEC);
-
-        PayloadTypeRegistry.playS2C().register(RegistryDataMapSyncPayload.TYPE, RegistryDataMapSyncPayload.STREAM_CODEC);
-
-        ServerConfigurationConnectionEvents.CONFIGURE.register((handler, server) -> handler.addTask(new RegistryDataMapNegotiation(handler)));
-
-        ServerConfigurationNetworking.registerGlobalReceiver(KnownRegistryDataMapsReplyPayload.TYPE, RegistryManager::handleKnownDataMapsReply);
-
-        RegistryManager.initDataMaps();
-
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(DataMapLoader.ID, DataMapLoader::new);
-
-        ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> {
-            RegistryManager.getDataMaps().forEach((registry, values) -> {
-                final var regOpt = player.getServer().overworld().registryAccess().registry(registry);
-                if (regOpt.isEmpty()) return;
-                if (!ServerPlayNetworking.canSend(player, RegistryDataMapSyncPayload.TYPE)) return;
-                var connection = ((ServerCommonPacketListenerImplAccessor) player.connection).aetherFabric$connection();
-                // Note: don't send data maps over in-memory connections, else the client-side handling will wipe non-synced data maps.
-                if (connection.isMemoryConnection()) return;
-                final var playerMaps = ((ConnectionAccessor) connection).aetherFabric$getChannel().attr(RegistryManager.ATTRIBUTE_KNOWN_DATA_MAPS).get();
-                if (playerMaps == null) return; // Skip gametest players for instance
-                handleSync(player, regOpt.get(), playerMaps.getOrDefault(registry, List.of()));
-            });
-        });
-
-        CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> {
-            if (client) return;
-
-            DataMapLoader.apply(registries);
-        });
-    }
-
     public static <T> void handleSync(ServerPlayer player, Registry<T> registry, Collection<ResourceLocation> attachments) {
         if (attachments.isEmpty()) return;
         final Map<ResourceLocation, Map<ResourceKey<T>, ?>> att = new HashMap<>();

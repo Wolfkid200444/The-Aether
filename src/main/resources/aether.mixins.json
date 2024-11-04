@@ -68,7 +68,10 @@
     "common.accessor.RegistryOpsAccessor",
     "common.accessor.ServerCommonPacketListenerImplAccessor",
     "common.accessor.ConnectionAccessor",
-    "common.accessor.HolderLookupAdapterAccessor"
+    "common.accessor.HolderLookupAdapterAccessor",
+    "common.LiquidBlockMixin",
+    "common.ServerEntityMixin",
+    "common.ProjectileUtilMixin"
   ],
   "client": [
     "client.AdvancementToastMixin",
@@ -115,7 +118,16 @@
     "client.KeyMappingMixin",
     "client.RecipeBookCategoriesMixin",
     "client.ClientRecipeBookMixin",
-    "client.accessor.RecipeBookCategoriesAccessor"
+    "client.accessor.RecipeBookCategoriesAccessor",
+    "client.AccessoriesClientMixin",
+    "client.ModelLayersMixin",
+    "client.LocalPlayerMixin",
+    "client.MouseHandlerMixin",
+    "client.KeyboardHandlerMixin",
+    "client.SoundEngineMixin",
+    "client.GameRendererMixin",
+    "client.CameraMixin",
+    "client.FogRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

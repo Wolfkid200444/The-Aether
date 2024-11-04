@@ -98,6 +98,7 @@ import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.AetherFabric;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.RegistryManager;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
@@ -136,7 +137,6 @@ public class Aether implements ModInitializer {
             AetherPlacementModifiers.PLACEMENT_MODIFIERS,
             AetherTrunkPlacerTypes.TRUNK_PLACERS,
             AetherTreeDecoratorTypes.TREE_DECORATORS,
-            AetherPoi.POI,
             AetherStructureTypes.STRUCTURE_TYPES,
             AetherStructurePieceTypes.STRUCTURE_PIECE_TYPES,
             AetherStructureProcessors.STRUCTURE_PROCESSOR_TYPES,
@@ -154,6 +154,8 @@ public class Aether implements ModInitializer {
         for (DeferredRegister<?> register : registers) {
             register.addEntriesToRegistry();
         }
+
+        AetherPoi.init();
 
         AetherWoodTypes.init();
 
@@ -186,7 +188,7 @@ public class Aether implements ModInitializer {
 
         //--
 
-        RegistryManager.init();
+        AetherFabric.init();
     }
 
     public void registerPackets() {
@@ -503,7 +505,7 @@ public class Aether implements ModInitializer {
         CommandRegistrationCallback.EVENT.register(AetherCommands::registerCommands);
         ReloadListeners.reloadListenerSetup(ResourceManagerHelper.get(PackType.SERVER_DATA));
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> FlamingSwordItem.onLivingDamage(entity, source));
-        LivingEntityEvents.MODIFY_DAMAGE.register((entity, source, originalDamage, newDamage) -> {
+        LivingEntityEvents.ON_DAMAGE.register((entity, source, originalDamage, newDamage) -> {
             HolySwordItem.onLivingDamage(entity, source, newDamage);
             PigSlayerItem.onLivingDamage(entity, source, newDamage);
         });

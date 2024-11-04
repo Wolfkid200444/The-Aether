@@ -33,7 +33,7 @@ import java.util.function.Consumer;
 public class DataMapLoader implements PreparableReloadListener, IdentifiableResourceReloadListener {
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final String PATH = "data_maps";
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("neoforge", PATH);
+    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("aether_fabric", PATH);
     private static Map<ResourceKey<? extends Registry<?>>, LoadResult<?>> results = null;
     private final HolderLookup.Provider registryAccess;
 

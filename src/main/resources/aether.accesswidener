@@ -23,3 +23,4 @@ accessible field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Ma
 mutable field net/minecraft/stats/RecipeBookSettings TAG_FIELDS Ljava/util/Map;
 
 accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/List;
+accessible class net/minecraft/client/renderer/FogRenderer$FogData

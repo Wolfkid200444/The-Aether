@@ -277,7 +277,7 @@ public class AetherSkyRenderEffects extends DimensionSpecialEffects {
      * Modified to make the sun and moon fade out when they dip under the horizon.
      */
     public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f modelViewMatrix, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
-        setupFog.run();
+        //setupFog.run();
         if (!isFoggy) {
             FogType fogtype = camera.getFluidInCamera();
             if (fogtype != FogType.POWDER_SNOW && fogtype != FogType.LAVA && !this.doesMobEffectBlockSky(camera)) {

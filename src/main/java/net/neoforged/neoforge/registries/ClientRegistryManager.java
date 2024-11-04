@@ -25,11 +25,6 @@ import java.util.stream.Collectors;
 public class ClientRegistryManager {
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public static void initNetworking() {
-        ClientPlayNetworking.registerGlobalReceiver(RegistryDataMapSyncPayload.TYPE, ClientRegistryManager::handleDataMapSync);
-        ClientConfigurationNetworking.registerGlobalReceiver(KnownRegistryDataMapsPayload.TYPE, ClientRegistryManager::handleKnownDataMaps);
-    }
-
     public static <R> void handleDataMapSync(final RegistryDataMapSyncPayload<R> payload, final ClientPlayNetworking.Context context) {
         try {
             var regAccess = Minecraft.getInstance().level.registryAccess();

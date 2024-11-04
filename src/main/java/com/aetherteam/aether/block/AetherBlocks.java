@@ -267,7 +267,7 @@ public class AetherBlocks {
     }
 
     public static void registerFluidInteractions() {
-        // TODO: [Fabric Porting] Figure out hot to do this!
+        // Handled by LiquidBlockMixin.aetherFabric$adjustInteraction
 //        FluidInteractionRegistry.addInteraction(NeoForgeMod.WATER_TYPE.value(), new FluidInteractionRegistry.InteractionInformation(
 //                (level, currentPos, relativePos, currentState) -> level.getBlockState(currentPos.below()).is(AetherBlocks.QUICKSOIL.get()) && level.getBlockState(relativePos).is(Blocks.MAGMA_BLOCK),
 //                AetherBlocks.HOLYSTONE.get().defaultBlockState()

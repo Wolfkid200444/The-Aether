@@ -20,9 +20,7 @@ import io.wispforest.accessories.client.gui.AccessoriesScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.client.gui.components.LerpingBossEvent;
-import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.*;
@@ -274,8 +272,11 @@ public class GuiHooks {
     public static void closeContainerMenu(int key, int action) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.screen instanceof AbstractContainerScreen<?> abstractContainerScreen) {
-            if (!AetherConfig.CLIENT.disable_accessory_button.get() && AetherKeys.OPEN_ACCESSORY_INVENTORY.getKey().getValue() == key && (action == InputConstants.PRESS || action == InputConstants.REPEAT)) {
-                abstractContainerScreen.onClose();
+            var focused = abstractContainerScreen.getFocused();
+            if (!(focused instanceof EditBox || focused instanceof MultiLineEditBox)) {
+                if (!AetherConfig.CLIENT.disable_accessory_button.get() && AetherKeys.OPEN_ACCESSORY_INVENTORY.getKey().getValue() == key && (action == InputConstants.PRESS || action == InputConstants.REPEAT)) {
+                    abstractContainerScreen.onClose();
+                }
             }
         }
     }

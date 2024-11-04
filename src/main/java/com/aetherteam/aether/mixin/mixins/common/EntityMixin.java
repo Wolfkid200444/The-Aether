@@ -16,6 +16,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,7 +32,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.payload.AdvancedAddEntityPayload;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,6 +48,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Mixin(Entity.class)
 public class EntityMixin implements EntityExtension {
@@ -142,7 +146,7 @@ public class EntityMixin implements EntityExtension {
 
     @Inject(method = "changeDimension", at = @At("HEAD"))
     private void aetherFabric$beforeDimensionChange(DimensionTransition transition, CallbackInfoReturnable<Entity> cir) {
-        EntityEvents.BEFORE_DIMENSION_CHANGE.invoker().beforeChange((ServerPlayer) (Object) this, transition.newLevel().dimension());
+        EntityEvents.BEFORE_DIMENSION_CHANGE.invoker().beforeChange((Entity) (Object) this, transition.newLevel().dimension());
     }
 
     @Override
@@ -152,7 +156,7 @@ public class EntityMixin implements EntityExtension {
 
     @Definition(id = "vehicle", field = "Lnet/minecraft/world/entity/Entity;vehicle:Lnet/minecraft/world/entity/Entity;")
     @Expression("this.vehicle = null")
-    @Inject(method = "removeVehicle", at = @At(value = "MIXINEXTRAS:EXPRESSION", shift = At.Shift.BEFORE))
+    @Inject(method = "removeVehicle", at = @At(value = "MIXINEXTRAS:EXPRESSION", shift = At.Shift.BEFORE), cancellable = true)
     private void aetherFabric$entityMountEvent_remove(CallbackInfo ci) {
         var callback = new CancellableCallbackImpl();
 
@@ -166,7 +170,7 @@ public class EntityMixin implements EntityExtension {
         }
     }
 
-    @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;canRide(Lnet/minecraft/world/entity/Entity;)Z"))
+    @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;canRide(Lnet/minecraft/world/entity/Entity;)Z"), cancellable = true)
     private void aetherFabric$entityMountEvent_add(Entity vehicle, boolean force, CallbackInfoReturnable<Boolean> cir) {
         var callback = new CancellableCallbackImpl();
 
@@ -204,7 +208,14 @@ public class EntityMixin implements EntityExtension {
 
     @Override
     public @Nullable Collection<ItemEntity> getCapturedDrops() {
-        return this.capturingDrops ? this.capturedDrops : null;
+        return new ArrayList<>(this.capturingDrops ? this.capturedDrops : null);
+    }
+
+    @Override
+    public void sendPairingData(ServerPlayer serverPlayer, Consumer<CustomPacketPayload> bundleBuilder) {
+        if (this instanceof IEntityWithComplexSpawn) {
+            bundleBuilder.accept(new AdvancedAddEntityPayload((Entity)(Object) this));
+        }
     }
 
     @Inject(method = "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))

@@ -2,7 +2,9 @@ package com.aetherteam.aether.fabric.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -32,8 +34,18 @@ public class LivingEntityEvents {
     public static final Event<OnDrops> ON_DROPS = EventFactory.createArrayBacked(OnDrops.class, invokers -> (entity, source, drops, recentlyHit, callback) -> {
         for (var invoker : invokers) invoker.onDrops(entity, source, drops, recentlyHit, callback);
     });
-    public static final Event<ModifyDamage> MODIFY_DAMAGE = EventFactory.createArrayBacked(ModifyDamage.class, callbacks -> (entity, source, originalDamage, newDamage) -> {
-        for (var callback : callbacks) callback.modifyDamage(entity, source, originalDamage, newDamage);
+
+    public static final Event<ModifyDamage> ON_DAMAGE = EventFactory.createArrayBacked(ModifyDamage.class, invokers -> (entity, source, originalDamage, newDamage) -> {
+        for (var invoker : invokers) invoker.modifyDamage(entity, source, originalDamage, newDamage);
+    });
+
+    public static final Event<OnStatusEffect> ON_EFFECT = EventFactory.createArrayBacked(OnStatusEffect.class, invokers -> (entity, instance, result) -> {
+        for (var invoker : invokers) {
+            var newResult = invoker.onEffect(entity, instance, result);
+
+            if (newResult != null) result = newResult;
+        }
+        return result;
     });
 
     public interface Jumped {
@@ -69,5 +81,9 @@ public class LivingEntityEvents {
          * @param newDamage      the amount of damage that the entity will be taking
          */
         void modifyDamage(LivingEntity entity, DamageSource source, float originalDamage, MutableFloat newDamage);
+    }
+
+    public interface OnStatusEffect {
+        @Nullable TriState onEffect(LivingEntity entity, MobEffectInstance instance, TriState result);
     }
 }
