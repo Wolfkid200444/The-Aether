@@ -3,6 +3,7 @@ package com.aetherteam.aether.event.listeners.abilities;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
 import com.aetherteam.aether.fabric.events.CancellableCallback;
+import com.aetherteam.aether.fabric.events.PlayerEvents;
 import com.aetherteam.aether.fabric.events.ProjectileEvents;
 import com.aetherteam.aether.item.accessories.abilities.ShieldOfRepulsionAccessory;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -17,8 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableDouble;
+import org.apache.commons.lang3.mutable.MutableFloat;
 import org.jetbrains.annotations.Nullable;
 
 public class AccessoryAbilityListener {
@@ -27,6 +28,7 @@ public class AccessoryAbilityListener {
      */
     public static void listen() {
         PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> onBlockBreak(level, player, pos, state));
+        PlayerEvents.ON_BLOCK_DESTROY.register(AccessoryAbilityListener::onMiningSpeed);
         // LivingEntityMixin.aether$adjustEntityVisibility -> AccessoryAbilityListener.onTargetSet;
         ProjectileEvents.ON_IMPACT.register(AccessoryAbilityListener::onProjectileImpact);
         ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> onEntityHurt(entity, source));
@@ -39,6 +41,17 @@ public class AccessoryAbilityListener {
     public static void onBlockBreak(Level level, Player player, BlockPos pos, BlockState state) {
         AbilityHooks.AccessoryHooks.damageZaniteRing(player, level, state, pos);
         AbilityHooks.AccessoryHooks.damageZanitePendant(player, level, state, pos);
+    }
+
+    /**
+     * @see AbilityHooks.AccessoryHooks#handleZaniteRingAbility(LivingEntity, float)
+     * @see AbilityHooks.AccessoryHooks#handleZanitePendantAbility(LivingEntity, float)
+     */
+    public static void onMiningSpeed(Player player, BlockState blockState, MutableFloat speed, CancellableCallback callback) {
+        if (!callback.isCanceled()) {
+            speed.setValue(AbilityHooks.AccessoryHooks.handleZaniteRingAbility(player, speed.getValue()));
+            speed.setValue(AbilityHooks.AccessoryHooks.handleZanitePendantAbility(player, speed.getValue()));
+        }
     }
 
     /**

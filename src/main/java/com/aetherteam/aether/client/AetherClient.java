@@ -84,7 +84,7 @@ public class AetherClient implements ClientModInitializer {
     public static void clientSetup() {
         disableCumulusButton();
         Reflection.initialize(CustomizationsOptions.class);
-        AetherRenderers.registerCuriosRenderers();
+        AetherRenderers.registerAccessoryRenderers();
         AetherAtlases.registerTreasureChestAtlases();
         AetherAtlases.registerWoodTypeAtlases();
         registerItemModelProperties();

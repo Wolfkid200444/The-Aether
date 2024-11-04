@@ -180,7 +180,7 @@ public class AetherRenderers {
     /**
      * @see com.aetherteam.aether.client.AetherClient#clientSetup()
      */
-    public static void registerCuriosRenderers() {
+    public static void registerAccessoryRenderers() {
         AccessoriesRendererRegistry.registerNoRenderer(AetherItems.IRON_RING.get());
         AccessoriesRendererRegistry.registerNoRenderer(AetherItems.GOLDEN_RING.get());
         AccessoriesRendererRegistry.registerNoRenderer(AetherItems.ZANITE_RING.get());

@@ -88,7 +88,7 @@ public class WorldPreviewHooks {
         Player player = minecraft.player;
         if (WorldDisplayHelper.isActive() && player != null) {
             float f = (float) (partialTick * minecraft.options.panoramaSpeed().get()); // Ensures the rotation speed isn't tied to game tick speed
-            float spin = wrapDegrees(player.getViewYRot((float) partialTick) + f * 0.05F);
+            float spin = wrapDegrees(player.getViewYRot((float) partialTick) + f * 0.2F);
             player.setYRot(spin);
             player.setXRot(0);
         }

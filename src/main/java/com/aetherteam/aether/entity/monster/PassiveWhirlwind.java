@@ -2,7 +2,6 @@ package com.aetherteam.aether.entity.monster;
 
 import com.aetherteam.aether.client.particle.AetherParticleTypes;
 import com.aetherteam.aether.loot.AetherLoot;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;

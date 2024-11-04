@@ -4,7 +4,6 @@ import com.aetherteam.aether.item.accessories.abilities.SlowFallAccessory;
 import io.wispforest.accessories.api.events.extra.AllowWalkingOnSnow;
 import io.wispforest.accessories.api.slot.SlotReference;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 public class ValkyrieCapeItem extends CapeItem implements SlowFallAccessory, AllowWalkingOnSnow {

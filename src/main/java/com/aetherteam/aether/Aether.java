@@ -35,6 +35,7 @@ import com.aetherteam.aether.event.listeners.capability.AetherTimeListener;
 import com.aetherteam.aether.fabric.events.AddPackFindersEvent;
 import com.aetherteam.aether.fabric.NetworkRegisterHelper;
 import com.aetherteam.aether.fabric.WrappedInventoryStorage;
+import com.aetherteam.aether.fabric.events.ItemAttributeModifierHelper;
 import com.aetherteam.aether.fabric.events.LivingEntityEvents;
 import com.aetherteam.aether.inventory.AetherAccessorySlots;
 import com.aetherteam.aether.inventory.AetherRecipeBookTypes;
@@ -42,6 +43,7 @@ import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
 import com.aetherteam.aether.item.AetherCreativeTabs;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.item.combat.AetherArmorMaterials;
+import com.aetherteam.aether.item.combat.ZaniteSwordItem;
 import com.aetherteam.aether.item.combat.loot.FlamingSwordItem;
 import com.aetherteam.aether.item.combat.loot.HolySwordItem;
 import com.aetherteam.aether.item.combat.loot.PigSlayerItem;
@@ -279,7 +281,7 @@ public class Aether implements ModInitializer {
 
         // Data Packs
         this.setupAccessoriesPack(event);
-        this.setupCuriosOverridePack(event);
+        this.setupAccessoriesOverridePack(event);
         this.setupTemporaryFreezingPack(event);
         this.setupRuinedPortalPack(event);
     }
@@ -412,16 +414,16 @@ public class Aether implements ModInitializer {
     }
 
     /**
-     * A built-in data pack to set up the default slots for Curios.<br><br>
+     * A built-in data pack to set up the default slots for accessories.<br><br>
      * The pack is loaded and automatically applied if the {@link AetherConfig.Common#use_default_accessories_menu} config isn't enabled.
      */
     private void setupAccessoriesPack(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.SERVER_DATA && !AetherConfig.COMMON.use_default_accessories_menu.get()) {
             Path resourcePath = FabricLoader.getInstance().getModContainer(Aether.MODID).orElseThrow().findPath("packs/accessories").orElseThrow();
-            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.aether.accessories.description"), SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA), Optional.empty());
+            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.aether.aether_accessories.description"), SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA), Optional.empty());
             event.addRepositorySource((source) ->
                     source.accept(new Pack(
-                            new PackLocationInfo("builtin/aether_accessories", Component.translatable("pack.aether.accessories.title"), PackSource.BUILT_IN, Optional.empty()),
+                            new PackLocationInfo("builtin/aether_accessories", Component.translatable("pack.aether.aether_accessories.title"), PackSource.BUILT_IN, Optional.empty()),
                             new PathPackResources.PathResourcesSupplier(resourcePath),
                             new Pack.Metadata(metadata.description(), PackCompatibility.COMPATIBLE, FeatureFlagSet.of(), List.of()/*, true*/),
                             new PackSelectionConfig(true, Pack.Position.TOP, false)
@@ -432,16 +434,16 @@ public class Aether implements ModInitializer {
     }
 
     /**
-     * A built-in data pack to empty the Aether's curio slot tags and use the default curio slot tags instead, as well as register the default Curios slots.<br><br>
+     * A built-in data pack to empty the Aether's accessory slot tags and use the default accessory slot tags instead, as well as register the default accessories slots.<br><br>
      * The pack is loaded and automatically applied if the {@link AetherConfig.Common#use_default_accessories_menu} config is enabled.
      */
-    private void setupCuriosOverridePack(AddPackFindersEvent event) {
+    private void setupAccessoriesOverridePack(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.SERVER_DATA && AetherConfig.COMMON.use_default_accessories_menu.get()) {
-            Path resourcePath = FabricLoader.getInstance().getModContainer(Aether.MODID).orElseThrow().findPath("packs/curios_override").orElseThrow();
-            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.aether.curios.description"), SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA), Optional.empty());
+            Path resourcePath = FabricLoader.getInstance().getModContainer(Aether.MODID).orElseThrow().findPath("packs/accessories_override").orElseThrow();
+            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.aether.default_accessories.description"), SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA), Optional.empty());
             event.addRepositorySource((source) ->
                     source.accept(new Pack(
-                            new PackLocationInfo("builtin/aether_curios_override", Component.translatable("pack.aether.curios.title"), PackSource.BUILT_IN, Optional.empty()),
+                            new PackLocationInfo("builtin/aether_accessories_override", Component.translatable("pack.aether.default_accessories.title"), PackSource.BUILT_IN, Optional.empty()),
                             new PathPackResources.PathResourcesSupplier(resourcePath),
                             new Pack.Metadata(metadata.description(), PackCompatibility.COMPATIBLE, FeatureFlagSet.of(), List.of()/*, true*/),
                             new PackSelectionConfig(true, Pack.Position.TOP, false)
@@ -504,6 +506,7 @@ public class Aether implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register(AetherCommands::registerCommands);
         ReloadListeners.reloadListenerSetup(ResourceManagerHelper.get(PackType.SERVER_DATA));
+        ItemAttributeModifierHelper.ON_MODIFICATION.register(ZaniteSwordItem::onModifyAttributes);
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> FlamingSwordItem.onLivingDamage(entity, source));
         LivingEntityEvents.ON_DAMAGE.register((entity, source, originalDamage, newDamage) -> {
             HolySwordItem.onLivingDamage(entity, source, newDamage);

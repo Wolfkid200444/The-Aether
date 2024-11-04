@@ -43,7 +43,7 @@ import java.util.List;
 
 public class AetherDispenseBehaviors {
     /**
-     * Behavior for allowing dispensers to equip Curios accessories to players.
+     * Behavior for allowing dispensers to equip accessories to players.
      */
     public static final DispenseItemBehavior DISPENSE_ACCESSORY_BEHAVIOR = new DefaultDispenseItemBehavior() {
         @Override

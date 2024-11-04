@@ -109,7 +109,7 @@ public interface PhoenixArmor {
 
     /**
      * Slowly increments a timer to convert a player's Phoenix Armor if they're in water, rain, or a bubble column.<br><br>
-     * This is done by looping through the armor {@link EquipmentSlot}s and also checking with {@link top.theillusivec4.curios.common.CuriosHelper#findFirstCurio(LivingEntity, Item)} for the gloves.<br><br>
+     * This is done by looping through the armor {@link EquipmentSlot}s and also checking with {@link EquipmentUtil#getAccessory(LivingEntity, Item)} for the gloves.<br><br>
      * The methods used for this are {@link PhoenixArmor#breakPhoenixArmor(LivingEntity, ItemStack, ItemStack, EquipmentSlot)} and {@link PhoenixArmor#breakPhoenixGloves(LivingEntity, SlotEntryReference, ItemStack)}.
      *
      * @param entity The {@link LivingEntity} wearing the armor.
@@ -169,7 +169,7 @@ public interface PhoenixArmor {
      * Replaces the gloves stack and copies over its tags and enchantments.
      *
      * @param entity       The {@link LivingEntity} wearing the armor.
-     * @param slotResult   The {@link SlotEntryReference} of the Curio item.
+     * @param slotResult   The {@link SlotEntryReference} of the accessory item.
      * @param outcomeStack The replacement {@link ItemStack}.
      */
     private static void breakPhoenixGloves(LivingEntity entity, SlotEntryReference slotResult, ItemStack outcomeStack) {

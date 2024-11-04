@@ -2,16 +2,18 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
+import com.aetherteam.aether.fabric.events.CancellableCallback;
 import com.aetherteam.aether.fabric.events.ItemAttributeModifierHelper;
+import com.aetherteam.aether.fabric.events.PlayerEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import org.apache.commons.lang3.mutable.MutableFloat;
 
 public class ToolAbilityListener {
     /**
@@ -19,9 +21,9 @@ public class ToolAbilityListener {
      */
     public static void listen() {
 //        bus.addListener(ToolAbilityListener::setupToolModifications);
-        ItemAttributeModifierHelper.ON_MODIFICATION.register(ToolAbilityListener::modifyItemAttributes);
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> doHolystoneAbility(player, world, pos, player.getMainHandItem(), state));
-        // PlayerMixin.aetherFabric$modifySpeed -> ToolAbilityListener::doGoldenOakStripping;
+        PlayerEvents.ON_BLOCK_DESTROY.register(ToolAbilityListener::modifyBreakSpeed);
+        // AxeItemMixin.aetherFabric$onLogStripping -> ToolAbilityListener.doGoldenOakStripping;
     }
 
 //    /**
@@ -38,14 +40,6 @@ public class ToolAbilityListener {
 //        }
 //    }
 
-    public static void modifyItemAttributes(ItemStack itemStack, ItemAttributeModifierHelper event) {
-        ItemAttributeModifiers modifiers = event.getDefaultModifiers();
-        ItemAttributeModifiers.Entry modifierEntry = AbilityHooks.ToolHooks.handleZaniteAbilityModifiers(modifiers, itemStack);
-        if (modifierEntry != null) {
-            event.replaceModifier(modifierEntry.attribute(), modifierEntry.modifier(), modifierEntry.slot());
-        }
-    }
-
     /**
      * @see AbilityHooks.ToolHooks#handleHolystoneToolAbility(Player, Level, BlockPos, ItemStack, BlockState)
      */
@@ -54,14 +48,15 @@ public class ToolAbilityListener {
     }
 
     /**
+     * @see AbilityHooks.ToolHooks#handleZaniteToolAbility(ItemStack, float)
      * @see AbilityHooks.ToolHooks#reduceToolEffectiveness(Player, BlockState, ItemStack, float)
      */
-    public static float modifyBreakSpeed(Player player, BlockState blockState, float speed) {
+    public static void modifyBreakSpeed(Player player, BlockState blockState, MutableFloat speed, CancellableCallback callback) {
         ItemStack itemStack = player.getMainHandItem();
-        if (speed < 0) {
-            return AbilityHooks.ToolHooks.reduceToolEffectiveness(player, blockState, itemStack, speed);
+        if (!callback.isCanceled()) {
+            speed.setValue(AbilityHooks.ToolHooks.handleZaniteToolAbility(itemStack, speed.getValue()));
+            speed.setValue(AbilityHooks.ToolHooks.reduceToolEffectiveness(player, blockState, itemStack, speed.getValue()));
         }
-        return speed;
     }
 
     /**

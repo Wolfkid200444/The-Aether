@@ -245,6 +245,24 @@ public class DimensionHooks {
     }
 
     /**
+     * @param entity The {@link Entity} travelling between dimensions.
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onEntityTravelToDimension(EntityTravelToDimensionEvent)
+     */
+    public static void removePlayerAerbunny(Entity entity) {
+        if (entity instanceof Player player) {
+            player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).removeAerbunny();
+        }
+    }
+
+    /**
+     * @param player The {@link Player} travelling between dimensions.
+     * @see com.aetherteam.aether.event.listeners.DimensionListener#onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent)
+     */
+    public static void remountPlayerAerbunny(Player player) {
+        player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).remountAerbunny(player);
+    }
+
+    /**
      * Checks if the player was falling out of the Aether, and prevents server fly-hack checks during this.
      *
      * @param player The {@link Player}.

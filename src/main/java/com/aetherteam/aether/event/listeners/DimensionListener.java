@@ -46,6 +46,7 @@ public class DimensionListener {
         BlockEvents.NEIGHBOR_UPDATE.register((level, pos, state, notifiedSides, forceRedstoneUpdate, isCancelled) -> onWaterExistsInsidePortalFrame(level, pos, isCancelled));
         LevelEvents.AFTER.register(DimensionListener::onWorldTick);
         EntityEvents.BEFORE_DIMENSION_CHANGE.register(DimensionListener::onEntityTravelToDimension);
+        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> DimensionListener.onPlayerChangedDimension(player));
         PlayerTickEvents.AFTER.register(DimensionListener::onPlayerTraveling);
         ServerWorldEvents.LOAD.register((server, world) -> onWorldLoad(world));
         // ServerLevelMixin.aetherFabric$adjustSleepTime -> DimensionListener::onSleepFinish
@@ -94,9 +95,18 @@ public class DimensionListener {
 
     /**
      * @see DimensionHooks#dimensionTravel(Entity, ResourceKey)
+     * @see DimensionHooks#removePlayerAerbunny(Entity)
      */
     public static void onEntityTravelToDimension(Entity entity, ResourceKey<Level> dimension) {
         DimensionHooks.dimensionTravel(entity, dimension);
+        DimensionHooks.removePlayerAerbunny(entity);
+    }
+
+    /**
+     * @see DimensionHooks#remountPlayerAerbunny(Player)
+     */
+    public static void onPlayerChangedDimension(Player player) {
+        DimensionHooks.remountPlayerAerbunny(player);
     }
 
     /**

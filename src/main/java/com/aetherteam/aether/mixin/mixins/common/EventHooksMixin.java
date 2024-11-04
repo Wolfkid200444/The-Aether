@@ -1,7 +1,6 @@
 //package com.aetherteam.aether.mixin.mixins.common;
 //
 //import com.aetherteam.aether.event.hooks.EntityHooks;
-//import net.minecraft.nbt.CompoundTag;
 //import net.minecraft.world.DifficultyInstance;
 //import net.minecraft.world.entity.Entity;
 //import net.minecraft.world.entity.Mob;

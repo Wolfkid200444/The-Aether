@@ -1,7 +1,6 @@
 package com.aetherteam.aether.block.portal;
 
 import com.aetherteam.aether.Aether;
-import com.aetherteam.aether.attachment.AetherPlayerAttachment;
 import com.aetherteam.aether.client.AetherSoundEvents;
 import com.aetherteam.aether.client.particle.AetherParticleTypes;
 import com.aetherteam.aether.client.sound.FadeOutSoundInstance;

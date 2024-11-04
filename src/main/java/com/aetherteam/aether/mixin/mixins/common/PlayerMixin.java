@@ -3,6 +3,8 @@ package com.aetherteam.aether.mixin.mixins.common;
 import com.aetherteam.aether.entity.passive.MountableAnimal;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
 import com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener;
+import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
+import com.aetherteam.aether.fabric.events.PlayerEvents;
 import com.aetherteam.aether.fabric.events.PlayerTickEvents;
 import com.aetherteam.aether.mixin.AetherMixinHooks;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -15,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.apache.commons.lang3.mutable.MutableFloat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -78,6 +81,11 @@ public class PlayerMixin {
 
     @ModifyReturnValue(method = "getDestroySpeed", at = @At("RETURN"))
     private float aetherFabric$modifySpeed(float value, @Local(argsOnly = true) BlockState state) {
-        return (value < 0) ? ToolAbilityListener.modifyBreakSpeed((Player) (Object) this, state, value) : value;
+        var speed = new MutableFloat(value);
+        var callback = new CancellableCallbackImpl();
+
+        PlayerEvents.ON_BLOCK_DESTROY.invoker().onDestroy((Player) (Object) this, state, speed, callback);
+
+        return callback.isCanceled() ? -1 : speed.getValue();
     }
 }

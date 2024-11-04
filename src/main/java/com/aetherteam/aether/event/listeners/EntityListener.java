@@ -3,10 +3,22 @@ package com.aetherteam.aether.event.listeners;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.EntityHooks;
 import com.aetherteam.aether.fabric.events.*;
+import io.wispforest.accessories.api.AccessoriesAPI;
+import io.wispforest.accessories.api.AccessoriesCapability;
+import io.wispforest.accessories.api.Accessory;
+import io.wispforest.accessories.api.EquipAction;
 import io.wispforest.accessories.api.events.OnDeathCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import io.wispforest.accessories.api.slot.SlotReference;
+import it.unimi.dsi.fastutil.Pair;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -18,7 +30,9 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.phys.AABB;
@@ -48,13 +62,14 @@ public class EntityListener {
         LivingEntityEvents.ON_EXPERIENCE_DROP.register((entity, attackingPlayer, helper) -> onDropExperience(entity, helper));
         LivingEntityEvents.ON_EFFECT.register((entity, instance, result) -> EntityListener.onEffectApply(entity, instance));
         // SlimeMixin.aetherFabric$dontSplitForSwets -> EntityHooks.preventSplit
+        //bus.addListener(EntityListener::onLoadPlayerFile);
 
         OnDeathCallback.EVENT.register((currentState, entity, capability, damageSource, droppedStacks) -> {
             List<ItemStack> droppedStacksCopy = new ArrayList<>(droppedStacks);
             boolean recentlyHit = entity.hurtMarked;
             int looting = EnchantmentHelper.getEnchantmentLevel(entity.level().registryAccess().holderOrThrow(Enchantments.LOOTING), entity);
             droppedStacks.clear();
-            droppedStacks.addAll(EntityHooks.handleEntityCurioDrops(entity, droppedStacksCopy, recentlyHit, looting));
+            droppedStacks.addAll(EntityHooks.handleEntityAccessoryDrops(entity, droppedStacksCopy, recentlyHit, looting));
             return TriState.DEFAULT;
         });
     }
@@ -167,6 +182,60 @@ public class EntityListener {
 //    public static void onEntitySplit(Mob mob, CancellableCallback callback) {
 //        if (EntityHooks.preventSplit(mob)) {
 //            callback.setCanceled(true);
+//        }
+//    }
+
+//    public static void onLoadPlayerFile(PlayerEvent.LoadFromFile event) {
+//        Player player = event.getEntity();
+//        if (player instanceof ServerPlayer serverPlayer) {
+//            CompoundTag playerTag = serverPlayer.server.getWorldData().getLoadedPlayerTag();
+//            if (playerTag != null) {
+//                CompoundTag capsTag = null;
+//                if (playerTag.contains("ForgeCaps")) {
+//                    capsTag = playerTag.getCompound("ForgeCaps");
+//                } else if (playerTag.contains("neoforge:attachments")) {
+//                    capsTag = playerTag.getCompound("neoforge:attachments");
+//                }
+//                if (capsTag != null && capsTag.contains("curios:inventory")) {
+//                    CompoundTag curiosInventoryTag = capsTag.getCompound("curios:inventory");
+//                    if (curiosInventoryTag.contains("Curios")) {
+//                        Tag curiosTag = curiosInventoryTag.get("Curios");
+//                        if (curiosTag instanceof ListTag curiosListTag) {
+//                            for (Tag tag : curiosListTag) {
+//                                if (tag instanceof CompoundTag compoundTag && compoundTag.contains("StacksHandler") && compoundTag.contains("Identifier")) {
+//                                    CompoundTag stacksHandlerTag = compoundTag.getCompound("StacksHandler");
+//                                    if (stacksHandlerTag.contains("Stacks")) {
+//                                        CompoundTag stacksTag = stacksHandlerTag.getCompound("Stacks");
+//                                        if (stacksTag.contains("Items")) {
+//                                            Tag itemsTag = stacksTag.get("Items");
+//                                            if (itemsTag instanceof ListTag listTag) {
+//                                                for (Tag itemTag : listTag) {
+//                                                    if (itemTag instanceof CompoundTag itemCompoundTag) {
+//                                                        if (itemCompoundTag.contains("id")) {
+//                                                            Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemCompoundTag.getString("id")));
+//                                                            if (item != Items.AIR) {
+//                                                                ItemStack stack = new ItemStack(item);
+//                                                                AccessoriesCapability accessories = AccessoriesCapability.get(player);
+//                                                                if (accessories != null) {
+//                                                                    Accessory accessory = AccessoriesAPI.getOrDefaultAccessory(stack);
+//                                                                    Pair<SlotReference, EquipAction> equipReference = accessories.canEquipAccessory(stack, true);
+//                                                                    if (accessory.canEquip(stack, equipReference.first())) {
+//                                                                        equipReference.second().equipStack(stack.copy());
+//                                                                    }
+//                                                                }
+//                                                            }
+//                                                        }
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
 //        }
 //    }
 }
