@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
+import noobanidus.mods.lootr.config.ConfigManager;
 
 import java.util.Calendar;
 
@@ -15,6 +16,7 @@ public class MimicRenderer extends MobRenderer<Mimic, MimicModel> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(Aether.MODID, "textures/entity/mobs/mimic/normal.png");
 	private static final ResourceLocation XMAS_TEXTURE = new ResourceLocation(Aether.MODID, "textures/entity/mobs/mimic/christmas.png");
 	private static final ResourceLocation LOOTR_TEXTURE = new ResourceLocation(Aether.MODID, "textures/entity/mobs/mimic/lootr.png");
+	private static final ResourceLocation OLD_LOOTR_TEXTURE = new ResourceLocation(Aether.MODID, "textures/entity/mobs/mimic/old_lootr.png");
 
 	private boolean isChristmas;
 	
@@ -33,6 +35,15 @@ public class MimicRenderer extends MobRenderer<Mimic, MimicModel> {
 	 */
 	@Override
 	public ResourceLocation getTextureLocation(Mimic Mimic) {
-		return ModList.get().isLoaded("lootr") ? LOOTR_TEXTURE : this.isChristmas ? XMAS_TEXTURE : TEXTURE;
+		if (ModList.get().isLoaded("lootr")) {
+			if (!ConfigManager.isVanillaTextures()) {
+				if (ConfigManager.isOldTextures()) {
+					return OLD_LOOTR_TEXTURE;
+				} else {
+					return LOOTR_TEXTURE;
+				}
+			}
+		}
+		return this.isChristmas ? XMAS_TEXTURE : TEXTURE;
 	}
 }
