@@ -16,6 +16,7 @@ import net.minecraft.world.item.crafting.SimpleCookingSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 /**
  * [CODE COPY] - {@link SimpleCookingSerializer}.<br><br>
@@ -73,7 +74,7 @@ public class AetherCookingSerializer<T extends AbstractAetherCookingRecipe> impl
     @Override
     public void toNetwork(FriendlyByteBuf buffer, T recipe) {
         buffer.writeUtf(recipe.getGroup());
-        buffer.writeEnum(recipe.aetherCategory());
+        buffer.writeEnum(Objects.requireNonNullElse(recipe.aetherCategory(), AetherBookCategory.UNKNOWN));
         recipe.getIngredients().get(0).toNetwork(buffer);
         buffer.writeItem(recipe.getResult());
         buffer.writeFloat(recipe.getExperience());
