@@ -23,8 +23,6 @@ base {
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 loom {
-    version = project.fabric_version
-
     accessWidenerPath = file('src/main/resources/aether.accesswidener')
 
     mods {
