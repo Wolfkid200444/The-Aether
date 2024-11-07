@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 /**
  * Swings the player's hand when feeding a Moa.

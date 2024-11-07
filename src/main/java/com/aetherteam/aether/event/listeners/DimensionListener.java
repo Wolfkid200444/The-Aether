@@ -1,12 +1,11 @@
 package com.aetherteam.aether.event.listeners;
 
 import com.aetherteam.aether.Aether;
-import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.event.hooks.DimensionHooks;
-import com.aetherteam.aether.fabric.events.BlockEvents;
-import com.aetherteam.aether.fabric.events.EntityEvents;
-import com.aetherteam.aether.fabric.events.LevelEvents;
-import com.aetherteam.aether.fabric.events.PlayerTickEvents;
+import com.aetherteam.aetherfabric.events.BlockEvents;
+import com.aetherteam.aetherfabric.events.EntityEvents;
+import com.aetherteam.aetherfabric.events.LevelEvents;
+import com.aetherteam.aetherfabric.events.PlayerTickEvents;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
@@ -22,18 +21,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.mutable.MutableLong;
-import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class DimensionListener {

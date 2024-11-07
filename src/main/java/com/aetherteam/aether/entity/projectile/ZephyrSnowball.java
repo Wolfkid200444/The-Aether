@@ -2,8 +2,8 @@ package com.aetherteam.aether.entity.projectile;
 
 import com.aetherteam.aether.client.particle.AetherParticleTypes;
 import com.aetherteam.aether.entity.AetherEntityTypes;
-import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
-import com.aetherteam.aether.fabric.events.ProjectileEvents;
+import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
+import com.aetherteam.aetherfabric.events.ProjectileEvents;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.aether.mixin.mixins.common.accessor.PlayerAccessor;
 import com.aetherteam.aether.network.packet.clientbound.ZephyrSnowballHitPacket;
@@ -26,7 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PacketDistributor;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 public class ZephyrSnowball extends Fireball implements ItemSupplier {
     private int ticksInAir;

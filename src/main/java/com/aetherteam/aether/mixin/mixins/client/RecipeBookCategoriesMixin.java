@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
-import com.aetherteam.aether.fabric.events.RecipeBookCategoriesHelper;
+import com.aetherteam.aetherfabric.events.RecipeBookCategoriesHelper;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.client.RecipeBookCategories;

@@ -2,7 +2,7 @@ package com.aetherteam.aether.client.event.listeners;
 
 import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.client.event.hooks.AudioHooks;
-import com.aetherteam.aether.fabric.events.CancellableCallback;
+import com.aetherteam.aetherfabric.events.CancellableCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundEngine;

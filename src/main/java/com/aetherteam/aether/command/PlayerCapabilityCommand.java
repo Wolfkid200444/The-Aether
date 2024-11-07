@@ -16,7 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.neoforged.neoforge.network.PacketDistributor;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 import java.util.Collection;
 

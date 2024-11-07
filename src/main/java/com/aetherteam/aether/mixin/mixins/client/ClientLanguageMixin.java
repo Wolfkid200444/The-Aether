@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
-import com.aetherteam.aether.fabric.LanguageExtension;
+import com.aetherteam.aetherfabric.LanguageExtension;
 import net.minecraft.client.resources.language.ClientLanguage;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

@@ -2,12 +2,14 @@ package com.aetherteam.aether.client.event.listeners;
 
 import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.client.event.hooks.WorldPreviewHooks;
-import com.aetherteam.aether.fabric.events.CancellableCallback;
-import com.aetherteam.aether.fabric.client.events.LivingEntityRenderEvents;
-import com.aetherteam.aether.fabric.client.events.PlayerRenderEvents;
+import com.aetherteam.aetherfabric.events.CancellableCallback;
+import com.aetherteam.aetherfabric.client.events.LivingEntityRenderEvents;
+import com.aetherteam.aetherfabric.client.events.PlayerRenderEvents;
 import com.aetherteam.cumulus.fabric.OpeningScreenEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.minecraft.client.gui.screens.ConfirmScreen;
+import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
@@ -19,7 +21,7 @@ public class WorldPreviewListener {
      */
     public static void listen() {
         OpeningScreenEvents.POST.register((oldScreen, newScreen) -> {
-            onGuiOpenLowest(newScreen);
+            /*if (!(oldScreen instanceof ConfirmScreen) && !(oldScreen instanceof GenericMessageScreen)) */onGuiOpenLowest(newScreen);
             return null;
         });
         // GameRendererMixin.aetherFabric$wrapScreenRenderer -> WorldPreviewListener.onScreenRender

@@ -13,7 +13,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.PacketDistributor;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 public class ValkyrieQueenDialogueScreen extends Screen {
     private final DialogueAnswerComponent dialogueAnswer;

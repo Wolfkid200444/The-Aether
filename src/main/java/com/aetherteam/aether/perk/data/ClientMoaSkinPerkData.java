@@ -8,7 +8,7 @@ import com.aetherteam.aether.perk.types.MoaSkins;
 import com.aetherteam.nitrogen.api.users.User;
 import com.aetherteam.nitrogen.api.users.UserData;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.PacketDistributor;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.Map;

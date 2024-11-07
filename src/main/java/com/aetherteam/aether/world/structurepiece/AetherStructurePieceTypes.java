@@ -12,8 +12,8 @@ import com.aetherteam.aether.world.structurepiece.silverdungeon.SilverFloorPiece
 import com.aetherteam.aether.world.structurepiece.silverdungeon.SilverTemplePiece;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import com.aetherteam.aetherfabric.registries.DeferredHolder;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 import java.util.Locale;
 

@@ -4,61 +4,37 @@ import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.api.AetherMenus;
 import com.aetherteam.aether.block.AetherBlocks;
-import com.aetherteam.aether.block.natural.BerryBushBlock;
-import com.aetherteam.aether.block.natural.BerryBushStemBlock;
 import com.aetherteam.aether.client.event.listeners.*;
 import com.aetherteam.aether.client.event.listeners.abilities.AccessoryAbilityClientListener;
-import com.aetherteam.aether.client.event.listeners.capability.AetherPlayerClientListener;
 import com.aetherteam.aether.client.gui.screen.inventory.SunAltarScreen;
-import com.aetherteam.aether.client.gui.screen.menu.AetherReceivingLevelScreen;
 import com.aetherteam.aether.client.particle.AetherParticleTypes;
 import com.aetherteam.aether.client.renderer.AetherOverlays;
 import com.aetherteam.aether.client.renderer.AetherRenderers;
 import com.aetherteam.aether.client.renderer.level.AetherRenderEffects;
-import com.aetherteam.aether.data.resources.registries.AetherDimensions;
-import com.aetherteam.aether.effect.AetherEffects;
-import com.aetherteam.aether.entity.AetherEntityTypes;
-import com.aetherteam.aether.fabric.events.RecipeBookCategoriesHelper;
+import com.aetherteam.aetherfabric.events.RecipeBookCategoriesHelper;
 import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
 import com.aetherteam.aether.inventory.menu.LoreBookMenu;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.mixin.mixins.client.accessor.RecipeBookCategoriesAccessor;
 import com.aetherteam.aether.perk.CustomizationsOptions;
-import com.aetherteam.aether.world.treegrower.AetherTreeGrowers;
 import com.aetherteam.cumulus.CumulusConfig;
 import com.aetherteam.nitrogen.event.listeners.TooltipListeners;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.Reflection;
-import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.RecipeBookCategories;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
-import net.neoforged.neoforge.AetherFabric;
-import net.neoforged.neoforge.client.AetherFabricClient;
-import net.neoforged.neoforge.network.payload.KnownRegistryDataMapsPayload;
-import net.neoforged.neoforge.network.payload.KnownRegistryDataMapsReplyPayload;
-import net.neoforged.neoforge.network.payload.RegistryDataMapSyncPayload;
-import net.neoforged.neoforge.registries.ClientRegistryManager;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.RegistryManager;
+import com.aetherteam.aetherfabric.client.AetherFabricClient;
 
 import java.util.HashMap;
 
@@ -200,7 +176,6 @@ public class AetherClient implements ClientModInitializer {
     /**
      * Registers a unique shader for spectating the Sun Spirit, which tints the screen red.
      */
-    // TODO: [Fabric Porting] FIGURE THESE OUT
 //    public static void registerSpectatorShaders(RegisterEntitySpectatorShadersEvent event) {
 //        event.register(AetherEntityTypes.SUN_SPIRIT.get(), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "shaders/post/sun_spirit.json"));
 //    }

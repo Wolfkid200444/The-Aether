@@ -10,7 +10,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import com.aetherteam.aether.fabric.events.EntityTickEvents;
+import com.aetherteam.aetherfabric.events.EntityTickEvents;
 
 /**
  * Listener for Forge events to handle functions in {@link AetherPlayerAttachment}.

@@ -63,8 +63,8 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import net.neoforged.neoforge.network.PacketDistributor;
+import com.aetherteam.aetherfabric.entity.IEntityWithComplexSpawn;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import org.apache.commons.lang3.tuple.Pair;
 
 import org.jetbrains.annotations.Nullable;

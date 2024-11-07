@@ -32,7 +32,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;

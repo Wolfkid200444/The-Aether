@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import net.neoforged.neoforge.common.world.PieceBeardifierModifier;
+import com.aetherteam.aetherfabric.level.PieceBeardifierModifier;
 
 /**
  * The entrance to the Bronze Dungeon. It shouldn't replace air so that it matches the landscape.

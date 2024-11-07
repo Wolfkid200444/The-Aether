@@ -1,6 +1,6 @@
 package com.aetherteam.aether.client;
 
-import com.aetherteam.aether.fabric.LanguageExtension;
+import com.aetherteam.aetherfabric.LanguageExtension;
 import com.aetherteam.aether.mixin.mixins.client.accessor.I18nAccessor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

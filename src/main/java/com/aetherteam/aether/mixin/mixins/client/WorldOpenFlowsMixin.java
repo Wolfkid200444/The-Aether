@@ -1,6 +1,7 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
 import com.aetherteam.aether.client.WorldDisplayHelper;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -31,7 +32,9 @@ public class WorldOpenFlowsMixin {
      */
     @ModifyVariable(method = "openWorldCheckWorldStemCompatibility(Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/server/WorldStem;Lnet/minecraft/server/packs/repository/PackRepository;Ljava/lang/Runnable;)V", at = @At("STORE"), ordinal = 1)
     private boolean confirmExperimentalWarning(boolean confirmExperimentalWarning) {
-        return WorldDisplayHelper.isActive() || confirmExperimentalWarning;
+        if (WorldDisplayHelper.isActive()) return false;
+
+        return confirmExperimentalWarning;
     }
 
     /**
@@ -47,6 +50,13 @@ public class WorldOpenFlowsMixin {
     private void closeActiveWorld(LevelStorageSource.LevelStorageAccess levelStorage, Dynamic<?> levelData, boolean safeMode, Runnable onFail, CallbackInfo ci) throws IOException {
         if (WorldDisplayHelper.isActive() && !WorldDisplayHelper.sameSummaries(levelStorage.getSummary(levelStorage.getDataTag()))) {
             WorldDisplayHelper.stopLevel(new GenericMessageScreen(Component.literal("")));
+        }
+    }
+
+    @Inject(method = "openWorld", at = @At("RETURN"))
+    private void aetherFabric$onFailRun(String worldName, Runnable onFail, CallbackInfo ci, @Local LevelStorageSource.LevelStorageAccess levelStorageAccess) {
+        if (levelStorageAccess == null && WorldDisplayHelper.FAIL_RUN.equals(onFail)) {
+            onFail.run();
         }
     }
 }

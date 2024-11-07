@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "com.aetherteam.aetherfabric.mixin",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "aether.refmap.json",
+  "mixins": [
+    "HolderReferenceMixin",
+    "MappedRegistryMixin",
+    "MappedRegistryMixin$InnerClass",
+    "LootTableMixin",
+    "LootContextMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

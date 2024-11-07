@@ -9,7 +9,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 /**
  * Handles syncing {@link HammerProjectile} damage to the server.

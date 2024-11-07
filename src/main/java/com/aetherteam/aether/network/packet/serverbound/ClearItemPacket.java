@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 /**
  * Clears the item currently held by the player's mouse in a container GUI.

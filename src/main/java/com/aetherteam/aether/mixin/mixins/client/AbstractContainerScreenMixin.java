@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
-import com.aetherteam.aether.fabric.pond.client.ScreenExtension;
+import com.aetherteam.aetherfabric.pond.client.ScreenExtension;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.Nullable;

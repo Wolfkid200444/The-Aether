@@ -2,7 +2,7 @@ package com.aetherteam.aether.blockentity;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.block.AetherBlocks;
-import com.aetherteam.aether.fabric.Utils;
+import com.aetherteam.aetherfabric.Utils;
 import com.aetherteam.aether.item.components.AetherDataComponents;
 import com.aetherteam.aether.item.components.DungeonKind;
 import net.minecraft.core.BlockPos;

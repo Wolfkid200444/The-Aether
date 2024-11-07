@@ -13,7 +13,7 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 /**
  * Opens the {@link AetherAccessoriesScreen} instead.

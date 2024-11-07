@@ -47,8 +47,7 @@ public class VanillaLeftTitleScreen extends TitleScreen implements TitleScreenBe
                     abstractWidget.visible = false; // The visibility handling is necessary here to avoid a bug where the buttons will render in the center of the screen before they have a specified offset.
                 }
                 if (abstractWidget instanceof Button button) { // Left alignment.
-                    Component buttonText = button.getMessage();
-                    if (TitleScreenBehavior.isMainButton(buttonText)) {
+                    if (TitleScreenBehavior.isMainButton(button)) {
                         button.setX(47);
                         button.setY(80 + buttonCount * 25);
                         button.setWidth(200);

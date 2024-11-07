@@ -2,9 +2,8 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
-import com.aetherteam.aether.fabric.events.CancellableCallback;
-import com.aetherteam.aether.fabric.events.ItemAttributeModifierHelper;
-import com.aetherteam.aether.fabric.events.PlayerEvents;
+import com.aetherteam.aetherfabric.events.CancellableCallback;
+import com.aetherteam.aetherfabric.events.PlayerEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;

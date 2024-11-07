@@ -11,8 +11,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import com.aetherteam.aetherfabric.registries.DeferredHolder;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import org.jetbrains.annotations.Nullable;
 

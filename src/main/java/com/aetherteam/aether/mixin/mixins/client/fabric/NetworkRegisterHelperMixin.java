@@ -1,13 +1,11 @@
 package com.aetherteam.aether.mixin.mixins.client.fabric;
 
-import com.aetherteam.aether.fabric.NetworkRegisterHelper;
-import com.aetherteam.aether.fabric.networking.CommonPayloadContext;
+import com.aetherteam.aetherfabric.NetworkRegisterHelper;
+import com.aetherteam.aetherfabric.networking.CommonPayloadContext;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

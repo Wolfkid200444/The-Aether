@@ -32,11 +32,12 @@ import com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener;
 import com.aetherteam.aether.event.listeners.abilities.WeaponAbilityListener;
 import com.aetherteam.aether.event.listeners.capability.AetherPlayerListener;
 import com.aetherteam.aether.event.listeners.capability.AetherTimeListener;
-import com.aetherteam.aether.fabric.events.AddPackFindersEvent;
-import com.aetherteam.aether.fabric.NetworkRegisterHelper;
-import com.aetherteam.aether.fabric.WrappedInventoryStorage;
-import com.aetherteam.aether.fabric.events.ItemAttributeModifierHelper;
-import com.aetherteam.aether.fabric.events.LivingEntityEvents;
+import com.aetherteam.aether.loot.modifiers.AetherLootTableModifications;
+import com.aetherteam.aetherfabric.events.AddPackFindersEvent;
+import com.aetherteam.aetherfabric.NetworkRegisterHelper;
+import com.aetherteam.aetherfabric.WrappedInventoryStorage;
+import com.aetherteam.aetherfabric.events.ItemAttributeModifierHelper;
+import com.aetherteam.aetherfabric.events.LivingEntityEvents;
 import com.aetherteam.aether.inventory.AetherAccessorySlots;
 import com.aetherteam.aether.inventory.AetherRecipeBookTypes;
 import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
@@ -100,10 +101,9 @@ import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.neoforge.AetherFabric;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.RegistryManager;
-import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
+import com.aetherteam.aetherfabric.AetherFabric;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
+import com.aetherteam.aetherfabric.registries.datamaps.RegisterDataMapTypesEvent;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -191,6 +191,8 @@ public class Aether implements ModInitializer {
         //--
 
         AetherFabric.init();
+
+        AetherLootTableModifications.initLootModifiers();
     }
 
     public void registerPackets() {

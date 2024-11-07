@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aether.fabric.events.LivingEntityEvents;
+import com.aetherteam.aetherfabric.events.LivingEntityEvents;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import net.minecraft.world.entity.LivingEntity;

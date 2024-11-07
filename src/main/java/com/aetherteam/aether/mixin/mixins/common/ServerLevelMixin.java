@@ -1,7 +1,7 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.event.listeners.DimensionListener;
-import com.aetherteam.aether.fabric.events.BlockEvents;
+import com.aetherteam.aetherfabric.events.BlockEvents;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.core.BlockPos;
@@ -12,13 +12,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
-import com.aetherteam.aether.fabric.events.EntityTickEvents;
+import com.aetherteam.aetherfabric.events.EntityTickEvents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.WritableLevelData;
 import org.apache.commons.lang3.mutable.MutableBoolean;
-import org.apache.commons.lang3.mutable.MutableFloat;
 import org.apache.commons.lang3.mutable.MutableLong;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

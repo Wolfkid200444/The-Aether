@@ -3,12 +3,15 @@ package com.aetherteam.aether.client.gui.screen.menu;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.client.AetherSoundEvents;
+import com.aetherteam.aether.client.gui.BrandingUtils;
 import com.aetherteam.aether.client.gui.component.menu.AetherMenuButton;
 import com.aetherteam.aether.client.gui.component.menu.DynamicMenuButton;
 import com.aetherteam.aether.mixin.mixins.client.accessor.TitleScreenAccessor;
 import com.aetherteam.cumulus.mixin.mixins.client.accessor.SplashRendererAccessor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.loader.impl.game.minecraft.patch.BrandingPatch;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -46,10 +49,14 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
         this.alignedLeft = alignedLeft;
     }
 
-    @Override
-    protected void init() {
-        super.init();
-        this.setupButtons();
+    public static void setupEvents() {
+        var afterPhase = ResourceLocation.fromNamespaceAndPath("aetherfabric", "after_default");
+        ScreenEvents.AFTER_INIT.addPhaseOrdering(Event.DEFAULT_PHASE, afterPhase);
+        ScreenEvents.AFTER_INIT.register(afterPhase, (client, screen, scaledWidth, scaledHeight) -> {
+            if (screen instanceof AetherTitleScreen aetherTitleScreen) {
+                aetherTitleScreen.setupButtons();
+            }
+        });
     }
 
     public void setupButtons() {
@@ -68,6 +75,7 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
             this.children().removeIf(button -> button instanceof AbstractWidget abstractWidget && predicate.test(abstractWidget));
             this.renderables.removeIf(button -> button instanceof AbstractWidget abstractWidget && predicate.test(abstractWidget));
         }
+        System.out.println("Setup Buttons: ");
         for (Renderable renderable : this.renderables) {
             if (renderable instanceof AbstractWidget abstractWidget) {
                 Component buttonText = abstractWidget.getMessage();
@@ -75,6 +83,7 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
                     abstractWidget.visible = false; // The visibility handling is necessary here to avoid a bug where the buttons will render in the center of the screen before they have a specified offset.
                 }
                 if (abstractWidget instanceof AetherMenuButton aetherMenuButton) { // Sets button values that determine their positioning on the screen.
+                    System.out.println(aetherMenuButton.getMessage());
                     if (this.isAlignedLeft()) {
                         buttonRows++;
                     } else {
@@ -130,13 +139,7 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
             if (this.alignedLeft) {
                 TitleScreenBehavior.super.renderRightBranding(guiGraphics, this, this.font, roundedFadeAmount);
             } else {
-                // TODO: [Fabric Porting] Find out what to do with this
-//                BrandingControl.forEachLine(true, true, (brandingLine, branding) ->
-//                        guiGraphics.drawString(this.font, branding, 2, this.height - (10 + brandingLine * (this.font.lineHeight + 1)), 16777215 | roundedFadeAmount)
-//                );
-//                BrandingControl.forEachAboveCopyrightLine((brandingLine, branding) ->
-//                        guiGraphics.drawString(this.font, branding, this.width - this.font.width(branding), this.height - (10 + (brandingLine + 1) * (this.font.lineHeight + 1)), 16777215 | roundedFadeAmount)
-//                );
+                BrandingUtils.renderLeft(guiGraphics, this, this.font, roundedFadeAmount);
             }
         }
 
@@ -224,7 +227,8 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
     @SuppressWarnings("unchecked")
     protected <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T renderable) {
         if (renderable instanceof Button button) {
-            if (TitleScreenBehavior.isMainButton(button.getMessage())) {
+            if (TitleScreenBehavior.isMainButton(button)) {
+                System.out.println("Added Button: " + button.getMessage());
                 AetherMenuButton aetherButton = new AetherMenuButton(this, button);
                 return (T) super.addRenderableWidget(aetherButton);
             }
@@ -234,5 +238,20 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
 
     public boolean isAlignedLeft() {
         return this.alignedLeft;
+    }
+
+    @Override
+    public AbstractWidget onScreensWidgetAdd(AbstractWidget abstractWidget) {
+        if (abstractWidget instanceof Button button) {
+            System.out.println("Added Button Hook: " + button.getMessage());
+            if (TitleScreenBehavior.isMainButton(button)) {
+                return new AetherMenuButton(this, button);
+            }
+        }
+        return abstractWidget;
+    }
+
+    static {
+        setupEvents();
     }
 }

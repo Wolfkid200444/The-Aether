@@ -14,8 +14,11 @@
     "sources": "${mod_url}",
     "issues": "${mod_tracker}"
   },
-  "license": "${mod_license}",
-  "icon": "${mod_name}.png",
+  "license": [
+    "${mod_license}",
+    "AetherFabric Code: LGPL-2.1"
+  ],
+  "icon": "${mod_id}.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -37,12 +40,12 @@
       "com.aetherteam.aether.integration.jei.AetherJEIPlugin"
     ],
     "mm_shedaniel:early_risers": [
-      "com.aetherteam.aether.fabric.AetherASM"
+      "com.aetherteam.aetherfabric.AetherASM"
     ]
   },
   "mixins": [
     "${mod_id}.mixins.json",
-    "neoforge.mixins.json"
+    "aetherfabric.mixins.json"
   ],
   "accessWidener": "aether.accesswidener",
   "depends": {
@@ -54,45 +57,45 @@
   "custom": {
     "loom:injected_interfaces": {
       "net/minecraft/class_6880": [
-        "com/aetherteam/aether/fabric/pond/IHolderExtension<TT;>",
-        "com/aetherteam/aether/fabric/pond/IWithData<TT;>"
+        "com/aetherteam/aetherfabric/pond/IHolderExtension<TT;>",
+        "com/aetherteam/aetherfabric/pond/IWithData<TT;>"
       ],
       "net/minecraft/class_2378": [
-        "com/aetherteam/aether/fabric/pond/IRegistryExtension<TT;>"
+        "com/aetherteam/aetherfabric/pond/IRegistryExtension<TT;>"
       ],
       "net/minecraft/class_1937": [
         "net/fabricmc/fabric/api/attachment/v1/AttachmentTarget"
       ],
       "net/minecraft/class_1799": [
         "net/fabricmc/fabric/api/item/v1/FabricItemStack",
-        "com/aetherteam/aether/fabric/pond/ItemStackExtension"
+        "com/aetherteam/aetherfabric/pond/ItemStackExtension"
       ],
       "net/minecraft/class_8610": [
         "net/fabricmc/fabric/api/networking/v1/FabricServerConfigurationNetworkHandler"
       ],
       "net/minecraft/class_7225\u0024class_7874": [
-        "com/aetherteam/aether/fabric/pond/IHolderLookupProviderExtension"
+        "com/aetherteam/aetherfabric/pond/IHolderLookupProviderExtension"
       ],
       "net/minecraft/class_1297": [
-        "com/aetherteam/aether/fabric/pond/EntityExtension"
+        "com/aetherteam/aetherfabric/pond/EntityExtension"
       ],
       "net/minecraft/class_437": [
-        "com/aetherteam/aether/fabric/pond/client/ScreenExtension"
+        "com/aetherteam/aetherfabric/pond/client/ScreenExtension"
       ],
       "net/minecraft/class_2680": [
-        "com/aetherteam/aether/fabric/pond/BlockStateExtension"
+        "com/aetherteam/aetherfabric/pond/BlockStateExtension"
       ],
       "net/minecraft/class_2248": [
-        "com/aetherteam/aether/fabric/pond/BlockExtension"
+        "com/aetherteam/aetherfabric/pond/BlockExtension"
       ],
       "net/minecraft/class_304": [
-        "com/aetherteam/aether/fabric/pond/client/KeyMappingExtension"
+        "com/aetherteam/aetherfabric/pond/client/KeyMappingExtension"
       ],
       "net/minecraft/class_2586": [
-        "com/aetherteam/aether/fabric/pond/BlockEntityExtension"
+        "com/aetherteam/aetherfabric/pond/BlockEntityExtension"
       ],
       "net/minecraft/class_7225\u0024class_7226": [
-        "com/aetherteam/aether/fabric/pond/RegistryLookupExtension<TT;>"
+        "com/aetherteam/aetherfabric/pond/RegistryLookupExtension<TT;>"
       ]
     }
   }

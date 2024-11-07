@@ -11,8 +11,13 @@ import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.spongepowered.asm.mixin.Mutable;
 
 public class WorldPreviewHooks {
+
+    private static final MutableBoolean setupLockout = new MutableBoolean();
+
     /**
      * When a {@link TitleScreen} is opened, if the {@link AetherConfig.Client#enable_world_preview} config is enabled
      * then the world preview is set up, but otherwise it is ensured to be inactive.
@@ -21,7 +26,13 @@ public class WorldPreviewHooks {
      */
     public static void setupWorldPreview(Screen screen) {
         if (screen instanceof TitleScreen && AetherConfig.CLIENT.enable_world_preview.get()) {
-            WorldDisplayHelper.enableWorldPreview();
+            if (!setupLockout.getValue()) {
+                setupLockout.setValue(true);
+
+                WorldDisplayHelper.enableWorldPreview();
+
+                setupLockout.setValue(false);
+            }
         } else if (screen instanceof TitleScreen && !AetherConfig.CLIENT.enable_world_preview.get()) {
             WorldDisplayHelper.resetActive();
         }

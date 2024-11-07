@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 /**
  * Updates the time on the server, then updates that time for all players in the Aether.

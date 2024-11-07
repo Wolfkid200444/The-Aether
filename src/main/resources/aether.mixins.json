@@ -140,7 +140,10 @@
     "client.GameRendererMixin",
     "client.CameraMixin",
     "client.FogRendererMixin",
-    "client.LightTextureMixin"
+    "client.LightTextureMixin",
+    "client.GuiMixin",
+    "client.FaviconTextureMixin",
+    "client.ButtonListMixin"
   ],
   "injectors": {
     "defaultRequire": 1

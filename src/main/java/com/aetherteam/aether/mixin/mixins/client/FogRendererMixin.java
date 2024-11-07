@@ -1,8 +1,8 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
-import com.aetherteam.aether.fabric.client.events.FogAdjustmentHelper;
-import com.aetherteam.aether.fabric.client.events.FogColorHelper;
-import com.aetherteam.aether.fabric.client.events.FogEvents;
+import com.aetherteam.aetherfabric.client.events.FogAdjustmentHelper;
+import com.aetherteam.aetherfabric.client.events.FogColorHelper;
+import com.aetherteam.aetherfabric.client.events.FogEvents;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;

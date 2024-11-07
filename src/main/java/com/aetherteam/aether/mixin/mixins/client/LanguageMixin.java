@@ -1,7 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
-import com.aetherteam.aether.fabric.LanguageExtension;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.aetherteam.aetherfabric.LanguageExtension;
 import net.minecraft.locale.Language;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

@@ -2,10 +2,9 @@ package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.entity.passive.MountableAnimal;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
-import com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener;
-import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
-import com.aetherteam.aether.fabric.events.PlayerEvents;
-import com.aetherteam.aether.fabric.events.PlayerTickEvents;
+import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
+import com.aetherteam.aetherfabric.events.PlayerEvents;
+import com.aetherteam.aetherfabric.events.PlayerTickEvents;
 import com.aetherteam.aether.mixin.AetherMixinHooks;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;

@@ -2,8 +2,8 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
-import com.aetherteam.aether.fabric.events.FallHelper;
-import com.aetherteam.aether.fabric.events.LivingEntityEvents;
+import com.aetherteam.aetherfabric.events.FallHelper;
+import com.aetherteam.aetherfabric.events.LivingEntityEvents;
 import com.aetherteam.aether.item.combat.abilities.armor.GravititeArmor;
 import com.aetherteam.aether.item.combat.abilities.armor.NeptuneArmor;
 import com.aetherteam.aether.item.combat.abilities.armor.PhoenixArmor;
@@ -12,7 +12,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import com.aetherteam.aether.fabric.events.EntityTickEvents;
+import com.aetherteam.aetherfabric.events.EntityTickEvents;
 
 public class ArmorAbilityListener {
     /**

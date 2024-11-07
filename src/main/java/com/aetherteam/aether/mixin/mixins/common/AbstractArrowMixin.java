@@ -1,8 +1,8 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.attachment.AetherDataAttachments;
-import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
-import com.aetherteam.aether.fabric.events.ProjectileEvents;
+import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
+import com.aetherteam.aetherfabric.events.ProjectileEvents;
 import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
@@ -15,7 +15,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.phys.HitResult;
-import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;

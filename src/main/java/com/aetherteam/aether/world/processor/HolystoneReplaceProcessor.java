@@ -1,7 +1,7 @@
 package com.aetherteam.aether.world.processor;
 
 import com.aetherteam.aether.block.AetherBlocks;
-import com.aetherteam.aether.fabric.ExtendedStructureProcessor;
+import com.aetherteam.aetherfabric.level.ExtendedStructureProcessor;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.Util;
@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.jetbrains.annotations.Nullable;

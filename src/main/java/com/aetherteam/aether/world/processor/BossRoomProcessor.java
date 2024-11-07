@@ -1,6 +1,6 @@
 package com.aetherteam.aether.world.processor;
 
-import com.aetherteam.aether.fabric.EntityStructureProcessor;
+import com.aetherteam.aetherfabric.level.EntityStructureProcessor;
 import com.aetherteam.nitrogen.entity.BossRoomTracker;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;

@@ -54,8 +54,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import net.neoforged.neoforge.network.PacketDistributor;
+import com.aetherteam.aetherfabric.entity.IEntityWithComplexSpawn;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;

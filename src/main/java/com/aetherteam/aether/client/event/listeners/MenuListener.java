@@ -7,10 +7,12 @@ import com.aetherteam.cumulus.client.CumulusClient;
 import com.aetherteam.cumulus.fabric.OpeningScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.fabricmc.fabric.api.event.Event;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 
@@ -19,7 +21,9 @@ public class MenuListener {
      * @see AetherClient#eventSetup()
      */
     public static void listen() {
-        OpeningScreenEvents.PRE.register((oldScreen, newScreen) -> MenuListener.onGuiOpenHighest());
+        var afterPhase = ResourceLocation.fromNamespaceAndPath("aether", "after_default");
+        OpeningScreenEvents.PRE.addPhaseOrdering(Event.DEFAULT_PHASE, afterPhase);
+        OpeningScreenEvents.PRE.register(afterPhase, (oldScreen, newScreen) -> MenuListener.onGuiOpenHighest());
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> onGuiInitialize(screen, Screens.getButtons(screen)::add));
     }
 

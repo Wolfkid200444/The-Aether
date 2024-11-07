@@ -65,13 +65,17 @@ public class WorldDisplayHelper {
         if (summary != null && minecraft.getLevelSource().levelExists(summary.getLevelId())) {
             setActive();
             minecraft.forceSetScreen(new GenericMessageScreen(Component.translatable("selectWorld.data_read")));
-            minecraft.createWorldOpenFlows().openWorld(summary.getLevelId(), () -> {
-            });
+            minecraft.createWorldOpenFlows().openWorld(summary.getLevelId(), FAIL_RUN);
         } else {
             resetActive();
             resetConfig();
         }
     }
+
+    public static final Runnable FAIL_RUN = () -> {
+        resetActive();
+        resetConfig();
+    };
 
     /**
      * Checks if a level exists using the {@link LevelSummary} retrieved from {@link WorldDisplayHelper#getLevelSummary()}, then closes any active screen and

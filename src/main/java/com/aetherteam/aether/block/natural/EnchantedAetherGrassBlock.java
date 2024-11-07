@@ -2,7 +2,7 @@ package com.aetherteam.aether.block.natural;
 
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.data.resources.registries.AetherPlacedFeatures;
-import com.aetherteam.aether.fabric.Utils;
+import com.aetherteam.aetherfabric.Utils;
 import com.aetherteam.aether.mixin.mixins.common.accessor.SpreadingSnowyDirtBlockAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

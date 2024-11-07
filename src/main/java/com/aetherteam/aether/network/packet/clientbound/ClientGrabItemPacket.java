@@ -7,7 +7,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 public record ClientGrabItemPacket(ItemStack stack) implements CustomPacketPayload {
     public static final Type<ClientGrabItemPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "grab_from_accessories_inventory"));

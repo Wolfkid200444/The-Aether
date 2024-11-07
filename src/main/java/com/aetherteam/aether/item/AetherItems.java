@@ -76,8 +76,8 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import com.aetherteam.aetherfabric.registries.DeferredItem;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 public class AetherItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Aether.MODID);

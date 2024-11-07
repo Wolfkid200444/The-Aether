@@ -3,7 +3,7 @@ package com.aetherteam.aether.item.accessories.abilities;
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.attachment.AetherPlayerAttachment;
-import com.aetherteam.aether.fabric.events.ProjectileEvents;
+import com.aetherteam.aetherfabric.events.ProjectileEvents;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.nitrogen.ConstantsUtil;

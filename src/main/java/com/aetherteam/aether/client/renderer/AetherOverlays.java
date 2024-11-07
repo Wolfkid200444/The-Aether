@@ -294,7 +294,7 @@ public class AetherOverlays {
      * @param gui         The {@link Gui} included in rendering.
      * @param player      The {@link LocalPlayer}.
      */
-    private static void renderSilverLifeShardHearts(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Gui gui, LocalPlayer player) {
+    public static void renderSilverLifeShardHearts(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Gui gui, LocalPlayer player) {
         GuiAccessor guiAccessor = (GuiAccessor) gui;
         if (AetherConfig.CLIENT.enable_silver_hearts.get() && minecraft.gameMode.canHurtPlayer()) {
             var aetherPlayer = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);

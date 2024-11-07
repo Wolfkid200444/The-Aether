@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
-import com.aetherteam.aether.fabric.pond.client.KeyMappingExtension;
+import com.aetherteam.aetherfabric.pond.client.KeyMappingExtension;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import org.spongepowered.asm.mixin.Mixin;

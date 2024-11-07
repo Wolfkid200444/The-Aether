@@ -1,6 +1,5 @@
 package com.aetherteam.aether.client.renderer;
 
-import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.attachment.AetherPlayerAttachment;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.blockentity.AetherBlockEntityTypes;
@@ -12,7 +11,6 @@ import com.aetherteam.aether.client.renderer.accessory.layer.ArmorStandCapeLayer
 import com.aetherteam.aether.client.renderer.accessory.model.CapeModel;
 import com.aetherteam.aether.client.renderer.accessory.model.GlovesModel;
 import com.aetherteam.aether.client.renderer.accessory.model.PendantModel;
-import com.aetherteam.aether.client.renderer.block.FastModel;
 import com.aetherteam.aether.client.renderer.blockentity.ChestMimicRenderer;
 import com.aetherteam.aether.client.renderer.blockentity.SkyrootBedRenderer;
 import com.aetherteam.aether.client.renderer.blockentity.TreasureChestRenderer;
@@ -28,13 +26,9 @@ import com.aetherteam.aether.entity.projectile.dart.GoldenDart;
 import com.aetherteam.aether.entity.projectile.dart.PoisonDart;
 import com.aetherteam.aether.item.AetherItems;
 
+import com.aetherteam.nitrogen.client.renderer.NitrogenRenderers;
 import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
-import io.wispforest.accessories.client.AccessoriesRenderLayer;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
-import net.fabricmc.fabric.impl.client.rendering.BlockEntityRendererRegistryImpl;
+import net.fabricmc.fabric.api.client.rendering.v1.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -42,15 +36,8 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.blockentity.*;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class AetherRenderers {
     /**
@@ -62,6 +49,9 @@ public class AetherRenderers {
         BlockEntityRenderers.register(AetherBlockEntityTypes.SKYROOT_HANGING_SIGN.get(), HangingSignRenderer::new);
         BlockEntityRenderers.register(AetherBlockEntityTypes.CHEST_MIMIC.get(), ChestMimicRenderer::new);
         BlockEntityRenderers.register(AetherBlockEntityTypes.TREASURE_CHEST.get(), TreasureChestRenderer::new);
+
+        BuiltinItemRendererRegistry.INSTANCE.register(AetherBlocks.CHEST_MIMIC.get(), NitrogenRenderers.blockEntityWithoutLevelRenderer);
+        BuiltinItemRendererRegistry.INSTANCE.register(AetherBlocks.TREASURE_CHEST.get(), NitrogenRenderers.blockEntityWithoutLevelRenderer);
 
         EntityRendererRegistry.register(AetherEntityTypes.PHYG.get(), PhygRenderer::new);
         EntityRendererRegistry.register(AetherEntityTypes.FLYING_COW.get(), FlyingCowRenderer::new);
@@ -242,18 +232,18 @@ public class AetherRenderers {
     /**
      * @see AetherClient#eventSetup()
      */
-//    public static void bakeModels(ModelEvent.ModifyBakingResult event) {
-//        List<Map.Entry<ModelResourceLocation, BakedModel>> models = new ArrayList<>();
-//        for (Map.Entry<ModelResourceLocation, BakedModel> model : event.getModels().entrySet()) {
-//            if (model.getKey().id().getNamespace().equals(Aether.MODID)) {
-//                String path = model.getKey().id().getPath();
-//                if (path.equals(AetherBlocks.BERRY_BUSH.getId().getPath())) {
-//                    models.add(model);
-//                } else if (path.equals(AetherBlocks.POTTED_BERRY_BUSH.getId().getPath())) {
-//                    models.add(model);
-//                }
-//            }
-//        }
-//        models.forEach(entry -> event.getModels().put(entry.getKey(), new FastModel(entry.getValue())));
-//    }
+        //    public static void bakeModels(ModelEvent.ModifyBakingResult event) {
+        //        List<Map.Entry<ModelResourceLocation, BakedModel>> models = new ArrayList<>();
+        //        for (Map.Entry<ModelResourceLocation, BakedModel> model : event.getModels().entrySet()) {
+        //            if (model.getKey().id().getNamespace().equals(Aether.MODID)) {
+        //                String path = model.getKey().id().getPath();
+        //                if (path.equals(AetherBlocks.BERRY_BUSH.getId().getPath())) {
+        //                    models.add(model);
+        //                } else if (path.equals(AetherBlocks.POTTED_BERRY_BUSH.getId().getPath())) {
+        //                    models.add(model);
+        //                }
+        //            }
+        //        }
+        //        models.forEach(entry -> event.getModels().put(entry.getKey(), new FastModel(entry.getValue())));
+        //    }
 }

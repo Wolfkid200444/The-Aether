@@ -1,6 +1,6 @@
 package com.aetherteam.aether.client.gui.component.dialogue;
 
-import com.aetherteam.aether.fabric.BuilderMadeButton;
+import com.aetherteam.aetherfabric.BuilderMadeButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

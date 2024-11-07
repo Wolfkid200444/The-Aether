@@ -12,8 +12,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 public record OpenAccessoriesPacket(ItemStack carryStack) implements CustomPacketPayload {
     public static final Type<OpenAccessoriesPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "open_accessories"));

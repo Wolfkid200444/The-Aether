@@ -1,7 +1,7 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
 import com.aetherteam.aether.client.WorldDisplayHelper;
-import com.aetherteam.aether.fabric.events.AddPackFindersEvent;
+import com.aetherteam.aetherfabric.events.AddPackFindersEvent;
 import com.aetherteam.nitrogen.Nitrogen;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.Minecraft;

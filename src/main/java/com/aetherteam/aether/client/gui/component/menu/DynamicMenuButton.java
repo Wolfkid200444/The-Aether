@@ -1,8 +1,7 @@
 package com.aetherteam.aether.client.gui.component.menu;
 
-import com.aetherteam.aether.fabric.BuilderMadeButton;
+import com.aetherteam.aetherfabric.BuilderMadeButton;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import org.jetbrains.annotations.Nullable;

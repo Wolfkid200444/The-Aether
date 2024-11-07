@@ -1,13 +1,12 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aether.fabric.events.CancellableCallbackImpl;
+import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LightningBolt;
-import com.aetherteam.aether.fabric.events.EntityEvents;
-import org.apache.commons.lang3.mutable.MutableBoolean;
+import com.aetherteam.aetherfabric.events.EntityEvents;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 

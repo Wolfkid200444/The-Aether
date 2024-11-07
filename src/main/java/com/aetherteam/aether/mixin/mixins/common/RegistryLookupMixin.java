@@ -1,9 +1,9 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aether.fabric.pond.RegistryLookupExtension;
+import com.aetherteam.aetherfabric.pond.RegistryLookupExtension;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
-import net.neoforged.neoforge.registries.datamaps.DataMapType;
+import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

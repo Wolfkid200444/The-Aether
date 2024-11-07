@@ -1,7 +1,7 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aether.fabric.events.ExperienceDropHelper;
-import com.aetherteam.aether.fabric.events.LivingEntityEvents;
+import com.aetherteam.aetherfabric.events.ExperienceDropHelper;
+import com.aetherteam.aetherfabric.events.LivingEntityEvents;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.server.level.ServerLevel;

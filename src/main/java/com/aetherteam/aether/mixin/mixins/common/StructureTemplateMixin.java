@@ -1,8 +1,8 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aether.fabric.EntityStructureProcessor;
-import com.aetherteam.aether.fabric.ExtendedStructureProcessor;
-import com.aetherteam.aether.fabric.StructureTemplateUtils;
+import com.aetherteam.aetherfabric.level.EntityStructureProcessor;
+import com.aetherteam.aetherfabric.level.ExtendedStructureProcessor;
+import com.aetherteam.aetherfabric.level.StructureTemplateUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;

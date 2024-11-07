@@ -1,5 +1,6 @@
 package com.aetherteam.aether.client.gui.screen.menu;
 
+import com.aetherteam.aether.client.gui.BrandingUtils;
 import com.aetherteam.aether.mixin.mixins.client.accessor.TitleScreenAccessor;
 import com.aetherteam.cumulus.CumulusConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -38,13 +39,7 @@ public interface TitleScreenBehavior {
      * Copied branding render segment from render code, but aligned it right.
      */
     default void renderRightBranding(GuiGraphics guiGraphics, TitleScreen titleScreen, Font font, int roundedFadeAmount) {
-        // TODO: [Fabric Porting] Find out what to do with this
-//        BrandingControl.forEachLine(true, true, (brandingLine, branding) ->
-//                guiGraphics.drawString(font, branding, titleScreen.width - font.width(branding) - 1, titleScreen.height - (10 + (brandingLine + 1) * (font.lineHeight + 1)), 16777215 | roundedFadeAmount)
-//        );
-//        BrandingControl.forEachAboveCopyrightLine((brandingLine, branding) ->
-//                guiGraphics.drawString(font, branding, 1, titleScreen.height - (brandingLine + 1) * (font.lineHeight + 1), 16777215 | roundedFadeAmount)
-//        );
+        BrandingUtils.renderRight(guiGraphics, titleScreen, font, roundedFadeAmount);
     }
 
     /**
@@ -110,12 +105,15 @@ public interface TitleScreenBehavior {
      * @param buttonText The button text {@link Component}.
      * @return The {@link Boolean} result.
      */
-    static boolean isMainButton(Component buttonText) {
+    static boolean isMainButton(Button button) {
+        if (button.getClass().getSimpleName().equals("ModMenuButtonWidget")) return true;
+
+        var buttonText = button.getMessage();
         return buttonText.equals(Component.translatable("menu.singleplayer"))
                 || buttonText.equals(Component.translatable("menu.multiplayer"))
                 || buttonText.equals(Component.translatable("gui.aether.menu.server"))
                 || buttonText.equals(Component.translatable("menu.online"))
-                || buttonText.equals(Component.translatable("fml.menu.mods"))
+                || buttonText.equals(Component.translatable("modmenu.title"))
                 || buttonText.equals(Component.translatable("menu.options"))
                 || buttonText.equals(Component.translatable("menu.quit"));
     }

@@ -1,6 +1,6 @@
 package com.aetherteam.aether.client;
 
-import com.aetherteam.aether.fabric.events.RecipeBookCategoriesHelper;
+import com.aetherteam.aetherfabric.events.RecipeBookCategoriesHelper;
 import com.aetherteam.aether.inventory.AetherRecipeBookTypes;
 import com.aetherteam.aether.recipe.AetherBookCategory;
 import com.aetherteam.aether.recipe.AetherRecipeTypes;

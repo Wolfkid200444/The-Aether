@@ -1,6 +1,6 @@
 package com.aetherteam.aether.event;
 
-import com.aetherteam.aether.fabric.events.CancellableCallback;
+import com.aetherteam.aetherfabric.events.CancellableCallback;
 import com.google.common.base.Preconditions;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.event.Event;
