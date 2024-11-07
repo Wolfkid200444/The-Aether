@@ -11,6 +11,8 @@ import com.aetherteam.aether.client.particle.AetherParticleTypes;
 import com.aetherteam.aether.client.renderer.AetherOverlays;
 import com.aetherteam.aether.client.renderer.AetherRenderers;
 import com.aetherteam.aether.client.renderer.level.AetherRenderEffects;
+import com.aetherteam.aether.event.listeners.ItemListener;
+import com.aetherteam.aether.event.listeners.capability.AetherPlayerListener;
 import com.aetherteam.aetherfabric.events.RecipeBookCategoriesHelper;
 import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
 import com.aetherteam.aether.inventory.menu.LoreBookMenu;
@@ -67,6 +69,11 @@ public class AetherClient implements ClientModInitializer {
         registerTooltipOverrides();
         registerLoreOverrides();
         autoApplyPacks();
+
+        //--
+
+        AetherPlayerListener.listenClient();
+        ItemListener.listen();
     }
 
     /**

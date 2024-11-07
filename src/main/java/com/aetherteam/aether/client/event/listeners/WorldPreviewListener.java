@@ -21,7 +21,7 @@ public class WorldPreviewListener {
      */
     public static void listen() {
         OpeningScreenEvents.POST.register((oldScreen, newScreen) -> {
-            /*if (!(oldScreen instanceof ConfirmScreen) && !(oldScreen instanceof GenericMessageScreen)) */onGuiOpenLowest(newScreen);
+            onGuiOpenLowest(newScreen);
             return null;
         });
         // GameRendererMixin.aetherFabric$wrapScreenRenderer -> WorldPreviewListener.onScreenRender

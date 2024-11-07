@@ -75,7 +75,6 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
             this.children().removeIf(button -> button instanceof AbstractWidget abstractWidget && predicate.test(abstractWidget));
             this.renderables.removeIf(button -> button instanceof AbstractWidget abstractWidget && predicate.test(abstractWidget));
         }
-        System.out.println("Setup Buttons: ");
         for (Renderable renderable : this.renderables) {
             if (renderable instanceof AbstractWidget abstractWidget) {
                 Component buttonText = abstractWidget.getMessage();
@@ -83,7 +82,6 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
                     abstractWidget.visible = false; // The visibility handling is necessary here to avoid a bug where the buttons will render in the center of the screen before they have a specified offset.
                 }
                 if (abstractWidget instanceof AetherMenuButton aetherMenuButton) { // Sets button values that determine their positioning on the screen.
-                    System.out.println(aetherMenuButton.getMessage());
                     if (this.isAlignedLeft()) {
                         buttonRows++;
                     } else {
@@ -228,7 +226,6 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
     protected <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T renderable) {
         if (renderable instanceof Button button) {
             if (TitleScreenBehavior.isMainButton(button)) {
-                System.out.println("Added Button: " + button.getMessage());
                 AetherMenuButton aetherButton = new AetherMenuButton(this, button);
                 return (T) super.addRenderableWidget(aetherButton);
             }
@@ -243,7 +240,6 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
     @Override
     public AbstractWidget onScreensWidgetAdd(AbstractWidget abstractWidget) {
         if (abstractWidget instanceof Button button) {
-            System.out.println("Added Button Hook: " + button.getMessage());
             if (TitleScreenBehavior.isMainButton(button)) {
                 return new AetherMenuButton(this, button);
             }

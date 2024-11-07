@@ -502,7 +502,7 @@ public class Aether implements ModInitializer {
         AetherTimeListener.listen();
         DimensionListener.listen();
         EntityListener.listen();
-        ItemListener.listen();
+        //ItemListener.listen();
         PerkListener.listen();
         RecipeListener.listen();
 
