@@ -308,7 +308,7 @@ public class GuiHooks {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, aetherBossMob.getBossBarTexture());
             drawBar(poseStack, x + 2, y + 2, bossEvent);
-            Component component = bossEvent.getName();
+            Component component = aetherBossMob.getBossName();
             int nameLength = Minecraft.getInstance().font.width(component);
             int nameX = Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2 - nameLength / 2;
             int nameY = y - 9;
