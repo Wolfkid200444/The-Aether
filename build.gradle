@@ -13,7 +13,7 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = "${minecraft_version}-${mod_version}-neoforge"
+version = "${minecraft_version}-${mod_version}-fabric"
 group = mod_group
 
 base {
