@@ -1,4 +1,4 @@
-# The Aether - NeoForge - 1.20.4-1.5.1
+# The Aether - NeoForge - 1.20.2-1.5.1
 
 Additions
 
