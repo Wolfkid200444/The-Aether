@@ -11,36 +11,36 @@ import java.util.function.Consumer;
 
 public interface EntityExtension {
 
-    default boolean shouldRiderSit() {
+    default boolean aetherFabric$shouldRiderSit() {
         return true;
     }
 
-    default boolean canRiderInteract() {
+    default boolean aetherFabric$canRiderInteract() {
         return false;
     }
 
-    default boolean isInFluidType() {
+    default boolean aetherFabric$isInFluidType() {
         return throwUnimplementedException();
     }
 
     @Nullable
-    default Collection<ItemEntity> getCapturedDrops() {
+    default Collection<ItemEntity> aetherFabric$getCapturedDrops() {
         return throwUnimplementedException();
     }
 
-    default void addCapturedDrops(ItemEntity... captureDrops) {
-        addCapturedDrops(List.of(captureDrops));
+    default void aetherFabric$addCapturedDrops(ItemEntity... captureDrops) {
+        aetherFabric$addCapturedDrops(List.of(captureDrops));
     }
 
-    default boolean addCapturedDrops(Collection<ItemEntity> captureDrops) {
+    default boolean aetherFabric$addCapturedDrops(Collection<ItemEntity> captureDrops) {
         return throwUnimplementedException();
     }
 
-    default void capturingDrops(boolean value) {
+    default void aetherFabric$capturingDrops(boolean value) {
         throwUnimplementedException();
     }
 
-    default void sendPairingData(ServerPlayer serverPlayer, Consumer<CustomPacketPayload> bundleBuilder) {
+    default void aetherFabric$sendPairingData(ServerPlayer serverPlayer, Consumer<CustomPacketPayload> bundleBuilder) {
         throwUnimplementedException();
     }
 

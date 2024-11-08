@@ -17,8 +17,8 @@ public interface RegistryLookupMixin<T> extends RegistryLookupExtension<T> {
         HolderLookup.RegistryLookup<T> parent();
 
         @Override
-        default <T1> @Nullable T1 getData(DataMapType<T, T1> type, ResourceKey<T> key) {
-            return this.parent().getData(type, key);
+        default <T1> @Nullable T1 aetherFabric$getData(DataMapType<T, T1> type, ResourceKey<T> key) {
+            return this.parent().aetherFabric$getData(type, key);
         }
     }
 }

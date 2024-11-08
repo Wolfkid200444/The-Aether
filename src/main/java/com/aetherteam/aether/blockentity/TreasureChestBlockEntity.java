@@ -264,7 +264,7 @@ public class TreasureChestBlockEntity extends RandomizableContainerBlockEntity i
     }
 
     @Override
-    public boolean handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+    public boolean aetherFabric$handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
         this.loadAdditional(tag, registries);
 
         return true;
@@ -297,9 +297,9 @@ public class TreasureChestBlockEntity extends RandomizableContainerBlockEntity i
     }
 
     @Override
-    public boolean onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider lookupProvider) {
+    public boolean aetherFabric$onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider lookupProvider) {
         CompoundTag compound = packet.getTag();
-        this.handleUpdateTag(compound, lookupProvider);
+        this.aetherFabric$handleUpdateTag(compound, lookupProvider);
 
         return true;
     }

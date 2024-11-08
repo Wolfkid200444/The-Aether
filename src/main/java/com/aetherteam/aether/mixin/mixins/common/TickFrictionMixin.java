@@ -4,10 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.FlyingMob;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,7 +18,7 @@ public abstract class TickFrictionMixin {
         var blockPos = livingEntity.getBlockPosBelowThatAffectsMyMovement();
         var level = livingEntity.level();
 
-        var betterFriction = level.getBlockState(blockPos).getFriction(level, blockPos, livingEntity);
+        var betterFriction = level.getBlockState(blockPos).aetherFabric$getFriction(level, blockPos, livingEntity);
 
         return betterFriction != null ? betterFriction : original.call(instance);
     }

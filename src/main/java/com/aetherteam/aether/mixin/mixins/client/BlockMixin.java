@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class BlockMixin implements BlockExtension {
 
     @Override
-    public boolean supportsExternalFaceHiding(BlockState state) {
+    public boolean aetherFabric$supportsExternalFaceHiding(BlockState state) {
         return ItemBlockRenderTypes.getRenderType(state, false).equals(RenderType.solid());
     }
 }

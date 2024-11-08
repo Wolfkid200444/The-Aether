@@ -15,14 +15,14 @@ public interface IHolderLookupProviderExtension {
      *
      * @throws IllegalStateException if the registry or key is not found.
      */
-    default <T> Holder<T> holderOrThrow(ResourceKey<T> key) {
+    default <T> Holder<T> aetherFabric$holderOrThrow(ResourceKey<T> key) {
         return this.self().lookupOrThrow(key.registryKey()).getOrThrow(key);
     }
 
     /**
      * Shortcut method to get an optional holder from a ResourceKey.
      */
-    default <T> Optional<Holder.Reference<T>> holder(ResourceKey<T> key) {
+    default <T> Optional<Holder.Reference<T>> aetherFabric$holder(ResourceKey<T> key) {
         Optional<? extends HolderLookup.RegistryLookup<T>> registry = this.self().lookup(key.registryKey());
         return registry.flatMap(tRegistryLookup -> tRegistryLookup.get(key));
     }

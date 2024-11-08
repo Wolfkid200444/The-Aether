@@ -24,22 +24,22 @@ public abstract class BlockStateMixin extends BlockBehaviour.BlockStateBase impl
     }
 
     @Override
-    public boolean hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState neighborState, Direction dir) {
-        return this.getBlock().hidesNeighborFace(level, pos, ((BlockState)(Object)this), neighborState, dir);
+    public boolean aetherFabric$hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState neighborState, Direction dir) {
+        return this.getBlock().aetherFabric$hidesNeighborFace(level, pos, ((BlockState)(Object)this), neighborState, dir);
     }
 
     @Override
-    public boolean supportsExternalFaceHiding() {
-        return this.getBlock().supportsExternalFaceHiding((BlockState)(Object)this);
+    public boolean aetherFabric$supportsExternalFaceHiding() {
+        return this.getBlock().aetherFabric$supportsExternalFaceHiding((BlockState)(Object)this);
     }
 
     @Override
-    public Float getExplosionResistance(BlockGetter level, BlockPos pos, Explosion explosion) {
-        return this.getBlock().getExplosionResistance(((BlockState)(Object)this), level, pos, explosion);
+    public Float aetherFabric$getExplosionResistance(BlockGetter level, BlockPos pos, Explosion explosion) {
+        return this.getBlock().aetherFabric$getExplosionResistance(((BlockState)(Object)this), level, pos, explosion);
     }
 
     @Override
-    public Float getFriction(LevelReader level, BlockPos pos, @Nullable Entity entity) {
-        return this.getBlock().getFriction(((BlockState)(Object)this), level, pos, entity);
+    public Float aetherFabric$getFriction(LevelReader level, BlockPos pos, @Nullable Entity entity) {
+        return this.getBlock().aetherFabric$getFriction(((BlockState)(Object)this), level, pos, entity);
     }
 }

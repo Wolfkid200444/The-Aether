@@ -26,7 +26,7 @@ public class ElytraLayerMixin<T extends LivingEntity> {
      * @param entity The {@link LivingEntity} wearing the elytra.
      * @return If the armor stand has an equipped cape, the cape texture, else returns the original texture.
      */
-    @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;pushPose()V"), method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", remap = false)
+    @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;pushPose()V"), method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V")
     private void getElytraTexture(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci, @Local(ordinal = 0) ItemStack stack, @Local(ordinal = 0, argsOnly = true) T entity, @Local() LocalRef<ResourceLocation> resourceLocation) {
         if (entity instanceof ArmorStand armorStand) {
             ItemStack capeStack = AetherMixinHooks.isCapeVisible(armorStand);

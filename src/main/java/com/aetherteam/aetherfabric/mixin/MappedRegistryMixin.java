@@ -41,8 +41,8 @@ public abstract class MappedRegistryMixin<T> implements FullDataMapAccess<T>, IR
         MappedRegistry<T> field_36468;
 
         @Override
-        public <T1> @Nullable T1 getData(DataMapType<T, T1> type, ResourceKey<T> key) {
-            return field_36468.getData(type, key);
+        public <T1> @Nullable T1 aetherFabric$getData(DataMapType<T, T1> type, ResourceKey<T> key) {
+            return field_36468.aetherFabric$getData(type, key);
         }
     }
 }

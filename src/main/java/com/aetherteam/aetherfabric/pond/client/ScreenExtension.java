@@ -7,28 +7,28 @@ import org.jetbrains.annotations.Nullable;
 
 public interface ScreenExtension {
 
-    default Minecraft getMinecraft() {
+    default Minecraft aetherFabric$getMinecraft() {
         return throwUnimplementedException();
     }
 
     @Nullable
-    default Slot getSlotUnderMouse() {
+    default Slot aetherFabric$getSlotUnderMouse() {
         return null;
     }
 
-    default int getGuiLeft() {
+    default int aetherFabric$getGuiLeft() {
         return 0;
     }
 
-    default int getGuiTop() {
+    default int aetherFabric$getGuiTop() {
         return 0;
     }
 
-    default int getXSize() {
+    default int aetherFabric$getXSize() {
         return 0;
     }
 
-    default int getYSize() {
+    default int aetherFabric$getYSize() {
         return 0;
     }
 

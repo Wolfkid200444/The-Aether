@@ -123,13 +123,13 @@ public abstract class LivingEntityMixin extends Entity {
 
     @WrapMethod(method = "dropAllDeathLoot")
     private void aetherFabric$onDrops(ServerLevel level, DamageSource damageSource, Operation<Void> original) {
-        this.capturingDrops(true);
+        this.aetherFabric$capturingDrops(true);
 
         original.call(level, damageSource);
 
-        var drops = this.getCapturedDrops();
+        var drops = this.aetherFabric$getCapturedDrops();
 
-        this.capturingDrops(false);
+        this.aetherFabric$capturingDrops(false);
 
         var callback = new CancellableCallbackImpl();
 

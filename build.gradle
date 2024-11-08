@@ -61,14 +61,14 @@ dependencies {
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixin_extra_version}"))
     include("io.github.llamalad7:mixinextras-fabric:${project.mixin_extra_version}:slim")
 
-    modImplementation("me.shedaniel:mm:2.4.1")
+    include modImplementation("me.shedaniel:mm:2.4.1")
 
     include modImplementation("com.aetherteam.nitrogen:nitrogen_internals:${project.nitrogen_version}")
     include modImplementation("com.aetherteam.cumulus:cumulus_menus:${project.cumulus_version}")
 
     include modImplementation("io.wispforest:accessories-fabric:${project.accessories_version}+${project.minecraft_version}")
 
-    modImplementation "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.forge_config_version}"
+    include modImplementation("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.forge_config_version}")
 
     modCompileOnly("com.terraformersmc:modmenu:${project.modmenu_version}")
 

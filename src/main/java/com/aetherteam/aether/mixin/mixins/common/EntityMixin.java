@@ -150,7 +150,7 @@ public class EntityMixin implements EntityExtension {
     }
 
     @Override
-    public boolean isInFluidType() {
+    public boolean aetherFabric$isInFluidType() {
         return !this.fluidHeight.isEmpty();
     }
 
@@ -191,14 +191,14 @@ public class EntityMixin implements EntityExtension {
     private final List<ItemEntity> capturedDrops = new ArrayList<>();
 
     @Override
-    public void capturingDrops(boolean value) {
+    public void aetherFabric$capturingDrops(boolean value) {
         this.capturingDrops = value;
 
         if (!value) this.capturedDrops.clear();
     }
 
     @Override
-    public boolean addCapturedDrops(Collection<ItemEntity> captureDrops) {
+    public boolean aetherFabric$addCapturedDrops(Collection<ItemEntity> captureDrops) {
         if (!this.capturingDrops) return false;
 
         this.capturedDrops.addAll(captureDrops);
@@ -207,12 +207,12 @@ public class EntityMixin implements EntityExtension {
     }
 
     @Override
-    public @Nullable Collection<ItemEntity> getCapturedDrops() {
+    public @Nullable Collection<ItemEntity> aetherFabric$getCapturedDrops() {
         return new ArrayList<>(this.capturingDrops ? this.capturedDrops : null);
     }
 
     @Override
-    public void sendPairingData(ServerPlayer serverPlayer, Consumer<CustomPacketPayload> bundleBuilder) {
+    public void aetherFabric$sendPairingData(ServerPlayer serverPlayer, Consumer<CustomPacketPayload> bundleBuilder) {
         if (this instanceof IEntityWithComplexSpawn) {
             bundleBuilder.accept(new AdvancedAddEntityPayload((Entity)(Object) this));
         }
@@ -220,7 +220,7 @@ public class EntityMixin implements EntityExtension {
 
     @Inject(method = "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
     private void aetherFabric$captureDroppedStack(ItemStack stack, float offsetY, CallbackInfoReturnable<ItemEntity> cir, @Local() ItemEntity itemEntity) {
-        this.addCapturedDrops(itemEntity);
+        this.aetherFabric$addCapturedDrops(itemEntity);
     }
 
     @WrapOperation(method = "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))

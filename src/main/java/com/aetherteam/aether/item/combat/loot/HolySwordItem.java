@@ -46,7 +46,7 @@ public class HolySwordItem extends SwordItem {
         if (canPerformAbility(target, damageSource)) {
             ItemStack itemStack = target.getMainHandItem();
             float bonus = 8.25F;
-            int smiteModifier = itemStack.getEnchantmentLevel(target.level().registryAccess().holderOrThrow(Enchantments.SMITE));
+            int smiteModifier = itemStack.aetherFabric$getEnchantmentLevel(target.level().registryAccess().aetherFabric$holderOrThrow(Enchantments.SMITE));
             if (smiteModifier > 0) {
                 bonus += (smiteModifier * 2.5F);
             }

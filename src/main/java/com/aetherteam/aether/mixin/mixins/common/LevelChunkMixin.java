@@ -14,6 +14,6 @@ public abstract class LevelChunkMixin {
 
     @WrapOperation(method = "method_31716", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/BlockEntity;loadWithComponents(Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/core/HolderLookup$Provider;)V"))
     private void aetherFabric$adjustLoadCall(BlockEntity instance, CompoundTag tag, HolderLookup.Provider registries, Operation<Void> original) {
-        if(!instance.handleUpdateTag(tag, registries)) original.call(instance, tag, registries);
+        if(!instance.aetherFabric$handleUpdateTag(tag, registries)) original.call(instance, tag, registries);
     }
 }

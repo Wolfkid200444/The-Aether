@@ -126,7 +126,7 @@ public class Aerbunny extends AetherAnimal {
             }
         }
 
-        if (this.getVehicle() != null && (this.getVehicle().onGround() || this.getVehicle().isInFluidType() || blockIntersection)) { // Reset the last tracked fall position if the Aerbunny touches a surface.
+        if (this.getVehicle() != null && (this.getVehicle().onGround() || this.getVehicle().aetherFabric$isInFluidType() || blockIntersection)) { // Reset the last tracked fall position if the Aerbunny touches a surface.
             this.lastPos = null;
         }
     }
@@ -170,7 +170,7 @@ public class Aerbunny extends AetherAnimal {
             if (!player.onGround() && !player.isFallFlying()) {
                 AttributeInstance playerGravity = player.getAttribute(Attributes.GRAVITY);
                 if (playerGravity != null) {
-                    if (!player.getAbilities().flying && !player.isInFluidType() && playerGravity.getValue() > 0.02) {  // Entity isn't allowed to fall too slowly from gravity.
+                    if (!player.getAbilities().flying && !player.aetherFabric$isInFluidType() && playerGravity.getValue() > 0.02) {  // Entity isn't allowed to fall too slowly from gravity.
                         player.setDeltaMovement(player.getDeltaMovement().add(0.0, 0.05, 0.0));
                     }
                 }
@@ -386,7 +386,7 @@ public class Aerbunny extends AetherAnimal {
     }
 
     @Override
-    public boolean canRiderInteract() {
+    public boolean aetherFabric$canRiderInteract() {
         return true;
     }
 

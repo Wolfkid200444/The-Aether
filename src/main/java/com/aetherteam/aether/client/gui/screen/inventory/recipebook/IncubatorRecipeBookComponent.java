@@ -65,6 +65,6 @@ public class IncubatorRecipeBookComponent extends RecipeBookComponent {
     }
 
     protected Set<Item> getFuelItems() {
-        return BuiltInRegistries.ITEM.getDataMap(AetherDataMaps.INCUBATOR_FUEL).keySet().stream().map(BuiltInRegistries.ITEM::get).collect(Collectors.toSet());
+        return BuiltInRegistries.ITEM.aetherFabric$getDataMap(AetherDataMaps.INCUBATOR_FUEL).keySet().stream().map(BuiltInRegistries.ITEM::get).collect(Collectors.toSet());
     }
 }

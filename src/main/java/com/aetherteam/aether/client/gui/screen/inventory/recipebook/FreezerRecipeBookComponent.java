@@ -19,6 +19,6 @@ public class FreezerRecipeBookComponent extends AbstractFurnaceRecipeBookCompone
 
     @Override
     protected Set<Item> getFuelItems() {
-        return BuiltInRegistries.ITEM.getDataMap(AetherDataMaps.FREEZER_FUEL).keySet().stream().map(BuiltInRegistries.ITEM::get).collect(Collectors.toSet());
+        return BuiltInRegistries.ITEM.aetherFabric$getDataMap(AetherDataMaps.FREEZER_FUEL).keySet().stream().map(BuiltInRegistries.ITEM::get).collect(Collectors.toSet());
     }
 }

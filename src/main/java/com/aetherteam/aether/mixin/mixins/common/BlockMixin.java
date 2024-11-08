@@ -16,6 +16,6 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class BlockMixin implements BlockExtension {
     @WrapOperation(method = "shouldRenderFace", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;skipRendering(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/Direction;)Z"))
     private static boolean aetherFabric$supportFaceHiding(BlockState instance, BlockState state, Direction direction, Operation<Boolean> original, @Local(argsOnly = true) BlockGetter level, @Local(argsOnly = true) Direction face, @Local(argsOnly = true, ordinal = 1) BlockPos pos) {
-        return original.call(instance, state, direction) || (state.hidesNeighborFace(level, pos, instance, face) && instance.supportsExternalFaceHiding());
+        return original.call(instance, state, direction) || (state.aetherFabric$hidesNeighborFace(level, pos, instance, face) && instance.aetherFabric$supportsExternalFaceHiding());
     }
 }

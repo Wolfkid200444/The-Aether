@@ -2,7 +2,6 @@ package com.aetherteam.aetherfabric;
 
 import com.aetherteam.aether.mixin.mixins.common.accessor.ConnectionAccessor;
 import com.aetherteam.aether.mixin.mixins.common.accessor.ServerCommonPacketListenerImplAccessor;
-import com.aetherteam.aetherfabric.pond.FullDataMapAccess;
 import com.aetherteam.aetherfabric.pond.IRegistryExtension;
 import com.aetherteam.aetherfabric.registries.datamaps.DataMapsUpdatedEvent;
 import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
@@ -103,7 +102,7 @@ public class AetherFabric {
             addedEntries.forEach(addedEntry -> FuelRegistry.INSTANCE.clear(BuiltInRegistries.ITEM.get(addedEntry)));
 
             event.ifRegistry(Registries.ITEM, registry -> {
-                ((IRegistryExtension<Item>) registry).getDataMap(FURNACE_FUELS)
+                ((IRegistryExtension<Item>) registry).aetherFabric$getDataMap(FURNACE_FUELS)
                     .forEach((itemResourceKey, furnaceFuel) -> {
                         addedEntries.add(itemResourceKey);
 
@@ -122,7 +121,7 @@ public class AetherFabric {
             addedEntries.forEach(addedEntry -> ComposterBlock.COMPOSTABLES.removeFloat(BuiltInRegistries.ITEM.get(addedEntry)));
 
             event.ifRegistry(Registries.ITEM, registry -> {
-                ((IRegistryExtension<Item>) registry).getDataMap(COMPOSTABLES)
+                ((IRegistryExtension<Item>) registry).aetherFabric$getDataMap(COMPOSTABLES)
                     .forEach((itemResourceKey, furnaceFuel) -> {
                         addedEntries.add(itemResourceKey);
 

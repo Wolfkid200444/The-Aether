@@ -6,11 +6,11 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 
 public interface BlockEntityExtension {
-    default boolean handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+    default boolean aetherFabric$handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
         return false;
     }
 
-    default boolean onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider lookupProvider) {
+    default boolean aetherFabric$onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider lookupProvider) {
         return false;
     }
 }

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 
 public interface KeyMappingExtension {
 
-    default InputConstants.Key getKey() {
+    default InputConstants.Key aetherFabric$getKey() {
         return throwUnimplementedException();
     }
 
@@ -12,7 +12,7 @@ public interface KeyMappingExtension {
      * {@return true if the key conflict context and modifier are active and the keyCode matches this binding, false otherwise}
      */
     default boolean isActiveAndMatches(InputConstants.Key keyCode) {
-        return keyCode != InputConstants.UNKNOWN && keyCode.equals(getKey());
+        return keyCode != InputConstants.UNKNOWN && keyCode.equals(aetherFabric$getKey());
     }
 
     static <T> T throwUnimplementedException() {

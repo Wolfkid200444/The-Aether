@@ -12,7 +12,7 @@ public abstract class KeyMappingMixin implements KeyMappingExtension {
     private InputConstants.Key key;
 
     @Override
-    public InputConstants.Key getKey() {
+    public InputConstants.Key aetherFabric$getKey() {
         return this.key;
     }
 }

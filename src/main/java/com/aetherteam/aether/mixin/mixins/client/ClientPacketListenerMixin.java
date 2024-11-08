@@ -38,7 +38,7 @@ public abstract class ClientPacketListenerMixin {
 
     @WrapOperation(method = "method_38542", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/game/ClientboundBlockEntityDataPacket;getTag()Lnet/minecraft/nbt/CompoundTag;"))
     private CompoundTag aetherFabric$adjustLoadCall(ClientboundBlockEntityDataPacket instance, Operation<CompoundTag> original, @Local(argsOnly = true) BlockEntity blockEntity) {
-        return !blockEntity.onDataPacket(this.getConnection(), instance, this.registryAccess()) ? original.call(instance) : new CompoundTag();
+        return !blockEntity.aetherFabric$onDataPacket(this.getConnection(), instance, this.registryAccess()) ? original.call(instance) : new CompoundTag();
     }
 
     @Inject(method = "handleRespawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;addEntity(Lnet/minecraft/world/entity/Entity;)V"))

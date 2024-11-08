@@ -64,7 +64,7 @@ public class RegistryManager {
         attachments.forEach(key -> {
             final var attach = RegistryManager.getDataMap(registry.key(), key);
             if (attach == null || attach.networkCodec() == null) return;
-            att.put(key, registry.getDataMap(attach));
+            att.put(key, registry.aetherFabric$getDataMap(attach));
         });
         if (!att.isEmpty()) {
             PacketDistributor.sendToPlayer(player, new RegistryDataMapSyncPayload<>(registry.key(), att));

@@ -21,6 +21,6 @@ public abstract class ProjectileUtilMixin {
         at= @At("MIXINEXTRAS:EXPRESSION")
     )
     private static boolean aetherFabric$adjustIfEntityHit(boolean original, @Local(type = Entity.class, ordinal = 2) Entity entity2) {
-        return original && !entity2.canRiderInteract();
+        return original && !entity2.aetherFabric$canRiderInteract();
     }
 }

@@ -1,6 +1,6 @@
 package com.aetherteam.aetherfabric.events;
 
-import com.aetherteam.aether.mixin.mixins.common.PackRepositoryAccessor;
+import com.aetherteam.aether.mixin.mixins.common.accessor.PackRepositoryAccessor;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.server.packs.PackType;

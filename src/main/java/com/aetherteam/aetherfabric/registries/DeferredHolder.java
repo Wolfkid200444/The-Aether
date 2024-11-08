@@ -166,14 +166,14 @@ public class DeferredHolder<R, T extends R> implements Holder<R>, Supplier<T> {
      * @return The ResourceKey of the object pointed to by this DeferredHolder.
      */
     @Override
-    public ResourceKey<R> getKey() {
+    public ResourceKey<R> aetherFabric$getKey() {
         return this.key;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        return obj instanceof Holder<?> h && h.kind() == Kind.REFERENCE && h.getKey() == this.key;
+        return obj instanceof Holder<?> h && h.kind() == Kind.REFERENCE && h.aetherFabric$getKey() == this.key;
     }
 
     @Override
@@ -217,7 +217,7 @@ public class DeferredHolder<R, T extends R> implements Holder<R>, Supplier<T> {
     /**
      * Evaluates the passed predicate against this holder's resource key.
      *
-     * @return {@code true} if the filter matches {@linkplain #getKey() this DH's resource key}
+     * @return {@code true} if the filter matches {@linkplain #aetherFabric$getKey() this DH's resource key}
      */
     @Override
     public boolean is(Predicate<ResourceKey<R>> filter) {
@@ -255,9 +255,9 @@ public class DeferredHolder<R, T extends R> implements Holder<R>, Supplier<T> {
     }
 
     /**
-     * Returns an {@link Either#left()} containing {@linkplain #getKey() the resource key of this holder}.
+     * Returns an {@link Either#left()} containing {@linkplain #aetherFabric$getKey() the resource key of this holder}.
      *
-     * @apiNote This method is implemented for {@link Holder} compatibility, but {@link #getKey()} should be preferred.
+     * @apiNote This method is implemented for {@link Holder} compatibility, but {@link #aetherFabric$getKey()} should be preferred.
      */
     @Override
     public Either<ResourceKey<R>, R> unwrap() {
@@ -268,8 +268,8 @@ public class DeferredHolder<R, T extends R> implements Holder<R>, Supplier<T> {
     /**
      * Returns the resource key of this holder.
      *
-     * @return a present optional containing {@linkplain #getKey() the resource key of this holder}
-     * @apiNote This method is implemented for {@link Holder} compatibility, but {@link #getKey()} should be preferred.
+     * @return a present optional containing {@linkplain #aetherFabric$getKey() the resource key of this holder}
+     * @apiNote This method is implemented for {@link Holder} compatibility, but {@link #aetherFabric$getKey()} should be preferred.
      */
     @Override
     public Optional<ResourceKey<R>> unwrapKey() {

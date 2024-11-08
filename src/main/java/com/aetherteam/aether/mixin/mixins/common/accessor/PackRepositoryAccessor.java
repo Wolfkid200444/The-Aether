@@ -1,4 +1,4 @@
-package com.aetherteam.aether.mixin.mixins.common;
+package com.aetherteam.aether.mixin.mixins.common.accessor;
 
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.packs.repository.RepositorySource;

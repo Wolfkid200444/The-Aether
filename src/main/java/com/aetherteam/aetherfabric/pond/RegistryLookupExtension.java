@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 public interface RegistryLookupExtension<R> {
 
     @Nullable
-    default <T> T getData(DataMapType<R, T> type, ResourceKey<R> key) {
+    default <T> T aetherFabric$getData(DataMapType<R, T> type, ResourceKey<R> key) {
         return null;
     }
 }

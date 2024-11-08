@@ -39,6 +39,6 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isPassenger()Z")
     )
     private boolean aetherFabric$adjustPassengerCheck(LivingEntity instance, Operation<Boolean> original) {
-        return original.call(instance) && (instance.getVehicle() != null && instance.getVehicle().shouldRiderSit());
+        return original.call(instance) && (instance.getVehicle() != null && instance.getVehicle().aetherFabric$shouldRiderSit());
     }
 }

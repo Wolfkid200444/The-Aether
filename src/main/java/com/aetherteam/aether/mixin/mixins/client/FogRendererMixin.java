@@ -57,4 +57,10 @@ public abstract class FogRendererMixin {
 
         original.call(f, g, h, i);
     }
+
+    // TODO: GET PORTING LIB TO UPDATE THERE MIXIN TO ACTUALLY USE THE ARGS WITHIN MIXIN
+//    @WrapOperation(method = "setupColor", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clearColor(FFFF)V", remap = false))
+//    private static void portingLibFix$modifyFogColors(float f, float g, float h, float i, Operation<Void> original) {
+//        original.call(fogRed, fogGreen, fogBlue, i);
+//    }
 }

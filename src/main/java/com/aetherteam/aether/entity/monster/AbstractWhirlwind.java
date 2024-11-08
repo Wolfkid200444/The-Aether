@@ -100,7 +100,7 @@ public abstract class AbstractWhirlwind extends Mob {
         super.tick();
         this.lifeLeft--;
         if (!this.level().isClientSide()) {
-            if (this.lifeLeft <= 0 || this.isInFluidType()) {
+            if (this.lifeLeft <= 0 || this.aetherFabric$isInFluidType()) {
                 this.discard();
             }
         }

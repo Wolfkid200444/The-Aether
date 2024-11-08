@@ -48,12 +48,12 @@ public abstract class ItemStackMixin implements ItemStackExtension {
     }
 
     @Override
-    public int getEnchantmentLevel(Holder<Enchantment> enchantment) {
+    public int aetherFabric$getEnchantmentLevel(Holder<Enchantment> enchantment) {
         return ((ItemStack) (Object) this).getEnchantments().getLevel(enchantment);
     }
 
     @Override
-    public Set<Object2IntMap.Entry<Holder<Enchantment>>> getAllEnchantments(HolderLookup.RegistryLookup<Enchantment> registry) {
+    public Set<Object2IntMap.Entry<Holder<Enchantment>>> aetherFabric$getAllEnchantments(HolderLookup.RegistryLookup<Enchantment> registry) {
         return ((ItemStack) (Object) this).getEnchantments().entrySet();
     }
 }

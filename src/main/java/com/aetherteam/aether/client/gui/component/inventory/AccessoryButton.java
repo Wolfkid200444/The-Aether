@@ -46,8 +46,8 @@ public class AccessoryButton extends ImageButton {
     @Override
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         Tuple<Integer, Integer> offsets = AetherAccessoriesScreen.getButtonOffset(this.parentScreen);
-        this.setX(this.parentScreen.getGuiLeft() + offsets.getA());
-        this.setY(this.parentScreen.getGuiTop() + offsets.getB());
+        this.setX(this.parentScreen.aetherFabric$getGuiLeft() + offsets.getA());
+        this.setY(this.parentScreen.aetherFabric$getGuiTop() + offsets.getB());
         if (this.parentScreen instanceof CreativeModeInventoryScreen screen) {
             boolean isInventoryTab = screen.isInventoryOpen();
             this.active = isInventoryTab;

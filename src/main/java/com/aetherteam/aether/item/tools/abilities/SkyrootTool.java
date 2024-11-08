@@ -19,7 +19,7 @@ public interface SkyrootTool {
      * @see com.aetherteam.aether.loot.functions.DoubleDrops
      */
     default ItemStack doubleDrops(Level level, ItemStack drop, @Nullable ItemStack tool, @Nullable BlockState state) {
-        if (tool != null && tool.getEnchantmentLevel(level.registryAccess().holderOrThrow(Enchantments.SILK_TOUCH)) == 0) {
+        if (tool != null && tool.aetherFabric$getEnchantmentLevel(level.registryAccess().aetherFabric$holderOrThrow(Enchantments.SILK_TOUCH)) == 0) {
             if (state != null && state.getValue(AetherBlockStateProperties.DOUBLE_DROPS)) {
                 if (tool.isCorrectToolForDrops(state)) {
                     drop.setCount(2 * drop.getCount());

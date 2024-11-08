@@ -71,7 +71,7 @@ public class GuiHooks {
     public static AccessoryButton setupAccessoryButton(Screen screen, Tuple<Integer, Integer> offsets) {
         AbstractContainerScreen<?> containerScreen = canCreateAccessoryButtonForScreen(screen);
         if (containerScreen != null) {
-            return new AccessoryButton(containerScreen, containerScreen.getGuiLeft() + offsets.getA(), containerScreen.getGuiTop() + offsets.getB(), AetherAccessoriesScreen.ACCESSORIES_BUTTON);
+            return new AccessoryButton(containerScreen, containerScreen.aetherFabric$getGuiLeft() + offsets.getA(), containerScreen.aetherFabric$getGuiTop() + offsets.getB(), AetherAccessoriesScreen.ACCESSORIES_BUTTON);
         }
         return null;
     }
@@ -222,9 +222,9 @@ public class GuiHooks {
             if (Minecraft.getInstance().player != null) {
                 if (DimensionHooks.displayAetherTravel) {
                     if (DimensionHooks.playerLeavingAether) {
-                        guiGraphics.drawCenteredString(screen.getMinecraft().font, Component.translatable("gui.aether.descending"), screen.width / 2, AetherConfig.CLIENT.portal_text_y.get(), 16777215);
+                        guiGraphics.drawCenteredString(screen.aetherFabric$getMinecraft().font, Component.translatable("gui.aether.descending"), screen.width / 2, AetherConfig.CLIENT.portal_text_y.get(), 16777215);
                     } else {
-                        guiGraphics.drawCenteredString(screen.getMinecraft().font, Component.translatable("gui.aether.ascending"), screen.width / 2, AetherConfig.CLIENT.portal_text_y.get(), 16777215);
+                        guiGraphics.drawCenteredString(screen.aetherFabric$getMinecraft().font, Component.translatable("gui.aether.ascending"), screen.width / 2, AetherConfig.CLIENT.portal_text_y.get(), 16777215);
                     }
                 }
             }
@@ -274,7 +274,7 @@ public class GuiHooks {
         if (minecraft.screen instanceof AbstractContainerScreen<?> abstractContainerScreen) {
             var focused = abstractContainerScreen.getFocused();
             if (!(focused instanceof EditBox || focused instanceof MultiLineEditBox)) {
-                if (!AetherConfig.CLIENT.disable_accessory_button.get() && AetherKeys.OPEN_ACCESSORY_INVENTORY.getKey().getValue() == key && (action == InputConstants.PRESS || action == InputConstants.REPEAT)) {
+                if (!AetherConfig.CLIENT.disable_accessory_button.get() && AetherKeys.OPEN_ACCESSORY_INVENTORY.aetherFabric$getKey().getValue() == key && (action == InputConstants.PRESS || action == InputConstants.REPEAT)) {
                     abstractContainerScreen.onClose();
                 }
             }

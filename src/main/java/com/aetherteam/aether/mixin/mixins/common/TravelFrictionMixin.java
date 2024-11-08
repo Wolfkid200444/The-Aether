@@ -18,7 +18,7 @@ public abstract class TravelFrictionMixin {
         var blockPos = livingEntity.getBlockPosBelowThatAffectsMyMovement();
         var level = livingEntity.level();
 
-        var betterFriction = level.getBlockState(blockPos).getFriction(level, blockPos, livingEntity);
+        var betterFriction = level.getBlockState(blockPos).aetherFabric$getFriction(level, blockPos, livingEntity);
 
         return betterFriction != null ? betterFriction : original.call(instance);
     }

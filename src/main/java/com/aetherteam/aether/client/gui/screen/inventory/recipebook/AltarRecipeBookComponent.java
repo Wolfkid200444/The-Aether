@@ -19,6 +19,6 @@ public class AltarRecipeBookComponent extends AbstractFurnaceRecipeBookComponent
 
     @Override
     protected Set<Item> getFuelItems() {
-        return BuiltInRegistries.ITEM.getDataMap(AetherDataMaps.ALTAR_FUEL).keySet().stream().map(BuiltInRegistries.ITEM::get).collect(Collectors.toSet());
+        return BuiltInRegistries.ITEM.aetherFabric$getDataMap(AetherDataMaps.ALTAR_FUEL).keySet().stream().map(BuiltInRegistries.ITEM::get).collect(Collectors.toSet());
     }
 }

@@ -41,6 +41,9 @@
     ],
     "mm_shedaniel:early_risers": [
       "com.aetherteam.aetherfabric.AetherASM"
+    ],
+    "mixinsquared": [
+      "com.aetherteam.aetherfabric.AetherFabricMixinCanceller"
     ]
   },
   "mixins": [

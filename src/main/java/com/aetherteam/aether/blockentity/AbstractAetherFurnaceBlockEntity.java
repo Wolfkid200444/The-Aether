@@ -55,7 +55,7 @@ public abstract class AbstractAetherFurnaceBlockEntity extends AbstractFurnaceBl
             }
 
             int i = blockEntity.getMaxStackSize();
-            if (!abstractFurnaceBlockEntityAccessor.callIsLit() && abstractFurnaceBlockEntityAccessor.callCanBurn(level.registryAccess(), recipe, abstractFurnaceBlockEntityAccessor.aether$getItems(), i)) {
+            if (!abstractFurnaceBlockEntityAccessor.callIsLit() && AbstractFurnaceBlockEntityAccessor.callCanBurn(level.registryAccess(), recipe, abstractFurnaceBlockEntityAccessor.aether$getItems(), i)) {
                 abstractFurnaceBlockEntityAccessor.aether$setLitTime(abstractFurnaceBlockEntityAccessor.callGetBurnDuration(itemstack));
                 abstractFurnaceBlockEntityAccessor.aether$setLitDuration(abstractFurnaceBlockEntityAccessor.aether$getLitTime());
                 if (abstractFurnaceBlockEntityAccessor.callIsLit()) {
@@ -72,7 +72,7 @@ public abstract class AbstractAetherFurnaceBlockEntity extends AbstractFurnaceBl
                 }
             }
 
-            if (abstractFurnaceBlockEntityAccessor.callIsLit() && abstractFurnaceBlockEntityAccessor.callCanBurn(level.registryAccess(), recipe, abstractFurnaceBlockEntityAccessor.aether$getItems(), i)) {
+            if (abstractFurnaceBlockEntityAccessor.callIsLit() && AbstractFurnaceBlockEntityAccessor.callCanBurn(level.registryAccess(), recipe, abstractFurnaceBlockEntityAccessor.aether$getItems(), i)) {
                 abstractFurnaceBlockEntityAccessor.aether$setCookingProgress(abstractFurnaceBlockEntityAccessor.aether$getCookingProgress() + 1);
                 if (abstractFurnaceBlockEntityAccessor.aether$getCookingProgress() == abstractFurnaceBlockEntityAccessor.aether$getCookingTotalTime()) {
                     abstractFurnaceBlockEntityAccessor.aether$setCookingProgress(0);
@@ -117,7 +117,7 @@ public abstract class AbstractAetherFurnaceBlockEntity extends AbstractFurnaceBl
     @SuppressWarnings("unchecked")
     private boolean burn(RegistryAccess registryAccess, @Nullable RecipeHolder<?> recipe, NonNullList<ItemStack> stacks, int stackSize) {
         AbstractFurnaceBlockEntityAccessor abstractFurnaceBlockEntityAccessor = (AbstractFurnaceBlockEntityAccessor) this;
-        if (recipe != null && abstractFurnaceBlockEntityAccessor.callCanBurn(registryAccess, recipe, stacks, stackSize)) {
+        if (recipe != null && AbstractFurnaceBlockEntityAccessor.callCanBurn(registryAccess, recipe, stacks, stackSize)) {
             ItemStack inputSlotStack = stacks.get(0);
             ItemStack resultStack = ((Recipe<SingleRecipeInput>) recipe.value()).assemble(new SingleRecipeInput(abstractFurnaceBlockEntityAccessor.aether$getItems().getFirst()), registryAccess);
             ItemStack resultSlotStack = stacks.get(2);

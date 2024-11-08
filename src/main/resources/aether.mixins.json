@@ -5,7 +5,6 @@
   "minVersion": "0.8",
   "minMixinExtrasVersion": "0.5.0-beta.3",
   "compatibilityLevel": "JAVA_21",
-  "refmap": "aether.refmap.json",
   "mixins": [
     "client.accessor.MinecraftAccessor",
     "common.AbstractArrowMixin",
@@ -84,7 +83,7 @@
     "common.RegistryLookupMixin$DelegateMixin",
     "common.SlimeMixin",
     "common.ServerPacksSourceMixin",
-    "common.PackRepositoryAccessor"
+    "common.accessor.PackRepositoryAccessor"
   ],
   "client": [
     "client.AdvancementToastMixin",

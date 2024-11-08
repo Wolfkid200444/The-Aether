@@ -23,7 +23,7 @@ public abstract class ScreenMixin implements ScreenExtension {
     protected Minecraft minecraft;
 
     @Override
-    public Minecraft getMinecraft() {
+    public Minecraft aetherFabric$getMinecraft() {
         return this.minecraft;
     }
 

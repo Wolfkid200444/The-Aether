@@ -11,24 +11,24 @@ import org.jetbrains.annotations.Nullable;
 
 public interface BlockStateExtension {
 
-    default boolean hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState neighborState, Direction dir) {
+    default boolean aetherFabric$hidesNeighborFace(BlockGetter level, BlockPos pos, BlockState neighborState, Direction dir) {
         return throwUnimplementedException();
     }
 
     /**
      * Whether this block allows a neighboring block to hide the face of this block it touches.
-     * If this returns true, {@link BlockStateExtension#hidesNeighborFace(BlockGetter, BlockPos, BlockState, Direction)}
+     * If this returns true, {@link BlockStateExtension#aetherFabric$hidesNeighborFace(BlockGetter, BlockPos, BlockState, Direction)}
      * will be called on the neighboring block.
      */
-    default boolean supportsExternalFaceHiding() {
+    default boolean aetherFabric$supportsExternalFaceHiding() {
         return throwUnimplementedException();
     }
 
-    default Float getExplosionResistance(BlockGetter level, BlockPos pos, Explosion explosion) {
+    default Float aetherFabric$getExplosionResistance(BlockGetter level, BlockPos pos, Explosion explosion) {
         return throwUnimplementedException();
     }
 
-    default Float getFriction(LevelReader level, BlockPos pos, @Nullable Entity entity) {
+    default Float aetherFabric$getFriction(LevelReader level, BlockPos pos, @Nullable Entity entity) {
         return throwUnimplementedException();
     }
 

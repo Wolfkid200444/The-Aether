@@ -27,28 +27,28 @@ public abstract class AbstractContainerScreenMixin implements ScreenExtension {
     protected Slot hoveredSlot;
 
     @Override
-    public int getGuiLeft() {
+    public int aetherFabric$getGuiLeft() {
         return this.leftPos;
     }
 
     @Override
-    public int getGuiTop() {
+    public int aetherFabric$getGuiTop() {
         return this.topPos;
     }
 
     @Override
-    public int getXSize() {
+    public int aetherFabric$getXSize() {
         return this.imageWidth;
     }
 
     @Override
-    public int getYSize() {
+    public int aetherFabric$getYSize() {
         return this.imageHeight;
     }
 
     @Override
     @Nullable
-    public Slot getSlotUnderMouse() {
+    public Slot aetherFabric$getSlotUnderMouse() {
         return this.hoveredSlot;
     }
 }

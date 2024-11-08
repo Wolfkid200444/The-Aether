@@ -52,8 +52,8 @@ import org.jetbrains.annotations.Nullable;
  * Both datapack registries and normal, built-in registries support data maps.
  *
  * <p>
- * You can access a data map using {@link net.neoforged.neoforge.registries.IRegistryExtension#getDataMap(DataMapType)} and {@link IWithData#getData(DataMapType)}. <br>
- * You can usually go through {@linkplain net.minecraft.core.Holder#getData(DataMapType)} Holder} implementations in order to get the data of an object directly.
+ * You can access a data map using {@link net.neoforged.neoforge.registries.IRegistryExtension#getDataMap(DataMapType)} and {@link IWithData#aetherFabric$getData(DataMapType)}. <br>
+ * You can usually go through {@linkplain net.minecraft.core.Holder#aetherFabric$getData(DataMapType)} Holder} implementations in order to get the data of an object directly.
  *
  * @see AdvancedDataMapType for more functionality
  */

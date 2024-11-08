@@ -18,7 +18,7 @@ public class IcePendantItem extends PendantItem implements FreezingAccessory {
 
     @Override
     public void tick(ItemStack stack, SlotReference reference) {
-        if (!reference.entity().isInFluidType()) {
+        if (!reference.entity().aetherFabric$isInFluidType()) {
             this.freezeTick(reference, stack);
         }
     }

@@ -12,7 +12,7 @@ public interface IHolderExtension<T> {
      *
      * Used by {@link Registry#safeCastToReference} to resolve the underlying {@link Holder.Reference} for delegating holders.
      */
-    default Holder<T> getDelegate() {
+    default Holder<T> aetherFabric$getDelegate() {
         return (Holder<T>) this;
     }
 
@@ -22,7 +22,7 @@ public interface IHolderExtension<T> {
      * This will only succeed if the underlying holder is a {@link Holder.Reference}.
      */
     @Nullable
-    default HolderLookup.RegistryLookup<T> unwrapLookup() {
+    default HolderLookup.RegistryLookup<T> aetherFabric$unwrapLookup() {
         return null;
     }
 
@@ -31,7 +31,7 @@ public interface IHolderExtension<T> {
      * by Holder implementations to avoid allocation associated with {@link Holder#unwrapKey()}
      */
     @Nullable
-    default ResourceKey<T> getKey() {
+    default ResourceKey<T> aetherFabric$getKey() {
         return ((Holder<T>) this).unwrapKey().orElse(null);
     }
 }
