@@ -24,6 +24,7 @@ import com.aetherteam.aether.data.resources.registries.AetherDataMaps;
 import com.aetherteam.aether.data.resources.registries.AetherMoaTypes;
 import com.aetherteam.aether.effect.AetherEffects;
 import com.aetherteam.aether.entity.AetherEntityTypes;
+import com.aetherteam.aether.entity.ai.attribute.AetherAttributes;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
 import com.aetherteam.aether.event.listeners.*;
 import com.aetherteam.aether.event.listeners.abilities.AccessoryAbilityListener;
@@ -125,32 +126,33 @@ public class Aether implements ModInitializer {
         NeoForgeConfigRegistry.INSTANCE.register(Aether.MODID, ModConfig.Type.CLIENT, AetherConfig.CLIENT_SPEC);
 
         DeferredRegister<?>[] registers = {
-            AetherDataComponents.DATA_COMPONENT_TYPES,
-            AetherEntityTypes.ENTITY_TYPES,
-            AetherBlocks.BLOCKS,
-            AetherItems.ITEMS,
-            AetherBlockEntityTypes.BLOCK_ENTITY_TYPES,
-            AetherMenuTypes.MENU_TYPES,
-            AetherEffects.EFFECTS,
-            AetherArmorMaterials.ARMOR_MATERIALS,
-            AetherParticleTypes.PARTICLES,
-            AetherFeatures.FEATURES,
-            AetherFoliagePlacerTypes.FOLIAGE_PLACERS,
-            AetherPlacementModifiers.PLACEMENT_MODIFIERS,
-            AetherTrunkPlacerTypes.TRUNK_PLACERS,
-            AetherTreeDecoratorTypes.TREE_DECORATORS,
-            AetherStructureTypes.STRUCTURE_TYPES,
-            AetherStructurePieceTypes.STRUCTURE_PIECE_TYPES,
-            AetherStructureProcessors.STRUCTURE_PROCESSOR_TYPES,
-            AetherRecipeTypes.RECIPE_TYPES,
-            AetherRecipeSerializers.RECIPE_SERIALIZERS,
-            AetherLootFunctions.LOOT_FUNCTION_TYPES,
-            AetherLootConditions.LOOT_CONDITION_TYPES,
-            AetherSoundEvents.SOUNDS,
-            AetherGameEvents.GAME_EVENTS,
-            AetherCreativeTabs.CREATIVE_MODE_TABS,
-            AetherAdvancementSoundOverrides.ADVANCEMENT_SOUND_OVERRIDES,
-            AetherAdvancementTriggers.TRIGGERS,
+                AetherBlocks.BLOCKS,
+                AetherItems.ITEMS,
+                AetherEntityTypes.ENTITY_TYPES,
+                AetherAttributes.ATTRIBUTES,
+                AetherBlockEntityTypes.BLOCK_ENTITY_TYPES,
+                AetherMenuTypes.MENU_TYPES,
+                AetherEffects.EFFECTS,
+                AetherArmorMaterials.ARMOR_MATERIALS,
+                AetherParticleTypes.PARTICLES,
+                AetherFeatures.FEATURES,
+                AetherFoliagePlacerTypes.FOLIAGE_PLACERS,
+                AetherPlacementModifiers.PLACEMENT_MODIFIERS,
+                AetherTrunkPlacerTypes.TRUNK_PLACERS,
+                AetherTreeDecoratorTypes.TREE_DECORATORS,
+                AetherStructureTypes.STRUCTURE_TYPES,
+                AetherStructurePieceTypes.STRUCTURE_PIECE_TYPES,
+                AetherStructureProcessors.STRUCTURE_PROCESSOR_TYPES,
+                AetherRecipeTypes.RECIPE_TYPES,
+                AetherRecipeSerializers.RECIPE_SERIALIZERS,
+                AetherLootFunctions.LOOT_FUNCTION_TYPES,
+                AetherLootConditions.LOOT_CONDITION_TYPES,
+                AetherSoundEvents.SOUNDS,
+                AetherGameEvents.GAME_EVENTS,
+                AetherCreativeTabs.CREATIVE_MODE_TABS,
+                AetherAdvancementSoundOverrides.ADVANCEMENT_SOUND_OVERRIDES,
+                AetherAdvancementTriggers.TRIGGERS,
+                AetherDataComponents.DATA_COMPONENT_TYPES
         };
 
         for (DeferredRegister<?> register : registers) {

@@ -56,6 +56,10 @@
 //        this.add(this.id + ".menu_title." + key, name);
 //    }
 //
+//    public void addAttribute(String key, String name) {
+//        this.add(this.id + ".attribute.name." + key, name);
+//    }
+//
 //    @Override
 //    public CompletableFuture<?> run(CachedOutput cache) {
 //        CompletableFuture<?> languageGen = super.run(cache);

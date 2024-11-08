@@ -122,6 +122,7 @@ Trico-Everfire
 - Fixes to unintentional jumping on Blue Aerclouds.
 
 TunefulTurnip
+- Implementation of improved modifiability to Moa jump behavior and rendering.
 - Fixes to a crash from the Gold Dungeon in modded biomes.
 
 YvanCywan
