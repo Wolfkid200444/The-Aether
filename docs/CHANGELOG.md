@@ -1,3 +1,18 @@
+# The Aether - NeoForge - 1.20.4-1.5.1
+
+Additions
+
+- Added a new common config option `"Randomize boss names"` for configuring whether boss bars display randomized names.
+
+Fixes
+
+- Fix incorrect smelting speeds for Iron and Gold Accessories.
+- Fix a missing lore description.
+- Fix null crashes when trying to load Moa Skins.
+- Fix a connection crash with LAN servers.
+- Fix custom room support for Bronze Dungeons breaking after a certain point.
+- Fix the map for locked blocks being immutable.
+
 # The Aether - NeoForge - 1.20.4-1.5.0
 
 Additions
