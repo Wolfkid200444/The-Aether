@@ -182,6 +182,7 @@ curseforge {
         mainArtifact(tasks.jar) {
             displayName = "${project.mod_name} - ${version}"
             relations {
+                requiredDependency "owo"
                 embeddedLibrary "accessories"
                 embeddedLibrary "cumulus"
             }
@@ -200,6 +201,7 @@ modrinth {
     gameVersions = ["${minecraft_version}"]
     loaders = ["neoforge"]
     dependencies {
+        required.project "owo"
         embedded.version "accessories", "${project.accessories_version}+${project.minecraft_version}"
         embedded.version "cumulus", "${project.cumulus_version}"
     }
