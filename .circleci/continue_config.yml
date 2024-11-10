@@ -6,10 +6,10 @@ orbs:
 parameters:
   artifact-name:
     type: string
-    default: aether-1.21.1-1.5.0-neoforge.jar
+    default: aether-1.21.1-1.5.1-beta.1-fabric.jar
   deploy-branch:
     type: string
-    default: 1.21.1-develop
+    default: 1.21.1-develop-fabric
   allow-deploy-and-discord-publish:
     type: boolean
     default: false
@@ -17,7 +17,7 @@ parameters:
 jobs:
   build:
     machine:
-      image: ubuntu-2204:2023.02.1
+      image: ubuntu-2404:2024.08.1
     resource_class: large
     environment:
       _JAVA_OPTIONS: -Xmx9600m
