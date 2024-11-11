@@ -126,9 +126,10 @@ public class Aether implements ModInitializer {
         NeoForgeConfigRegistry.INSTANCE.register(Aether.MODID, ModConfig.Type.CLIENT, AetherConfig.CLIENT_SPEC);
 
         DeferredRegister<?>[] registers = {
+                AetherEntityTypes.ENTITY_TYPES,
+                AetherDataComponents.DATA_COMPONENT_TYPES,
                 AetherBlocks.BLOCKS,
                 AetherItems.ITEMS,
-                AetherEntityTypes.ENTITY_TYPES,
                 AetherAttributes.ATTRIBUTES,
                 AetherBlockEntityTypes.BLOCK_ENTITY_TYPES,
                 AetherMenuTypes.MENU_TYPES,
@@ -151,8 +152,7 @@ public class Aether implements ModInitializer {
                 AetherGameEvents.GAME_EVENTS,
                 AetherCreativeTabs.CREATIVE_MODE_TABS,
                 AetherAdvancementSoundOverrides.ADVANCEMENT_SOUND_OVERRIDES,
-                AetherAdvancementTriggers.TRIGGERS,
-                AetherDataComponents.DATA_COMPONENT_TYPES
+                AetherAdvancementTriggers.TRIGGERS
         };
 
         for (DeferredRegister<?> register : registers) {
