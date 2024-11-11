@@ -200,7 +200,7 @@ modrinth {
     gameVersions = ["${minecraft_version}"]
     loaders = ["fabric"]
     dependencies {
-        required.project "owo"
+        required.project "owo-lib"
         embedded.version "accessories", "${project.accessories_version}+${project.minecraft_version}"
         embedded.version "cumulus", "${project.cumulus_version}"
     }
