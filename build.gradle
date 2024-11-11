@@ -102,7 +102,6 @@ repositories {
     maven { url = "https://maven.architectury.dev/" }
     maven githubPackage.invoke("The-Aether-Team/Nitrogen")
     maven githubPackage.invoke("The-Aether-Team/Cumulus")
-    mavenLocal()
     maven { url = "https://api.modrinth.com/maven" }
     maven { url = "https://maven.parchmentmc.org" }
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
