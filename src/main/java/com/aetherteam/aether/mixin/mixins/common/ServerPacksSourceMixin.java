@@ -15,6 +15,11 @@ public abstract class ServerPacksSourceMixin {
 
     @Inject(method = "createPackRepository(Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;)Lnet/minecraft/server/packs/repository/PackRepository;", at = @At("RETURN"))
     private static void aetherFabric$addServerPackResources(LevelStorageSource.LevelStorageAccess level, CallbackInfoReturnable<PackRepository> cir) {
-        AddPackFindersEvent.invokeEvent(PackType.CLIENT_RESOURCES, cir.getReturnValue());
+        AddPackFindersEvent.invokeEvent(PackType.SERVER_DATA, cir.getReturnValue());
+    }
+
+    @Inject(method = "createVanillaTrustedRepository", at = @At("RETURN"))
+    private static void aetherFabric$addServerPackResourcesVanilla(CallbackInfoReturnable<PackRepository> cir) {
+        AddPackFindersEvent.invokeEvent(PackType.SERVER_DATA, cir.getReturnValue());
     }
 }
