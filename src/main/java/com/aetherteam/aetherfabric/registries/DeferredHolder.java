@@ -286,4 +286,10 @@ public class DeferredHolder<R, T extends R> implements Holder<R>, Supplier<T> {
         bind(false);
         return this.holder != null && this.holder.canSerializeIn(owner);
     }
+
+    @Override
+    public Holder<R> aetherFabric$getDelegate() {
+        bind(false);
+        return this.holder != null ? this.holder.aetherFabric$getDelegate() : this;
+    }
 }
