@@ -183,11 +183,6 @@ public class Sentry extends Slime {
     }
 
     @Override
-    public EntityDimensions getDefaultDimensions(Pose pose) {
-        return super.getDefaultDimensions(pose).scale(1.76F);
-    }
-
-    @Override
     protected boolean shouldDespawnInPeaceful() {
         return true;
     }
