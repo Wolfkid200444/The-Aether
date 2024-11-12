@@ -105,11 +105,11 @@ public abstract class LivingEntityMixin extends Entity {
 
     @WrapOperation(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isDamageSourceBlocked(Lnet/minecraft/world/damagesource/DamageSource;)Z"))
     private boolean aetherFabric$checkIfBlock(LivingEntity instance, DamageSource damageSource, Operation<Boolean> original) {
-        var callback = new CancellableCallbackImpl();
+        var callback = new CancellableCallbackImpl(!original.call(instance, damageSource));
 
         LivingEntityEvents.ON_SHIELD_BLOCK.invoker().onBlock(damageSource, callback);
 
-        return original.call(instance, damageSource) && callback.isCanceled();
+        return !callback.isCanceled();
     }
 
     @WrapOperation(method = "dropExperience", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ExperienceOrb;award(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/phys/Vec3;I)V"))

@@ -4,6 +4,10 @@ public class CancellableCallbackImpl implements CancellableCallback {
 
     public CancellableCallbackImpl() {}
 
+    public CancellableCallbackImpl(boolean isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
     private boolean isCancelled = false;
 
     public boolean isCanceled() {
