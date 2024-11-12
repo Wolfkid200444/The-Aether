@@ -151,7 +151,11 @@ public class EntityMixin implements EntityExtension {
 
     @Override
     public boolean aetherFabric$isInFluidType() {
-        return !this.fluidHeight.isEmpty();
+        for (var value : this.fluidHeight.values()) {
+            if (value > 0.0) return true;
+        }
+
+        return false;
     }
 
     @Definition(id = "vehicle", field = "Lnet/minecraft/world/entity/Entity;vehicle:Lnet/minecraft/world/entity/Entity;")
