@@ -17,7 +17,7 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 @Mixin(MappedRegistry.class)
-public abstract class MappedRegistryMixin<T> implements FullDataMapAccess<T>, IRegistryExtension<T> {
+public abstract class MappedRegistryMixin<T> implements FullDataMapAccess<T>{
 
     @Unique
     private final Map<DataMapType<T, ?>, Map<ResourceKey<T>, ?>> dataMaps = new IdentityHashMap<>();

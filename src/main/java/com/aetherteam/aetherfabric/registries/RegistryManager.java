@@ -9,6 +9,7 @@ import com.aetherteam.aether.mixin.mixins.common.accessor.ConnectionAccessor;
 import com.aetherteam.aether.mixin.mixins.common.accessor.ServerCommonPacketListenerImplAccessor;
 import io.netty.util.AttributeKey;
 import net.fabricmc.fabric.api.networking.v1.ServerConfigurationNetworking;
+import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -59,12 +60,12 @@ public class RegistryManager {
     }
 
     public static <T> void handleSync(ServerPlayer player, Registry<T> registry, Collection<ResourceLocation> attachments) {
-        if (attachments.isEmpty()) return;
+        if (attachments.isEmpty() || !(registry instanceof MappedRegistry<T> mappedRegistry)) return;
         final Map<ResourceLocation, Map<ResourceKey<T>, ?>> att = new HashMap<>();
         attachments.forEach(key -> {
             final var attach = RegistryManager.getDataMap(registry.key(), key);
             if (attach == null || attach.networkCodec() == null) return;
-            att.put(key, registry.aetherFabric$getDataMap(attach));
+            att.put(key, mappedRegistry.aetherFabric$getDataMap(attach));
         });
         if (!att.isEmpty()) {
             PacketDistributor.sendToPlayer(player, new RegistryDataMapSyncPayload<>(registry.key(), att));

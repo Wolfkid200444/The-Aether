@@ -6,6 +6,7 @@
   "mixins": [
     "HolderMixin",
     "HolderMixin$HolderReferenceMixin",
+    "RegistryMixin",
     "MappedRegistryMixin",
     "MappedRegistryMixin$InnerClass",
     "LootTableMixin",
