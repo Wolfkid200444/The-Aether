@@ -212,7 +212,7 @@ public class EntityMixin implements EntityExtension {
 
     @Override
     public @Nullable Collection<ItemEntity> aetherFabric$getCapturedDrops() {
-        return new ArrayList<>(this.capturingDrops ? this.capturedDrops : null);
+        return this.capturingDrops ? new ArrayList<>(this.capturedDrops) : null;
     }
 
     @Override
