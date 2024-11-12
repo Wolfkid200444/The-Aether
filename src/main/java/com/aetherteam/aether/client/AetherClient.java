@@ -231,6 +231,11 @@ public class AetherClient implements ClientModInitializer {
             AetherBlocks.BLUE_AERCLOUD.get(),
             AetherBlocks.GOLDEN_AERCLOUD.get(),
             AetherBlocks.QUICKSOIL_GLASS.get(),
-            AetherBlocks.QUICKSOIL_GLASS_PANE.get());
+            AetherBlocks.QUICKSOIL_GLASS_PANE.get(),
+            AetherBlocks.AEROGEL.get(),
+            AetherBlocks.AEROGEL_WALL.get(),
+            AetherBlocks.AEROGEL_SLAB.get(),
+            AetherBlocks.AEROGEL_STAIRS.get()
+        );
     }
 }
