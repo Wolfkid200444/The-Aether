@@ -28,7 +28,7 @@ public class GuiListener {
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             onGuiInitialize(screen, Screens.getButtons(screen)::add);
             ScreenEvents.afterRender(screen).register((screen1, drawContext, mouseX, mouseY, tickDelta) -> GuiListener.onGuiDraw(screen1, drawContext));
-            ScreenKeyboardEvents.afterKeyPress(screen).register((screen1, key, scancode, modifiers) -> onKeyPress(key, InputConstants.PRESS));
+            //KeyboardHandlerMixin.aetherFabric$afterKeyPressedEvent -> GuiListener.onKeyPress
         });
         ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
         //bus.addListener(GuiListener::onRenderBossBar);
