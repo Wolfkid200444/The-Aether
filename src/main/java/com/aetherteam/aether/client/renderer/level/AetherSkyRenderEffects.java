@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CloudStatus;
 import net.minecraft.client.Minecraft;
@@ -272,12 +273,15 @@ public class AetherSkyRenderEffects extends DimensionSpecialEffects {
         return new Vec3(f2, f3, f4);
     }
 
+    private final boolean isPortingLibLoaded = FabricLoader.getInstance().isModLoaded("porting_lib_extensions");
+
     /**
      * [CODE COPY] - {@link LevelRenderer#renderSky(Matrix4f, Matrix4f, float, Camera, boolean, Runnable)}.<br><br>
      * Modified to make the sun and moon fade out when they dip under the horizon.
      */
     public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f modelViewMatrix, Camera camera, Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
-        //setupFog.run();
+        // TODO: [Fabric Porting] Find better fix for when porting lib is installed as fog rendering creates a very jaring transition without this
+        if (isPortingLibLoaded) setupFog.run();
         if (!isFoggy) {
             FogType fogtype = camera.getFluidInCamera();
             if (fogtype != FogType.POWDER_SNOW && fogtype != FogType.LAVA && !this.doesMobEffectBlockSky(camera)) {
