@@ -162,10 +162,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
 
         boolean flag = arm != HumanoidArm.LEFT;
         float f = flag ? 1.0F : -1.0F;
-        float offset = 0.0375F;
-        if (isSlim) {
-            offset = 0.0425F;
-        }
+        float offset = isSlim ? 0.0425F : 0.0F;
         poseStack.translate((f * offset) - 0.0025, 0.0025, -0.0025);
 
         if (arm == HumanoidArm.RIGHT) {
