@@ -273,6 +273,7 @@ public class Slider extends PathfinderMob implements AetherBossMob<Slider>, Enem
                         if (projectile.getType().is(AetherTags.Entities.SLIDER_DAMAGING_PROJECTILES)) {
                             return Optional.of(attacker);
                         } else {
+                            projectile.setDeltaMovement(projectile.getDeltaMovement().scale(-1));
                             return this.sendInvalidToolMessage(attacker);
                         }
                     } else {
