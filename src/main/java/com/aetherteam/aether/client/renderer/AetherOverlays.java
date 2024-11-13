@@ -168,7 +168,7 @@ public class AetherOverlays {
      * @param player      The player that has the effect.
      */
     private static void renderInebriationOverlay(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Player player) {
-        MobEffectInstance inebriation = player.getEffect(AetherEffects.INEBRIATION);
+        MobEffectInstance inebriation = player.getEffect(AetherEffects.INEBRIATION.aetherFabric$getDelegate());
         double effectScale = minecraft.options.screenEffectScale().get();
         if (inebriation != null) {
             float inebriationDuration = (float) (inebriation.getDuration() % 50) / 50;
@@ -186,7 +186,7 @@ public class AetherOverlays {
      * @param player      The player that has the effect.
      */
     private static void renderRemedyOverlay(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Player player) {
-        MobEffectInstance remedy = player.getEffect(AetherEffects.REMEDY);
+        MobEffectInstance remedy = player.getEffect(AetherEffects.REMEDY.aetherFabric$getDelegate());
         double effectScale = minecraft.options.screenEffectScale().get();
         if (remedy != null) {
             int remedyStartDuration = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).getRemedyStartDuration();
