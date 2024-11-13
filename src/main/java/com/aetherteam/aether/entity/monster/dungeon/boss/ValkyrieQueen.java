@@ -124,7 +124,7 @@ public class ValkyrieQueen extends AbstractValkyrie implements AetherBossMob<Val
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
         this.setBossName(BossNameGenerator.generateValkyrieName(this.getRandom()));
         // Set the bounds for the whole dungeon.
-        if (reason == MobSpawnType.CHUNK_GENERATION) {
+        if (reason == MobSpawnType.STRUCTURE) {
             StructureManager manager = level.getLevel().structureManager();
             manager.registryAccess().registry(Registries.STRUCTURE).ifPresent(registry -> {
                     Structure temple = registry.get(AetherStructures.SILVER_DUNGEON);
