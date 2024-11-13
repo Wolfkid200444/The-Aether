@@ -22,7 +22,10 @@ public abstract class KeyboardHandlerMixin {
     @Final
     private Minecraft minecraft;
 
-    @Inject(method = "keyPress", at = @At("TAIL"))
+    @Inject(method = "keyPress", at = {
+        @At(value = "RETURN", ordinal = 4),
+        @At(value = "RETURN", ordinal = 5)
+    })
     private void aetherFabric$onPostKeyPress(long windowPointer, int key, int scanCode, int action, int modifiers, CallbackInfo ci) {
         if (windowPointer == this.minecraft.getWindow().getWindow()) {
             AetherPlayerClientListener.onPress(key);
