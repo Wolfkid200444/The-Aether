@@ -84,11 +84,9 @@ public abstract class StructureTemplateMixin {
                 .filter(Objects::nonNull)
                 .toList();
 
-            entityProcessOccurred.set(!entityProcessors.isEmpty());
-
-            processedEntityInfo = new ArrayList<>();
-
             if (!entityProcessors.isEmpty()) {
+                processedEntityInfo = new ArrayList<>();
+
                 for (StructureTemplate.StructureEntityInfo entityInfo : entityInfos) {
                     Vec3 pos = this.transform(entityInfo.pos, settings.getMirror(), settings.getRotation(), settings.getRotationPivot()).add(Vec3.atLowerCornerOf(blockPos));
                     BlockPos blockpos = this.calculateRelativePosition(settings, entityInfo.blockPos).offset(blockPos);
@@ -99,10 +97,15 @@ public abstract class StructureTemplateMixin {
                     }
                     if (info != null) processedEntityInfo.add(info);
                 }
+
+                entityProcessOccurred.set(true);
+            } else {
+                processedEntityInfo = entityInfos;
+                entityProcessOccurred.set(false);
             }
         } else {
-            entityProcessOccurred.set(false);
             processedEntityInfo = entityInfos;
+            entityProcessOccurred.set(false);
         }
 
         return original.call(processedEntityInfo);
