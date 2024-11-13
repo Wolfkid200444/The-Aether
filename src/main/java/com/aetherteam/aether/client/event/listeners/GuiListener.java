@@ -4,18 +4,19 @@ import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.client.event.hooks.GuiHooks;
 import com.aetherteam.aether.client.gui.component.inventory.AccessoryButton;
 import com.aetherteam.aether.client.gui.screen.inventory.AetherAccessoriesScreen;
-import com.mojang.blaze3d.platform.InputConstants;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.components.BossHealthOverlay;
 import net.minecraft.client.gui.components.LerpingBossEvent;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.BossEvent;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -31,7 +32,6 @@ public class GuiListener {
             //KeyboardHandlerMixin.aetherFabric$afterKeyPressedEvent -> GuiListener.onKeyPress
         });
         ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
-        //bus.addListener(GuiListener::onRenderBossBar);
     }
 
     /**
@@ -83,19 +83,18 @@ public class GuiListener {
         GuiHooks.closeContainerMenu(key, action);
     }
 
-//    /**
-//     * This event is cancelled in BossHealthOverlayMixin. See it for more info.
-//     *
-//     * @see com.aetherteam.aether.mixin.mixins.client.BossHealthOverlayMixin#event(CustomizeGuiOverlayEvent.BossEventProgress)
-//     * @see GuiHooks#drawBossHealthBar(GuiGraphics, int, int, LerpingBossEvent)
-//     */
-//    public static void onRenderBossBar(CustomizeGuiOverlayEvent.BossEventProgress event) {
-//        GuiGraphics guiGraphics = event.getGuiGraphics();
-//        LerpingBossEvent bossEvent = event.getBossEvent();
-//        UUID bossUUID = bossEvent.getId();
-//        if (GuiHooks.isAetherBossBar(bossUUID)) {
-//            GuiHooks.drawBossHealthBar(guiGraphics, event.getX(), event.getY(), bossEvent);
-//            event.setIncrement(event.getIncrement() + 13);
-//        }
-//    }
+    /**
+     * This event is cancelled in BossHealthOverlayMixin. See it for more info.
+     *
+     * @see com.aetherteam.aether.mixin.mixins.client.BossHealthOverlayMixin#drawBar(BossHealthOverlay, GuiGraphics, int, int, BossEvent, LocalBooleanRef)
+     * @see GuiHooks#drawBossHealthBar(GuiGraphics, int, int, LerpingBossEvent)
+     */
+    public static boolean onRenderBossBar(GuiGraphics guiGraphics, int k, int j, BossEvent bossEvent) {
+        UUID bossUUID = bossEvent.getId();
+        if (bossEvent instanceof LerpingBossEvent lerpingBossEvent && GuiHooks.isAetherBossBar(bossUUID)) {
+            GuiHooks.drawBossHealthBar(guiGraphics, k, j, lerpingBossEvent);
+            return true;
+        }
+        return false;
+    }
 }

@@ -285,7 +285,7 @@ public class GuiHooks {
      * [CODE COPY] - {@link net.minecraft.client.gui.components.BossHealthOverlay#render(GuiGraphics)}
      * Modified to draw the Aether's custom boss health bars.
      *
-     * @see com.aetherteam.aether.client.event.listeners.GuiListener#onRenderBossBar(CustomizeGuiOverlayEvent.BossEventProgress)
+     * @see com.aetherteam.aether.client.event.listeners.GuiListener#onRenderBossBar(GuiGraphics, int, int, BossEvent)
      */
     public static void drawBossHealthBar(GuiGraphics guiGraphics, int x, int y, LerpingBossEvent bossEvent) {
         int entityID = BOSS_EVENTS.get(bossEvent.getId());
