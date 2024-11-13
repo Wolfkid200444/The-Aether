@@ -72,6 +72,17 @@ dependencies {
 
     modCompileOnly("com.terraformersmc:modmenu:${project.modmenu_version}")
 
+    modCompileOnly("io.github.fabricators_of_create.Porting-Lib:extensions:2.3.4+1.20.1") {
+        transitive = false
+    }
+
+    for (String module in port_lib_modules.split(",")) {
+        modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:$module:3.1.0-fdrf.4+1.21.1")
+    }
+    for (String module in port_lib_temp_modules.split(",")) {
+        modLocalRuntime("io.github.fabricators_of_create.Porting-Lib:$module:3.1.0-fdrf.4+1.21.1")
+    }
+
     modLocalRuntime "maven.modrinth:debugutils:1.21-${project.debugutils_version}"
 
     modCompileOnly "mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}"
@@ -88,7 +99,6 @@ dependencies {
 }
 
 repositories {
-    maven { url = "https://jitpack.io" }
     maven { url = "https://maven.blamejared.com" }
     maven { url = "https://maven.theillusivec4.top/" }
     maven { url = "https://cursemaven.com" }
@@ -108,6 +118,11 @@ repositories {
     maven { url = "https://maven.shedaniel.me/" }
     maven { url = "https://maven.architectury.dev/" }
     maven { url = "https://maven.terraformersmc.com/" }
+    maven { url = "https://mvn.devos.one/releases/" }
+    maven { url = "https://maven.jamieswhiteshirt.com/libs-release" }
+    maven { url = "https://mvn.devos.one/snapshots/" } // Registrate, Porting Lib, Forge Tags, Milk Lib
+    maven { url = "https://repo.greenhouse.house/snapshots/" } // Temporary Porting Lib\
+    maven { url = "https://jitpack.io" }
 }
 
 tasks.withType(ProcessResources).configureEach {

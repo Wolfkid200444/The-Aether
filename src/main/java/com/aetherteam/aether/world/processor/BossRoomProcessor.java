@@ -23,14 +23,14 @@ public class BossRoomProcessor extends StructureProcessor implements EntityStruc
     public static final MapCodec<BossRoomProcessor> CODEC = MapCodec.unit(BossRoomProcessor.INSTANCE);
 
     @Override
-    public StructureTemplate.StructureEntityInfo processEntity(LevelReader level, BlockPos seedPos, StructureTemplate.StructureEntityInfo rawEntityInfo, StructureTemplate.StructureEntityInfo entityInfo, StructurePlaceSettings placementSettings, StructureTemplate template) {
+    public StructureTemplate.StructureEntityInfo aetherFabric$processEntity(LevelReader level, BlockPos seedPos, StructureTemplate.StructureEntityInfo rawEntityInfo, StructureTemplate.StructureEntityInfo entityInfo, StructurePlaceSettings placementSettings, StructureTemplate template) {
         BoundingBox boundingBox = template.getBoundingBox(placementSettings, seedPos);
         BossRoomTracker<?> tracker = new BossRoomTracker<>(null,
                 entityInfo.pos,
                 new AABB(boundingBox.minX(), boundingBox.minY(), boundingBox.minZ(), boundingBox.maxX() + 1, boundingBox.maxY() + 1, boundingBox.maxZ() + 1),
                 new ArrayList<>());
         entityInfo.nbt.put("Dungeon", tracker.addAdditionalSaveData());
-        return EntityStructureProcessor.super.processEntity(level, seedPos, rawEntityInfo, entityInfo, placementSettings, template);
+        return EntityStructureProcessor.super.aetherFabric$processEntity(level, seedPos, rawEntityInfo, entityInfo, placementSettings, template);
     }
 
     @Override

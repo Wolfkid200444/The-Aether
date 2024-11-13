@@ -1,5 +1,6 @@
 package com.aetherteam.aether.mixin;
 
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -31,7 +32,15 @@ public class AetherMixinPlugin implements IMixinConfigPlugin {
             if (mixinClassName.equals("com.aetherteam.aether.mixin.mixins.client.optifine.BossHealthOverlayMixin")) return true;
         }
 
-        return !mixinClassName.equals("com.aetherteam.aether.mixin.mixins.client.optifine.BossHealthOverlayMixin");
+        if (mixinClassName.equals("com.aetherteam.aether.mixin.mixins.client.optifine.BossHealthOverlayMixin")) {
+            return false;
+        }
+
+        if (mixinClassName.contains("com.aetherteam.aether.mixin.mixins.common.portinglib.BossRoomProcessorMixin")) {
+            return FabricLoader.getInstance().isModLoaded("porting_lib_extensions");
+        }
+
+        return true;
     }
 
     @Override

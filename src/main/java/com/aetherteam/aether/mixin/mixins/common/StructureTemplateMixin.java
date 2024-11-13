@@ -2,12 +2,12 @@ package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aetherfabric.level.EntityStructureProcessor;
 import com.aetherteam.aetherfabric.level.ExtendedStructureProcessor;
-import com.aetherteam.aetherfabric.level.StructureTemplateUtils;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.LevelReader;
@@ -40,11 +40,17 @@ public abstract class StructureTemplateMixin {
     public static BlockPos calculateRelativePosition(StructurePlaceSettings decorator, BlockPos pos) { return null; }
 
     @Unique
-    private final ThreadLocal<@Nullable StructurePlaceSettings> capturedSettings = ThreadLocal.withInitial(() -> null);
+    private static final boolean isPortingLibLoaded = FabricLoader.getInstance().isModLoaded("porting_lib_extensions");
+
+    @Unique
+    private static final ThreadLocal<@Nullable StructurePlaceSettings> capturedSettings = ThreadLocal.withInitial(() -> null);
+
+    @Unique
+    private static final ThreadLocal<StructureTemplate> processBlockInfosTemplateCache = ThreadLocal.withInitial(() -> null);
 
     @WrapOperation(method = "placeInWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate;processBlockInfos(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;Ljava/util/List;)Ljava/util/List;"))
     private List<StructureTemplate.StructureBlockInfo> aetherFabric$setTemplateCache(ServerLevelAccessor serverLevel, BlockPos offset, BlockPos pos, StructurePlaceSettings settings, List<StructureTemplate.StructureBlockInfo> blockInfos, Operation<List<StructureTemplate.StructureBlockInfo>> original) {
-        StructureTemplateUtils.setStructureTemplate((StructureTemplate) (Object) this);
+        processBlockInfosTemplateCache.set((StructureTemplate) (Object) this);
 
         return original.call(serverLevel, offset, pos, settings, blockInfos);
     }
@@ -52,7 +58,7 @@ public abstract class StructureTemplateMixin {
     @WrapOperation(method = "processBlockInfos", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureProcessor;processBlock(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate$StructureBlockInfo;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate$StructureBlockInfo;Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;)Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate$StructureBlockInfo;"))
     private static StructureTemplate.StructureBlockInfo aetherFabric$processExtendedProcessor(StructureProcessor instance, LevelReader level, BlockPos offset, BlockPos pos, StructureTemplate.StructureBlockInfo blockInfo, StructureTemplate.StructureBlockInfo relativeBlockInfo, StructurePlaceSettings settings, Operation<StructureTemplate.StructureBlockInfo> original) {
         if (instance instanceof ExtendedStructureProcessor extendedStructureProcessor) {
-            return extendedStructureProcessor.process(level, offset, pos, blockInfo, relativeBlockInfo, settings, StructureTemplateUtils.getStructureTemplate());
+            return extendedStructureProcessor.process(level, offset, pos, blockInfo, relativeBlockInfo, settings, processBlockInfosTemplateCache.get());
         }
 
         return original.call(instance, level, offset, pos, blockInfo, relativeBlockInfo, settings);
@@ -60,37 +66,43 @@ public abstract class StructureTemplateMixin {
 
     @WrapOperation(method = "placeInWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplate;placeEntities(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/Mirror;Lnet/minecraft/world/level/block/Rotation;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;Z)V"))
     private void aetherFabric$captureSettings(StructureTemplate instance, ServerLevelAccessor serverLevel, BlockPos pos, Mirror mirror, Rotation rotation, BlockPos offset, BoundingBox boundingBox, boolean withEntities, Operation<Void> original, @Local(argsOnly = true) StructurePlaceSettings settings) {
-        this.capturedSettings.set(settings);
+        if (!isPortingLibLoaded) capturedSettings.set(settings);
 
         original.call(instance, serverLevel, pos, mirror, rotation, offset, boundingBox, withEntities);
     }
 
     @WrapOperation(method = "placeEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;"))
     private <E> Iterator<E> aetherFabric$processEntityInfo(List<?> instance, Operation<Iterator<E>> original, @Share(value = "entity_process_occurred") LocalBooleanRef entityProcessOccurred, @Local(argsOnly = true) ServerLevelAccessor serverLevel, @Local(argsOnly = true, ordinal = 0) BlockPos blockPos) {
-        StructurePlaceSettings settings = Objects.requireNonNull(this.capturedSettings.get(), "[AetherFabric] Unable to get the StructurePlaceSettings to process the given StructureEntityInfo");
+        List<StructureTemplate.StructureEntityInfo> entityInfos = (List<StructureTemplate.StructureEntityInfo>) instance;
+        List<StructureTemplate.StructureEntityInfo> processedEntityInfo;
 
-        var entityInfos = (List<StructureTemplate.StructureEntityInfo>) instance;
+        if (!isPortingLibLoaded) {
+            StructurePlaceSettings settings = Objects.requireNonNull(capturedSettings.get(), "[AetherFabric] Unable to get the StructurePlaceSettings to process the given StructureEntityInfo");
 
-        var entityProcessors = settings.getProcessors().stream()
-            .map(structureProcessor -> structureProcessor instanceof EntityStructureProcessor entityStructureProcessor ? entityStructureProcessor : null)
-            .filter(Objects::nonNull)
-            .toList();
+            var entityProcessors = settings.getProcessors().stream()
+                .map(structureProcessor -> structureProcessor instanceof EntityStructureProcessor entityStructureProcessor ? entityStructureProcessor : null)
+                .filter(Objects::nonNull)
+                .toList();
 
-        entityProcessOccurred.set(!entityProcessors.isEmpty());
+            entityProcessOccurred.set(!entityProcessors.isEmpty());
 
-        var processedEntityInfo = new ArrayList<StructureTemplate.StructureEntityInfo>();
+            processedEntityInfo = new ArrayList<>();
 
-        if (!entityProcessors.isEmpty()) {
-            for (StructureTemplate.StructureEntityInfo entityInfo : entityInfos) {
-                Vec3 pos = this.transform(entityInfo.pos, settings.getMirror(), settings.getRotation(), settings.getRotationPivot()).add(Vec3.atLowerCornerOf(blockPos));
-                BlockPos blockpos = this.calculateRelativePosition(settings, entityInfo.blockPos).offset(blockPos);
-                StructureTemplate.StructureEntityInfo info = new StructureTemplate.StructureEntityInfo(pos, blockpos, entityInfo.nbt);
-                for (EntityStructureProcessor entityProcessor : entityProcessors) {
-                    info = entityProcessor.processEntity(serverLevel, blockPos, entityInfo, info, settings, (StructureTemplate) (Object) this);
-                    if (info == null) break;
+            if (!entityProcessors.isEmpty()) {
+                for (StructureTemplate.StructureEntityInfo entityInfo : entityInfos) {
+                    Vec3 pos = this.transform(entityInfo.pos, settings.getMirror(), settings.getRotation(), settings.getRotationPivot()).add(Vec3.atLowerCornerOf(blockPos));
+                    BlockPos blockpos = this.calculateRelativePosition(settings, entityInfo.blockPos).offset(blockPos);
+                    StructureTemplate.StructureEntityInfo info = new StructureTemplate.StructureEntityInfo(pos, blockpos, entityInfo.nbt);
+                    for (EntityStructureProcessor entityProcessor : entityProcessors) {
+                        info = entityProcessor.aetherFabric$processEntity(serverLevel, blockPos, entityInfo, info, settings, (StructureTemplate) (Object) this);
+                        if (info == null) break;
+                    }
+                    if (info != null) processedEntityInfo.add(info);
                 }
-                if (info != null) processedEntityInfo.add(info);
             }
+        } else {
+            entityProcessOccurred.set(false);
+            processedEntityInfo = entityInfos;
         }
 
         return original.call(processedEntityInfo);

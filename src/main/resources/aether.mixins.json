@@ -83,7 +83,8 @@
     "common.RegistryLookupMixin$DelegateMixin",
     "common.SlimeMixin",
     "common.ServerPacksSourceMixin",
-    "common.accessor.PackRepositoryAccessor"
+    "common.accessor.PackRepositoryAccessor",
+    "common.portinglib.BossRoomProcessorMixin"
   ],
   "client": [
     "client.AdvancementToastMixin",
