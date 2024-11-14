@@ -72,7 +72,7 @@ public class MobMixin {
     private Object aetherFabric$modifyAttributeEvent(ItemStack instance, DataComponentType dataComponentType, Object object, Operation<Object> original) {
         var attributeInstance = (ItemAttributeModifiers) original.call(instance, dataComponentType, object);
 
-        var event = ItemAttributeModifierHelper.invokeEvent((ItemStack) (Object) this, attributeInstance);
+        var event = ItemAttributeModifierHelper.invokeEvent(instance, attributeInstance);
 
         return new ItemAttributeModifiers(event.getModifiers(), attributeInstance.showInTooltip());
     }
