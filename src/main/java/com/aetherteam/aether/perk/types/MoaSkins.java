@@ -6,10 +6,14 @@ import com.aetherteam.aether.data.resources.registries.AetherMoaTypes;
 import com.aetherteam.aether.perk.PerkUtil;
 import com.aetherteam.nitrogen.api.users.User;
 import com.google.common.collect.ImmutableMap;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -22,6 +26,13 @@ import java.util.function.Predicate;
 
 public class MoaSkins {
     private static final Map<String, MoaSkin> MOA_SKINS = new LinkedHashMap<>();
+
+    @Environment(EnvType.CLIENT)
+    public static void registerClient() {
+        if (Minecraft.getInstance().level != null) {
+            MoaSkins.registerMoaSkins(Minecraft.getInstance().level);
+        }
+    }
 
     public static void registerMoaSkins(Level level) {
         if (!MOA_SKINS.isEmpty()) {
@@ -320,6 +331,31 @@ public class MoaSkins {
     }
 
     public static class MoaSkin {
+        public static final StreamCodec<FriendlyByteBuf, MoaSkin> STREAM_CODEC = new StreamCodec<>() {
+            /**
+             * Reads {@link MoaSkin} from a {@link FriendlyByteBuf} network buffer.
+             *
+             * @param buffer The {@link FriendlyByteBuf} buffer.
+             * @return The {@link MoaSkin}.
+             */
+            @Override
+            public MoaSkin decode(FriendlyByteBuf buffer) {
+                String id = buffer.readUtf();
+                return MoaSkins.getMoaSkins().get(id);
+            }
+
+            /**
+             * Writes {@link MoaSkin} to a {@link FriendlyByteBuf} network buffer.
+             *
+             * @param buffer  The {@link FriendlyByteBuf} buffer.
+             * @param moaSkin The {@link MoaSkin}.
+             */
+            @Override
+            public void encode(FriendlyByteBuf buffer, MoaSkin moaSkin) {
+                buffer.writeUtf(moaSkin.getId());
+            }
+        };
+
         private final String id;
         private final Component displayName;
         private final Predicate<User> userPredicate;
@@ -431,27 +467,6 @@ public class MoaSkins {
          */
         public Info getInfo() {
             return this.info;
-        }
-
-        /**
-         * Reads a {@link MoaSkin} from a {@link FriendlyByteBuf} network buffer.
-         *
-         * @param buffer The {@link FriendlyByteBuf} buffer.
-         * @return A {@link MoaSkin}.
-         */
-        public static MoaSkin read(FriendlyByteBuf buffer) {
-            String id = buffer.readUtf();
-            return MoaSkins.getMoaSkins().get(id);
-        }
-
-        /**
-         * Writes a {@link MoaSkin} to a {@link FriendlyByteBuf} network buffer.
-         *
-         * @param buffer  The {@link FriendlyByteBuf} buffer.
-         * @param moaSkin A {@link MoaSkin}.
-         */
-        public static void write(FriendlyByteBuf buffer, MoaSkin moaSkin) {
-            buffer.writeUtf(moaSkin.getId());
         }
 
         public static class Properties {

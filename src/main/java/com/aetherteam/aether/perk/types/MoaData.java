@@ -23,7 +23,7 @@ public record MoaData(@Nullable UUID moaUUID, @Nullable MoaSkins.MoaSkin moaSkin
             if (buffer.readBoolean()) {
                 uuid = buffer.readUUID();
             }
-            MoaSkins.MoaSkin moaSkin = MoaSkins.MoaSkin.read(buffer);
+            MoaSkins.MoaSkin moaSkin = MoaSkins.MoaSkin.STREAM_CODEC.decode(buffer);
             return new MoaData(uuid, moaSkin);
         }
 
@@ -41,7 +41,7 @@ public record MoaData(@Nullable UUID moaUUID, @Nullable MoaSkins.MoaSkin moaSkin
                 buffer.writeBoolean(true);
                 buffer.writeUUID(moaData.moaUUID());
             }
-            MoaSkins.MoaSkin.write(buffer, moaData.moaSkin());
+            MoaSkins.MoaSkin.STREAM_CODEC.encode(buffer, moaData.moaSkin());
         }
     };
 }
