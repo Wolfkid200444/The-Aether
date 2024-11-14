@@ -75,7 +75,7 @@ public class AetherTimeAttachment implements INBTSynchable {
      * Sends the eternal day value to the client dimension.
      */
     public void updateEternalDay(Level level) {
-        this.setSynched(-1, Direction.DIMENSION, "setEternalDay", this.isEternalDay, level.dimension());
+        this.setSynched(-1, Direction.DIMENSION, "setEternalDay", this.isEternalDay, level);
     }
 
     /**
