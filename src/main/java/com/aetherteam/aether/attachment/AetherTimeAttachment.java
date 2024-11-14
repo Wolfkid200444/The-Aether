@@ -68,6 +68,7 @@ public class AetherTimeAttachment implements INBTSynchable {
         } else {
             dayTime++;
         }
+        this.setDayTime(dayTime);
         return dayTime;
     }
 
