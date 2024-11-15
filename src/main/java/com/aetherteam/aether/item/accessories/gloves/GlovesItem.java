@@ -35,9 +35,7 @@ public class GlovesItem extends AccessoryItem implements SlotIdentifierHolder {
 
     @Override
     public void getDynamicModifiers(ItemStack stack, SlotReference reference, AccessoryAttributeBuilder builder) {
-        if (reference.slotName().equals(AetherAccessorySlots.GLOVES_SLOT_LOCATION.toString())) {
-            builder.addStackable(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_PUNCH_DAMAGE_ID, this.damage, AttributeModifier.Operation.ADD_VALUE));
-        }
+        builder.addStackable(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_PUNCH_DAMAGE_ID, this.damage, AttributeModifier.Operation.ADD_VALUE));
     }
 
     /**
