@@ -1,4 +1,26 @@
+# The Aether - Fabric - 1.21.1-1.5.1-beta.4
+
+Fixes
+
+- Fix eternal day not functioning correctly.
+- Fix Silver Dungeons sometimes not generating with aerclouds.
+- Fix an incorrect tooltip for Gravitite Armor.
+- Fix first-person Shield of Repulsion rendering for players without slim arms.
+- Fix projectiles getting stuck on top of the Slider.
+- Fix glove modifiers being hardcoded to a specific slot.
+- Fix cape textures not being correctly separated per-player.
+- Fix Moa Skins not registering on the client.
+- Fix effect overlay vignettes not rendering.
+- Fix bosses using regular-styled boss bars.
+- Fix entities not getting placed in structures.
+- Fix a crash from incorrect class casting.
+- Fix incorrect enchantment selections for Valkyrie Lance and Dart Shooters.
+- Fix Valkyrie Lance having sweeping.
+- Fix a crash with Tips by temporarily disabling some compatibility.
+
 # The Aether - Fabric - 1.21.1-1.5.1-beta.3
+
+Fixes
 
 - Fix a null crash from the helper for moving accessories from Curios to the new system.
 - Fix a null crash from Moa Skin loading.
@@ -18,6 +40,8 @@
 - Adjust fog rendering code when porting lib is installed to correct fog rendering mostly
 
 # The Aether - Fabric - 1.21.1-1.5.1-beta.2
+
+Fixes
 
 - Fix inability to drop items leading them to be deleted
 - Fix inability to choose aether specific Datapacks
