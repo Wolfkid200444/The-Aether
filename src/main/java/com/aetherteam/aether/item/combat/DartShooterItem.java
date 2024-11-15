@@ -3,6 +3,8 @@ package com.aetherteam.aether.item.combat;
 import com.aetherteam.aether.client.AetherSoundEvents;
 import com.aetherteam.aether.entity.projectile.dart.AbstractDart;
 import com.google.common.collect.ImmutableSet;
+import net.fabricmc.fabric.api.item.v1.EnchantingContext;
+import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -25,7 +27,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class DartShooterItem extends ProjectileWeaponItem { //implements Vanishable
+public class DartShooterItem extends ProjectileWeaponItem implements FabricItem { //implements Vanishable
     private final Supplier<? extends Item> dartType;
 
     public DartShooterItem(Supplier<? extends Item> dartType, Properties properties) {
@@ -141,10 +143,10 @@ public class DartShooterItem extends ProjectileWeaponItem { //implements Vanisha
         return true;
     }
 
-//    @Override
-//    public boolean isPrimaryItemFor(ItemStack stack, Holder<Enchantment> enchantment) {
-//        return ImmutableSet.of(Enchantments.POWER, Enchantments.PUNCH).contains(enchantment.getKey());
-//    }
+    @Override
+    public boolean canBeEnchantedWith(ItemStack stack, Holder<Enchantment> enchantment, EnchantingContext context) {
+        return ImmutableSet.of(Enchantments.POWER, Enchantments.PUNCH).contains(enchantment.aetherFabric$getKey());
+    }
 
     /**
      * @return A {@link Supplier Supplier&lt;? extends Item&gt;} that gives the Dart item that this Dart Shooter is capable of using as ammo.
