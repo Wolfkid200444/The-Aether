@@ -26,6 +26,7 @@ import com.google.common.reflect.Reflection;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.RecipeBookCategories;
@@ -48,7 +49,7 @@ public class AetherClient implements ClientModInitializer {
         AetherClient.clientSetup();
         //bus.addListener(AetherClient::registerSpectatorShaders);
         //bus.addListener(AetherClient::registerDimensionTransitionScreens);
-        AetherClient.loadComplete();
+        //AetherClient.loadComplete();
 
         AetherMenus.MENUS.addEntriesToRegistry();
 
