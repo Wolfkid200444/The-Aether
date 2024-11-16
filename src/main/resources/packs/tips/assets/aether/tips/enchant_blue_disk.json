@@ -1,5 +1,6 @@
 {
-  "tip": {
+  "type": "tipsmod:simple",
+  "text": {
     "translate": "aether.pro_tips.line.aether.enchant_blue_disk"
   },
   "title": {
