@@ -49,7 +49,6 @@ public class AetherClient implements ClientModInitializer {
         AetherClient.clientSetup();
         //bus.addListener(AetherClient::registerSpectatorShaders);
         //bus.addListener(AetherClient::registerDimensionTransitionScreens);
-        //AetherClient.loadComplete();
 
         AetherMenus.MENUS.addEntriesToRegistry();
 
@@ -179,6 +178,8 @@ public class AetherClient implements ClientModInitializer {
 
             RecipeBookCategoriesAccessor.aetherFabric$setAGGREGATE_CATEGORIES(ImmutableMap.copyOf(aggregatedCategories));
         });
+
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> AetherClient.loadComplete());
     }
 
     /**
