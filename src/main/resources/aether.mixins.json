@@ -45,7 +45,6 @@
     "common.DiodeBlockMixin",
     "common.MinecraftServerMixin",
     "common.ServerPlayerMixin",
-    "common.EntityHurtMixin",
     "common.HolderLookupProviderMixin",
     "common.EnderDragonMixin",
     "common.BushBlockMixin",

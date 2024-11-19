@@ -113,4 +113,13 @@ public abstract class PlayerMixin {
     private void aetherFabric$callResetAtEnd(Entity target, CallbackInfo ci) {
         this.resetAttackStrengthTicker();
     }
+
+    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterMagicAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private float aetherFabric$adjustDamageAmount(Player instance, DamageSource damageSource, float damageAmount, Operation<Float> original) {
+        var newDamage = new MutableFloat(original.call(instance, damageSource, damageAmount));
+
+        LivingEntityEvents.ON_DAMAGE.invoker().modifyDamage((LivingEntity) (Object) this, damageSource, damageAmount, newDamage);
+
+        return newDamage.getValue();
+    }
 }

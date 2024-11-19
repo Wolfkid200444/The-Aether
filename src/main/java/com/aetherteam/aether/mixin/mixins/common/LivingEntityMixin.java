@@ -73,15 +73,6 @@ public abstract class LivingEntityMixin extends Entity {
 
     //--
 
-    @Inject(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"))
-    private void aetherFabric$adjustDamageAmount(DamageSource damageSource, float damageAmount, CallbackInfo ci, @Local(argsOnly = true) LocalFloatRef damageAmountRef) {
-        var newDamage = new MutableFloat(damageAmount);
-
-        LivingEntityEvents.ON_DAMAGE.invoker().modifyDamage((LivingEntity) (Object) this, damageSource, damageAmount, newDamage);
-
-        damageAmountRef.set(newDamage.getValue());
-    }
-
     @ModifyReturnValue(method = "getVisibilityPercent", at = @At("RETURN"))
     private double aetherFabric$adjustEntityVisibility(double original, @Local(argsOnly = true) @Nullable Entity lookingEntity) {
         var value = new MutableDouble(original);
@@ -155,5 +146,14 @@ public abstract class LivingEntityMixin extends Entity {
         var result = LivingEntityEvents.ON_EFFECT.invoker().onEffect(instance, effectInstance, TriState.DEFAULT);
 
         return result != TriState.DEFAULT ? result.get() : original.call(instance, effectInstance);
+    }
+
+    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getDamageAfterMagicAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private float aetherFabric$adjustDamageAmount(LivingEntity instance, DamageSource damageSource, float damageAmount, Operation<Float> original) {
+        var newDamage = new MutableFloat(original.call(instance, damageSource, damageAmount));
+
+        LivingEntityEvents.ON_DAMAGE.invoker().modifyDamage((LivingEntity) (Object) this, damageSource, damageAmount, newDamage);
+
+        return newDamage.getValue();
     }
 }
