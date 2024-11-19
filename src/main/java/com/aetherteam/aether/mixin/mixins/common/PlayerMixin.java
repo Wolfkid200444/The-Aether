@@ -4,6 +4,7 @@ import com.aetherteam.aether.entity.passive.MountableAnimal;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
 import com.aetherteam.aether.item.combat.loot.ValkyrieLanceItem;
 import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
+import com.aetherteam.aetherfabric.events.LivingEntityEvents;
 import com.aetherteam.aetherfabric.events.PlayerEvents;
 import com.aetherteam.aetherfabric.events.PlayerTickEvents;
 import com.aetherteam.aether.mixin.AetherMixinHooks;
@@ -12,6 +13,8 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -21,6 +24,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.mutable.MutableFloat;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,7 +32,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
-public class PlayerMixin {
+public abstract class PlayerMixin {
+    @Shadow
+    public abstract void resetAttackStrengthTicker();
+
     /**
      * Damages gloves only once during a sweeping attack, instead of once for every damaged entity in the attack.
      *
@@ -95,5 +102,15 @@ public class PlayerMixin {
     @WrapOperation(method = "attack", constant = @Constant(classValue = SwordItem.class))
     private boolean aetherFabric$preventSweeping(Object object, Operation<Boolean> original) {
         return original.call(object) && !(object instanceof ValkyrieLanceItem);
+    }
+
+    @WrapOperation(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;resetAttackStrengthTicker()V"))
+    private void aetherFabric$preventResetHere(Player instance, Operation<Void> original) {
+        // NO-OP
+    }
+
+    @Inject(method = "attack", at = @At(value = "RETURN", ordinal = 3))
+    private void aetherFabric$callResetAtEnd(Entity target, CallbackInfo ci) {
+        this.resetAttackStrengthTicker();
     }
 }
