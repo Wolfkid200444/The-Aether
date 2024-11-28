@@ -3,6 +3,7 @@ package com.aetherteam.aether;
 import com.aetherteam.aether.advancement.AetherAdvancementTriggers;
 import com.aetherteam.aether.api.AetherAdvancementSoundOverrides;
 import com.aetherteam.aether.api.registers.MoaType;
+import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.block.AetherCauldronInteractions;
 import com.aetherteam.aether.block.AetherWoodTypes;
@@ -158,6 +159,8 @@ public class Aether implements ModInitializer {
         for (DeferredRegister<?> register : registers) {
             register.addEntriesToRegistry();
         }
+
+        AetherDataAttachments.init();
 
         AetherPoi.init();
 

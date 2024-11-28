@@ -22,4 +22,6 @@ public class AetherDataAttachments {
 
         return builder.buildAndRegister(ResourceLocation.fromNamespaceAndPath(Aether.MODID, path));
     }
+
+    public static void init() {}
 }
