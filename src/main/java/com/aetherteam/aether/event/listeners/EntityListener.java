@@ -113,7 +113,7 @@ public class EntityListener {
      * @see EntityHooks#preventEntityHooked(Entity, HitResult)
      */
     public static void onProjectileHitEntity(Entity projectileEntity, HitResult rayTraceResult, CancellableCallback callback) {
-        callback.setCanceled(EntityHooks.preventEntityHooked(projectileEntity, rayTraceResult));
+        if (EntityHooks.preventEntityHooked(projectileEntity, rayTraceResult)) callback.setCanceled(true);
     }
 
     /**
