@@ -24,8 +24,8 @@ public class ValkyrieLanceItem extends SwordItem implements ValkyrieTool, Fabric
 
     @Override
     public boolean canBeEnchantedWith(ItemStack stack, Holder<Enchantment> enchantment, EnchantingContext context) {
-        if (context == EnchantingContext.PRIMARY && !enchantment.is(Enchantments.SWEEPING_EDGE)) {
-            return true;
+        if (context == EnchantingContext.PRIMARY && enchantment.is(Enchantments.SWEEPING_EDGE)) {
+            return false;
         }
 
         return FabricItem.super.canBeEnchantedWith(stack, enchantment, context);
