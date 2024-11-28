@@ -11,6 +11,16 @@ public class ProjectileEvents {
         for (var invoker : invokers) invoker.onImpact(projectile, hitResult, callback);
     });
 
+    public static boolean shouldCancelImpact(Projectile projectile, HitResult hitResult) {
+        if (hitResult.getType() == HitResult.Type.MISS) return false;
+
+        var callback = new CancellableCallbackImpl();
+
+        ProjectileEvents.ON_IMPACT.invoker().onImpact(projectile, hitResult, callback);
+
+        return callback.isCanceled();
+    }
+
     public interface OnImpact {
         void onImpact(Projectile projectile, HitResult hitResult, CancellableCallback callback);
     }

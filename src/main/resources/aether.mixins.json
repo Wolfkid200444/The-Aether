@@ -83,7 +83,12 @@
     "common.SlimeMixin",
     "common.ServerPacksSourceMixin",
     "common.accessor.PackRepositoryAccessor",
-    "common.portinglib.BossRoomProcessorMixin"
+    "common.portinglib.BossRoomProcessorMixin",
+    "common.LlamaSpitMixin",
+    "common.ShulkerBulletMixin",
+    "common.ProjectileMixin",
+    "common.AbstractHurtingProjectileMixin",
+    "common.FishingHookMixin"
   ],
   "client": [
     "client.AbstractClientPlayerMixin",

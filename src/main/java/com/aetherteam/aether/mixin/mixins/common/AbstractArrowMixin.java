@@ -80,11 +80,7 @@ public class AbstractArrowMixin {
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;hitTargetOrDeflectSelf(Lnet/minecraft/world/phys/HitResult;)Lnet/minecraft/world/entity/projectile/ProjectileDeflection;"))
     private ProjectileDeflection aether$projectileImpactEvent(AbstractArrow instance, HitResult hitResult, Operation<ProjectileDeflection> original) {
-        var callback = new CancellableCallbackImpl();
-
-        ProjectileEvents.ON_IMPACT.invoker().onImpact(instance, hitResult, callback);
-
-        return callback.isCanceled() ? EMPTY_DEFLECTION : original.call(instance, hitResult);
+        return ProjectileEvents.shouldCancelImpact(instance, hitResult) ? EMPTY_DEFLECTION : original.call(instance, hitResult);
     }
 
     @Definition(id = "hasImpulse", field = "Lnet/minecraft/world/entity/projectile/AbstractArrow;hasImpulse:Z")
