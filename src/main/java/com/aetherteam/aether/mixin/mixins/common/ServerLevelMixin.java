@@ -2,6 +2,7 @@ package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.event.listeners.DimensionListener;
 import com.aetherteam.aetherfabric.events.BlockEvents;
+import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.core.BlockPos;
@@ -50,7 +51,7 @@ public abstract class ServerLevelMixin extends Level {
     private void aetherFabric$runUpdateEvent(BlockPos pos, Block block, CallbackInfo ci){
         var level = (Level) (Object) this;
 
-        var isCancelled = new MutableBoolean(false);
+        var isCancelled = new CancellableCallbackImpl(false);
 
         BlockEvents.NEIGHBOR_UPDATE.invoker().onNeighborUpdate(level, pos, level.getBlockState(pos), EnumSet.allOf(Direction.class), false, isCancelled);
     }

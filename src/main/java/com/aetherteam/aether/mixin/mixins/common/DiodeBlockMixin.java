@@ -1,6 +1,7 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aetherfabric.events.BlockEvents;
+import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,10 +20,10 @@ import java.util.EnumSet;
 public abstract class DiodeBlockMixin {
     @Inject(method = "updateNeighborsInFront", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/BlockPos;relative(Lnet/minecraft/core/Direction;)Lnet/minecraft/core/BlockPos;"), cancellable = true)
     private void aetherFabric$runUpdateEvent(Level level, BlockPos pos, BlockState state, CallbackInfo ci, @Local() Direction direction) {
-        var isCancelled = new MutableBoolean(false);
+        var isCancelled = new CancellableCallbackImpl(false);
 
         BlockEvents.NEIGHBOR_UPDATE.invoker().onNeighborUpdate(level, pos, level.getBlockState(pos), EnumSet.of(direction.getOpposite()), false, isCancelled);
 
-        if (isCancelled.getValue()) ci.cancel();
+        if (isCancelled.isCanceled()) ci.cancel();
     }
 }

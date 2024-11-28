@@ -2,10 +2,7 @@ package com.aetherteam.aether.event.listeners;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.DimensionHooks;
-import com.aetherteam.aetherfabric.events.BlockEvents;
-import com.aetherteam.aetherfabric.events.EntityEvents;
-import com.aetherteam.aetherfabric.events.LevelEvents;
-import com.aetherteam.aetherfabric.events.PlayerTickEvents;
+import com.aetherteam.aetherfabric.events.*;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
@@ -68,11 +65,11 @@ public class DimensionListener {
     /**
      * @see DimensionHooks#detectWaterInFrame(LevelAccessor, BlockPos, BlockState, FluidState)
      */
-    public static void onWaterExistsInsidePortalFrame(LevelAccessor level, BlockPos blockPos, MutableBoolean isCancelled) {
+    public static void onWaterExistsInsidePortalFrame(LevelAccessor level, BlockPos blockPos, CancellableCallback isCancelled) {
         BlockState blockState = level.getBlockState(blockPos);
         FluidState fluidState = level.getFluidState(blockPos);
         if (DimensionHooks.detectWaterInFrame(level, blockPos, blockState, fluidState)) {
-            isCancelled.setValue(true);
+            isCancelled.setCanceled(true);
         }
     }
 
