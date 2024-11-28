@@ -23,6 +23,7 @@ import com.aetherteam.cumulus.CumulusConfig;
 import com.aetherteam.nitrogen.event.listeners.TooltipListeners;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.Reflection;
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.client.ConfigScreenFactoryRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -38,6 +39,7 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import com.aetherteam.aetherfabric.client.AetherFabricClient;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 
 import java.util.HashMap;
 
@@ -57,6 +59,8 @@ public class AetherClient implements ClientModInitializer {
         setupRenderTypes();
 
         AetherFabricClient.init();
+
+        ConfigScreenFactoryRegistry.INSTANCE.register("aether", ConfigurationScreen::new);
     }
 
     public static void clientSetup() {
