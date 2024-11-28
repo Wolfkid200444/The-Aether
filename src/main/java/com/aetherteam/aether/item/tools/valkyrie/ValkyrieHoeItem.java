@@ -40,8 +40,7 @@ public class ValkyrieHoeItem extends HoeItem implements ValkyrieTool {
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
         BlockPos blockPos = context.getClickedPos();
-        BlockState toolModifiedState = null;//level.getBlockState(blockPos).getToolModifiedState(context, ItemAbilities.HOE_TILL, false);
-        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = toolModifiedState == null ? null : Pair.of(ctx -> true, changeIntoState(toolModifiedState));
+        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = TILLABLES.get(level.getBlockState(blockPos).getBlock());
         if (pair == null) {
             return InteractionResult.PASS;
         } else {
