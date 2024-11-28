@@ -330,7 +330,7 @@ public class DimensionHooks {
      */
     public static boolean isEternalDay(Player player) {
         if (player.level().dimensionType().effectsLocation().equals(AetherDimensions.AETHER_DIMENSION_TYPE.location())) {
-            return player.getAttachedOrCreate(AetherDataAttachments.AETHER_TIME).isEternalDay();
+            return player.level().getAttachedOrCreate(AetherDataAttachments.AETHER_TIME).isEternalDay();
         }
         return false;
     }
