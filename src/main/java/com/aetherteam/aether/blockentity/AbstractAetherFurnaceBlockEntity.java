@@ -123,7 +123,7 @@ public abstract class AbstractAetherFurnaceBlockEntity extends AbstractFurnaceBl
             ItemStack resultSlotStack = stacks.get(2);
 
             if (inputSlotStack.is(resultStack.getItem()) || resultStack.is(AetherTags.Items.SAVE_NBT_IN_RECIPE)) {
-                resultStack = new ItemStack(inputSlotStack.getItemHolder(), 1, inputSlotStack.getComponentsPatch());
+                resultStack = new ItemStack(resultStack.getItemHolder(), 1, inputSlotStack.getComponentsPatch());
             }
             if (inputSlotStack.is(resultStack.getItem())) {
                 resultStack.setDamageValue(0);
