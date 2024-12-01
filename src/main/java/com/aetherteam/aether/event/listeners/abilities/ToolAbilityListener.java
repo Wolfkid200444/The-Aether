@@ -5,7 +5,9 @@ import com.aetherteam.aether.event.hooks.AbilityHooks;
 import com.aetherteam.aetherfabric.events.CancellableCallback;
 import com.aetherteam.aetherfabric.events.PlayerEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -22,6 +24,7 @@ public class ToolAbilityListener {
 //        bus.addListener(ToolAbilityListener::setupToolModifications);
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, blockEntity) -> doHolystoneAbility(player, world, pos, player.getMainHandItem(), state));
         PlayerEvents.ON_BLOCK_DESTROY.register(ToolAbilityListener::modifyBreakSpeed);
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> ToolAbilityListener.setupDebuffToolState(handler.getPlayer()));
         // AxeItemMixin.aetherFabric$onLogStripping -> ToolAbilityListener.doGoldenOakStripping;
     }
 
@@ -56,6 +59,10 @@ public class ToolAbilityListener {
             speed.setValue(AbilityHooks.ToolHooks.handleZaniteToolAbility(itemStack, speed.getValue()));
             speed.setValue(AbilityHooks.ToolHooks.reduceToolEffectiveness(player, blockState, itemStack, speed.getValue()));
         }
+    }
+
+    public static void setupDebuffToolState(ServerPlayer player) {
+        AbilityHooks.ToolHooks.setDebuffToolsState(player);
     }
 
     /**

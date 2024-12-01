@@ -14,6 +14,7 @@ import com.aetherteam.aether.client.renderer.level.AetherRenderEffects;
 import com.aetherteam.aether.event.listeners.ItemListener;
 import com.aetherteam.aether.event.listeners.capability.AetherPlayerListener;
 import com.aetherteam.aetherfabric.events.RecipeBookCategoriesHelper;
+import com.aetherteam.aether.event.hooks.AbilityHooks;
 import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
 import com.aetherteam.aether.inventory.menu.LoreBookMenu;
 import com.aetherteam.aether.item.AetherItems;
@@ -27,7 +28,7 @@ import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.client.ConfigScreenFactory
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.RecipeBookCategories;
@@ -174,6 +175,8 @@ public class AetherClient implements ClientModInitializer {
         AetherRenderers.addEntityLayers();
         //neoBus.addListener(AetherRenderers::bakeModels);
         AetherRenderEffects.registerRenderEffects();
+
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> AbilityHooks.ToolHooks.resetDebuffToolsState());
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             var aggregatedCategories = new HashMap<>(RecipeBookCategories.AGGREGATE_CATEGORIES);
