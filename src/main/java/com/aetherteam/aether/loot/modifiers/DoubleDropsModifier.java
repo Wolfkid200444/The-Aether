@@ -4,8 +4,6 @@ import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.aether.item.combat.abilities.weapon.SkyrootWeapon;
 import com.aetherteam.aetherfabric.common.loot.LootModifier;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,8 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import com.aetherteam.aetherfabric.common.loot.IGlobalLootModifier;
-import com.aetherteam.aetherfabric.common.loot.LootModifier;
 
 public class DoubleDropsModifier extends LootModifier {
     //public static final MapCodec<DoubleDropsModifier> CODEC = RecordCodecBuilder.mapCodec((instance) -> LootModifier.codecStart(instance).apply(instance, DoubleDropsModifier::new));

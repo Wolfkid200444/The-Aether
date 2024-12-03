@@ -1,8 +1,7 @@
 package com.aetherteam.aether.loot.modifiers;
 
 import com.aetherteam.aether.AetherTags;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.aetherteam.aetherfabric.common.loot.LootModifier;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
@@ -10,8 +9,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.phys.Vec3;
-import com.aetherteam.aetherfabric.common.loot.IGlobalLootModifier;
-import com.aetherteam.aetherfabric.common.loot.LootModifier;
 
 import java.util.Optional;
 

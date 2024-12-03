@@ -2,10 +2,10 @@ package com.aetherteam.aether.event.listeners.abilities;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
+import com.aetherteam.aether.item.accessories.abilities.ShieldOfRepulsionAccessory;
 import com.aetherteam.aetherfabric.events.CancellableCallback;
 import com.aetherteam.aetherfabric.events.PlayerEvents;
 import com.aetherteam.aetherfabric.events.ProjectileEvents;
-import com.aetherteam.aether.item.accessories.abilities.ShieldOfRepulsionAccessory;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;

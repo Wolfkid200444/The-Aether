@@ -3,6 +3,7 @@ package com.aetherteam.aether.client.gui.component.inventory;
 import com.aetherteam.aether.client.gui.screen.inventory.AetherAccessoriesScreen;
 import com.aetherteam.aether.network.packet.serverbound.OpenAccessoriesPacket;
 import com.aetherteam.aether.network.packet.serverbound.OpenInventoryPacket;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ImageButton;
@@ -13,7 +14,6 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 /**
  * Opens the {@link AetherAccessoriesScreen} instead.

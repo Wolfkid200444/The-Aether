@@ -2,14 +2,14 @@ package com.aetherteam.aether.client.particle;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.client.AetherClient;
+import com.aetherteam.aetherfabric.registries.DeferredHolder;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.SnowflakeParticle;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import com.aetherteam.aetherfabric.registries.DeferredHolder;
-import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 public class AetherParticleTypes {
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, Aether.MODID);

@@ -2,7 +2,6 @@ package com.aetherteam.aether.client.event.listeners;
 
 import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.client.event.hooks.MenuHooks;
-
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;

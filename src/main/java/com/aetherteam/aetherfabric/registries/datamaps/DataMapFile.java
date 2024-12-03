@@ -5,20 +5,20 @@
 
 package com.aetherteam.aetherfabric.registries.datamaps;
 
+import com.aetherteam.aetherfabric.common.conditions.ConditionalOps;
+import com.aetherteam.aetherfabric.common.conditions.WithConditions;
+import com.aetherteam.aetherfabric.common.util.NeoForgeExtraCodecs;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.ExtraCodecs;
-import com.aetherteam.aetherfabric.common.conditions.ConditionalOps;
-import com.aetherteam.aetherfabric.common.conditions.WithConditions;
-import com.aetherteam.aetherfabric.common.util.NeoForgeExtraCodecs;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public record DataMapFile<T, R>(boolean replace, Map<Either<TagKey<R>, ResourceKey<R>>, Optional<WithConditions<DataMapEntry<T>>>> values, List<DataMapEntry.Removal<T, R>> removals) {
     public static <T, R> Codec<DataMapFile<T, R>> codec(ResourceKey<Registry<R>> registryKey, DataMapType<R, T> dataMap) {

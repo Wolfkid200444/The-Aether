@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.loot.LootTable;
-
 import org.jetbrains.annotations.Nullable;
 
 public class PassiveWhirlwind extends AbstractWhirlwind {

@@ -1,11 +1,11 @@
 package com.aetherteam.aether.client;
 
 import com.aetherteam.aether.Aether;
+import com.aetherteam.aetherfabric.registries.DeferredHolder;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import com.aetherteam.aetherfabric.registries.DeferredHolder;
-import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 public class AetherSoundEvents {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, Aether.MODID);

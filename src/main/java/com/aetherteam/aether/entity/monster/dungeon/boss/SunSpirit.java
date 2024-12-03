@@ -17,6 +17,8 @@ import com.aetherteam.aether.entity.projectile.crystal.IceCrystal;
 import com.aetherteam.aether.event.AetherEventDispatch;
 import com.aetherteam.aether.mixin.mixins.common.accessor.LookAtPlayerGoalAccessor;
 import com.aetherteam.aether.network.packet.clientbound.BossInfoPacket;
+import com.aetherteam.aetherfabric.entity.IEntityWithComplexSpawn;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import com.aetherteam.nitrogen.entity.BossRoomTracker;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -54,10 +56,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import com.aetherteam.aetherfabric.entity.IEntityWithComplexSpawn;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;

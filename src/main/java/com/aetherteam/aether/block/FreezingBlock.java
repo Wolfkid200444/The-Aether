@@ -18,8 +18,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 
 public interface FreezingBlock extends FreezingBehavior<BlockState> {

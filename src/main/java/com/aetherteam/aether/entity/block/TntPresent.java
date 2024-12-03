@@ -10,7 +10,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-
 import org.jetbrains.annotations.Nullable;
 
 /**

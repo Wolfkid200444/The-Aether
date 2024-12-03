@@ -1,12 +1,12 @@
 package com.aetherteam.aether.client;
 
-import com.aetherteam.aetherfabric.LanguageExtension;
 import com.aetherteam.aether.mixin.mixins.client.accessor.I18nAccessor;
+import com.aetherteam.aetherfabric.LanguageExtension;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.RandomSource;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 

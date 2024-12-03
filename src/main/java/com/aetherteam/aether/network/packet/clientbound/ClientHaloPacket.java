@@ -3,6 +3,7 @@ package com.aetherteam.aether.network.packet.clientbound;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.perk.data.ClientHaloPerkData;
 import com.aetherteam.aether.perk.types.Halo;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
@@ -11,7 +12,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 import java.util.Map;
 import java.util.UUID;

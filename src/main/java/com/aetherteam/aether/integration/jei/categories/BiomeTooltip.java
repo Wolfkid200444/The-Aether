@@ -7,8 +7,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public interface BiomeTooltip {

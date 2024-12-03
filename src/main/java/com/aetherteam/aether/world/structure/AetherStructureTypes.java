@@ -1,10 +1,10 @@
 package com.aetherteam.aether.world.structure;
 
 import com.aetherteam.aether.Aether;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.level.levelgen.structure.StructureType;
 import com.aetherteam.aetherfabric.registries.DeferredHolder;
 import com.aetherteam.aetherfabric.registries.DeferredRegister;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.levelgen.structure.StructureType;
 
 public class AetherStructureTypes {
     public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(Registries.STRUCTURE_TYPE, Aether.MODID);

@@ -1,5 +1,6 @@
 package com.aetherteam.aetherfabric.registries;
 
+import com.aetherteam.aetherfabric.pond.FullDataMapAccess;
 import com.aetherteam.aetherfabric.registries.datamaps.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -17,7 +18,6 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
-import com.aetherteam.aetherfabric.pond.FullDataMapAccess;
 import org.slf4j.Logger;
 
 import java.io.Reader;

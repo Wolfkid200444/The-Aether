@@ -2,13 +2,13 @@ package com.aetherteam.aether.network.packet.clientbound;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.entity.monster.dungeon.boss.ValkyrieQueen;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 public record QueenDialoguePacket(int queenID) implements CustomPacketPayload {
     public static final Type<QueenDialoguePacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "open_valkyrie_queen_dialogue"));

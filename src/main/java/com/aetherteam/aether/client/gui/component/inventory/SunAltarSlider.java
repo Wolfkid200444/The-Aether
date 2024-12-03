@@ -1,9 +1,9 @@
 package com.aetherteam.aether.client.gui.component.inventory;
 
 import com.aetherteam.aether.network.packet.serverbound.SunAltarUpdatePacket;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.network.chat.Component;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 public class SunAltarSlider extends AbstractSliderButton {
     private final int timeScale;

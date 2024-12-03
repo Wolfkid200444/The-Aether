@@ -24,6 +24,7 @@ import com.aetherteam.aether.item.miscellaneous.MoaEggItem;
 import com.aetherteam.aether.network.packet.clientbound.MoaInteractPacket;
 import com.aetherteam.aether.perk.data.ServerPerkData;
 import com.aetherteam.aether.perk.types.MoaData;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -60,9 +61,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 
 public class Moa extends MountableAnimal implements WingedBird {

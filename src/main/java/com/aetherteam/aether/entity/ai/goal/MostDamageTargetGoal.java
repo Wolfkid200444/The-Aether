@@ -8,8 +8,8 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.Map;

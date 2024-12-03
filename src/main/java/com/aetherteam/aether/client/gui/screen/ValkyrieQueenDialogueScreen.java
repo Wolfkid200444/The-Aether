@@ -5,6 +5,7 @@ import com.aetherteam.aether.client.gui.component.dialogue.DialogueChoiceCompone
 import com.aetherteam.aether.entity.monster.dungeon.boss.ValkyrieQueen;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.network.packet.serverbound.NpcPlayerInteractPacket;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,7 +14,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 public class ValkyrieQueenDialogueScreen extends Screen {
     private final DialogueAnswerComponent dialogueAnswer;

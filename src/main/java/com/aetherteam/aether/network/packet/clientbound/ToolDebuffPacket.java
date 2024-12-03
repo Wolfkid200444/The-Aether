@@ -2,13 +2,13 @@ package com.aetherteam.aether.network.packet.clientbound;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 /**
  * Stores a client value for whether tools are debuffed in the Aether for {@link com.aetherteam.aether.event.hooks.AbilityHooks.ToolHooks}.

@@ -1,12 +1,7 @@
 package com.aetherteam.aether.mixin.mixins.client.optifine;
 
-import com.aetherteam.aether.client.event.hooks.GuiHooks;
-import com.aetherteam.aether.entity.AetherBossMob;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.BossHealthOverlay;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(BossHealthOverlay.class)
 public class BossHealthOverlayMixin {

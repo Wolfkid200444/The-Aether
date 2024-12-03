@@ -5,6 +5,9 @@
 
 package com.aetherteam.aetherfabric.network.tasks;
 
+import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsPayload;
+import com.aetherteam.aetherfabric.registries.RegistryManager;
+import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
 import net.fabricmc.fabric.api.networking.v1.ServerConfigurationNetworking;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
@@ -14,9 +17,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.network.ConfigurationTask;
 import net.minecraft.server.network.ServerConfigurationPacketListenerImpl;
-import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsPayload;
-import com.aetherteam.aetherfabric.registries.RegistryManager;
-import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;

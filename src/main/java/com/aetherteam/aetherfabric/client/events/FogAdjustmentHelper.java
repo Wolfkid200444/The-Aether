@@ -4,7 +4,8 @@ import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
 import com.mojang.blaze3d.shaders.FogShape;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.level.material.FogType;
 
 public class FogAdjustmentHelper extends CancellableCallbackImpl {

@@ -7,6 +7,7 @@ import com.aetherteam.aether.blockentity.SunAltarBlockEntity;
 import com.aetherteam.aether.command.SunAltarWhitelist;
 import com.aetherteam.aether.data.resources.registries.AetherDimensions;
 import com.aetherteam.aether.network.packet.clientbound.OpenSunAltarPacket;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -19,7 +20,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 public class SunAltarBlock extends BaseEntityBlock {
 

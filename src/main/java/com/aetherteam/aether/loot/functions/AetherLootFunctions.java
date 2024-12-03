@@ -1,10 +1,10 @@
 package com.aetherteam.aether.loot.functions;
 
 import com.aetherteam.aether.Aether;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import com.aetherteam.aetherfabric.registries.DeferredHolder;
 import com.aetherteam.aetherfabric.registries.DeferredRegister;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 
 public class AetherLootFunctions {
     public static final DeferredRegister<LootItemFunctionType<?>> LOOT_FUNCTION_TYPES = DeferredRegister.create(Registries.LOOT_FUNCTION_TYPE, Aether.MODID);

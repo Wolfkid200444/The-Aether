@@ -6,12 +6,6 @@
 package com.aetherteam.aetherfabric.registries;
 
 import com.mojang.datafixers.util.Either;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderOwner;
 import net.minecraft.core.Registry;
@@ -20,6 +14,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * A Deferred Holder is a {@link Holder} that is constructed with only a ResourceKey.

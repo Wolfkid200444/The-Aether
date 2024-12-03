@@ -7,10 +7,11 @@ package com.aetherteam.aetherfabric.registries.datamaps;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
-import java.util.Optional;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+
+import java.util.Optional;
 
 /**
  * An interface used to remove values from registry data maps. This allows "decomposing" the data

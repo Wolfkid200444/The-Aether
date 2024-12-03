@@ -8,10 +8,9 @@ import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
-
-import org.jetbrains.annotations.Nullable;
 
 @Mixin(CraftingMenu.class)
 public interface CraftingMenuAccessor {

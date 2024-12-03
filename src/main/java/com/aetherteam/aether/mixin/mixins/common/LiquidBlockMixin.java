@@ -14,8 +14,6 @@ import net.minecraft.world.level.material.FluidState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-import java.util.Collections;
-
 @Mixin(LiquidBlock.class)
 public abstract class LiquidBlockMixin {
 

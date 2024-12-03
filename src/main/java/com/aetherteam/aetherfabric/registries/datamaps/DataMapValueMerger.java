@@ -6,15 +6,11 @@
 package com.aetherteam.aetherfabric.registries.datamaps;
 
 import com.mojang.datafixers.util.Either;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+
+import java.util.*;
 
 /**
  * An interface used to merge two conflicting registry data map values attached to the same object. <br>

@@ -3,6 +3,7 @@ package com.aetherteam.aether.event.listeners.abilities;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.hooks.AbilityHooks;
 import com.aetherteam.aetherfabric.events.CancellableCallback;
+import com.aetherteam.aetherfabric.events.EntityEvents;
 import com.aetherteam.aetherfabric.events.LivingEntityEvents;
 import com.aetherteam.aetherfabric.events.ProjectileEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -12,7 +13,6 @@ import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.HitResult;
-import com.aetherteam.aetherfabric.events.EntityEvents;
 import org.apache.commons.lang3.mutable.MutableFloat;
 
 public class WeaponAbilityListener {

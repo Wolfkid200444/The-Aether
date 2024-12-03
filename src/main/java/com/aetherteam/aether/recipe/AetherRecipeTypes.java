@@ -7,12 +7,12 @@ import com.aetherteam.aether.recipe.recipes.block.*;
 import com.aetherteam.aether.recipe.recipes.item.AbstractAetherCookingRecipe;
 import com.aetherteam.aether.recipe.recipes.item.FreezingRecipe;
 import com.aetherteam.aether.recipe.recipes.item.IncubationRecipe;
+import com.aetherteam.aetherfabric.registries.DeferredHolder;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import com.aetherteam.aetherfabric.registries.DeferredHolder;
-import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 public class AetherRecipeTypes {
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, Aether.MODID);

@@ -1,13 +1,13 @@
 package com.aetherteam.aether.network.packet.clientbound;
 
 import com.aetherteam.aether.Aether;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 public record ClientGrabItemPacket(ItemStack stack) implements CustomPacketPayload {
     public static final Type<ClientGrabItemPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "grab_from_accessories_inventory"));

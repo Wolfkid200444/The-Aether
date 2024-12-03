@@ -2,6 +2,7 @@ package com.aetherteam.aether.network.packet.clientbound;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.attachment.AetherDataAttachments;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -12,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 /**
  * Sets the player's Life Shard data and refreshes the modifier and health values. This is called by {@link com.aetherteam.aether.command.PlayerCapabilityCommand}.

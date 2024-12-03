@@ -1,9 +1,8 @@
 package com.aetherteam.aether.entity;
 
-import net.minecraft.world.entity.player.Player;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
 /**

@@ -8,10 +8,11 @@ package com.aetherteam.aetherfabric.registries.datamaps;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import java.util.Optional;
-import java.util.function.Function;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 public record DataMapEntry<T>(T value, boolean replace) {
 

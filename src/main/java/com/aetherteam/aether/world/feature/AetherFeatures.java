@@ -4,11 +4,11 @@ import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.world.configuration.AercloudConfiguration;
 import com.aetherteam.aether.world.configuration.AetherLakeConfiguration;
 import com.aetherteam.aether.world.configuration.ShelfConfiguration;
+import com.aetherteam.aetherfabric.registries.DeferredHolder;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import com.aetherteam.aetherfabric.registries.DeferredHolder;
-import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 public class AetherFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(BuiltInRegistries.FEATURE, Aether.MODID);

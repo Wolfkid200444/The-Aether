@@ -2,9 +2,7 @@ package com.aetherteam.aetherfabric.events;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import org.apache.commons.lang3.mutable.MutableBoolean;
 
 public class PlayerTickEvents {
 

@@ -3,6 +3,7 @@ package com.aetherteam.aether.network.packet.serverbound;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.command.SunAltarWhitelist;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -12,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
-import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 /**
  * Updates the time on the server, then updates that time for all players in the Aether.

@@ -4,7 +4,6 @@ import com.aetherteam.aetherfabric.events.AddPackFindersEvent;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.packs.repository.ServerPacksSource;
-import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.validation.DirectoryValidator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

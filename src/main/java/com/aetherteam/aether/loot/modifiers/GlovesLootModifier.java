@@ -1,5 +1,6 @@
 package com.aetherteam.aether.loot.modifiers;
 
+import com.aetherteam.aetherfabric.common.loot.LootModifier;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.fabricmc.fabric.api.item.v1.EnchantingContext;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.phys.Vec3;
-import com.aetherteam.aetherfabric.common.loot.LootModifier;
 
 import java.util.List;
 import java.util.Optional;

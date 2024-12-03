@@ -1,7 +1,7 @@
 package com.aetherteam.aetherfabric.pond;
 
-import net.minecraft.resources.ResourceKey;
 import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
+import net.minecraft.resources.ResourceKey;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;

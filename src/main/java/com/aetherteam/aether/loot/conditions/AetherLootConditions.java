@@ -1,10 +1,10 @@
 package com.aetherteam.aether.loot.conditions;
 
 import com.aetherteam.aether.Aether;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import com.aetherteam.aetherfabric.registries.DeferredHolder;
 import com.aetherteam.aetherfabric.registries.DeferredRegister;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 
 public class AetherLootConditions {
     public static final DeferredRegister<LootItemConditionType> LOOT_CONDITION_TYPES = DeferredRegister.create(Registries.LOOT_CONDITION_TYPE, Aether.MODID);

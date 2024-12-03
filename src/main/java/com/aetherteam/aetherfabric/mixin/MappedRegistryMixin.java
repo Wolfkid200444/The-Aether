@@ -1,11 +1,10 @@
 package com.aetherteam.aetherfabric.mixin;
 
+import com.aetherteam.aetherfabric.pond.FullDataMapAccess;
 import com.aetherteam.aetherfabric.pond.RegistryLookupExtension;
+import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.resources.ResourceKey;
-import com.aetherteam.aetherfabric.pond.IRegistryExtension;
-import com.aetherteam.aetherfabric.pond.FullDataMapAccess;
-import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

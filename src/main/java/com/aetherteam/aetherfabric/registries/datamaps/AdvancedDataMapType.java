@@ -6,12 +6,13 @@
 package com.aetherteam.aetherfabric.registries.datamaps;
 
 import com.mojang.serialization.Codec;
-import java.util.Map;
-import java.util.Objects;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * A version of {@link DataMapType data map types} that has two more features for compatibility and conflict handling: mergers and removers.

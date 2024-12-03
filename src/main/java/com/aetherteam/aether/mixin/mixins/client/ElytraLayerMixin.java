@@ -1,7 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
 import com.aetherteam.aether.mixin.AetherMixinHooks;
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.vertex.PoseStack;

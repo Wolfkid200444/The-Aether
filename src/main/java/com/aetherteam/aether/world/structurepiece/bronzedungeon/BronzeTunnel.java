@@ -1,6 +1,7 @@
 package com.aetherteam.aether.world.structurepiece.bronzedungeon;
 
 import com.aetherteam.aether.world.structurepiece.AetherStructurePieceTypes;
+import com.aetherteam.aetherfabric.level.PieceBeardifierModifier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
@@ -13,7 +14,6 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import com.aetherteam.aetherfabric.level.PieceBeardifierModifier;
 
 /**
  * The entrance to the Bronze Dungeon. It shouldn't replace air so that it matches the landscape.

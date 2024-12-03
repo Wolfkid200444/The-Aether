@@ -3,6 +3,8 @@ package com.aetherteam.aether.network.packet.serverbound;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.inventory.menu.AetherAccessoriesMenu;
 import com.aetherteam.aether.network.packet.clientbound.ClientGrabItemPacket;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
+import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
@@ -12,8 +14,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
-import com.aetherteam.aetherfabric.network.handling.IPayloadContext;
 
 public record OpenAccessoriesPacket(ItemStack carryStack) implements CustomPacketPayload {
     public static final Type<OpenAccessoriesPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "open_accessories"));

@@ -7,6 +7,12 @@ package com.aetherteam.aetherfabric.registries;
 
 import com.aetherteam.aether.mixin.mixins.common.accessor.ConnectionAccessor;
 import com.aetherteam.aether.mixin.mixins.common.accessor.ServerCommonPacketListenerImplAccessor;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
+import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsReplyPayload;
+import com.aetherteam.aetherfabric.network.payload.RegistryDataMapSyncPayload;
+import com.aetherteam.aetherfabric.network.tasks.RegistryDataMapNegotiation;
+import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
+import com.aetherteam.aetherfabric.registries.datamaps.RegisterDataMapTypesEvent;
 import io.netty.util.AttributeKey;
 import net.fabricmc.fabric.api.networking.v1.ServerConfigurationNetworking;
 import net.minecraft.core.MappedRegistry;
@@ -14,12 +20,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
-import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsReplyPayload;
-import com.aetherteam.aetherfabric.network.payload.RegistryDataMapSyncPayload;
-import com.aetherteam.aetherfabric.network.tasks.RegistryDataMapNegotiation;
-import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
-import com.aetherteam.aetherfabric.registries.datamaps.RegisterDataMapTypesEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 

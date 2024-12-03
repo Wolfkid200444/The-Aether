@@ -25,8 +25,8 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilde
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,7 +46,7 @@ public class BronzeDungeonBuilder {
         Map.entry("square_tunnel", new SimpleWeightedRandomList.Builder<>())
     );
     private static Map<String, SimpleWeightedRandomList<RoomProvider<?>>> ROOM_OPTIONS;
-    
+
     static {
         ROOM_OPTIONS_BUILDER.get("boss_room").add((manager, pos, rotation, processorList) -> new BronzeBossRoom(manager, "boss_room", pos, rotation, processorList), 1);
         ROOM_OPTIONS_BUILDER.get("chest_room").add((manager, pos, rotation, processorList) -> new BronzeDungeonRoom(manager, "chest_room", pos, rotation, processorList), 1);

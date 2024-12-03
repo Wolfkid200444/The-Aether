@@ -1,9 +1,9 @@
 package com.aetherteam.aether.world.processor;
 
 import com.aetherteam.aether.Aether;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.structure.templatesystem.PosRuleTestType;
-import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 

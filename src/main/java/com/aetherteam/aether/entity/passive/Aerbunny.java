@@ -9,6 +9,7 @@ import com.aetherteam.aether.entity.EntityUtil;
 import com.aetherteam.aether.entity.ai.goal.FallingRandomStrollGoal;
 import com.aetherteam.aether.mixin.mixins.common.accessor.ServerGamePacketListenerImplAccessor;
 import com.aetherteam.aether.network.packet.serverbound.AerbunnyPuffPacket;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -39,9 +40,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.EnumSet;
 
 public class Aerbunny extends AetherAnimal {

@@ -21,6 +21,7 @@ import com.aetherteam.aether.perk.data.ClientDeveloperGlowPerkData;
 import com.aetherteam.aether.perk.data.ClientHaloPerkData;
 import com.aetherteam.aether.perk.data.ClientMoaSkinPerkData;
 import com.aetherteam.aether.perk.data.ServerPerkData;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import com.aetherteam.nitrogen.network.packet.SyncPacket;
 import com.mojang.serialization.Codec;
@@ -42,10 +43,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
 import org.apache.commons.lang3.tuple.Triple;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;

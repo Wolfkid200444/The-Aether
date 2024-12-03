@@ -5,6 +5,10 @@
 
 package com.aetherteam.aetherfabric.registries;
 
+import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsPayload;
+import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsReplyPayload;
+import com.aetherteam.aetherfabric.network.payload.RegistryDataMapSyncPayload;
+import com.aetherteam.aetherfabric.pond.FullDataMapAccess;
 import com.aetherteam.aetherfabric.registries.datamaps.DataMapsUpdatedEvent;
 import com.google.common.collect.Sets;
 import com.mojang.logging.LogUtils;
@@ -17,10 +21,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsPayload;
-import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsReplyPayload;
-import com.aetherteam.aetherfabric.network.payload.RegistryDataMapSyncPayload;
-import com.aetherteam.aetherfabric.pond.FullDataMapAccess;
 import org.slf4j.Logger;
 
 import java.util.*;

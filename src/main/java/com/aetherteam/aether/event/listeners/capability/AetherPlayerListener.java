@@ -3,17 +3,16 @@ package com.aetherteam.aether.event.listeners.capability;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.attachment.AetherPlayerAttachment;
 import com.aetherteam.aether.event.hooks.CapabilityHooks;
+import com.aetherteam.aetherfabric.events.EntityTickEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import com.aetherteam.aetherfabric.events.EntityTickEvents;
 
 /**
  * Listener for Forge events to handle functions in {@link AetherPlayerAttachment}.

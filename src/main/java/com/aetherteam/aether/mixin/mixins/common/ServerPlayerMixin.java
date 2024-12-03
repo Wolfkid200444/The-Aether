@@ -2,8 +2,8 @@ package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.attachment.AetherPlayerAttachment;
-import com.aetherteam.aetherfabric.pond.EntityExtension;
 import com.aetherteam.aetherfabric.events.EntityEvents;
+import com.aetherteam.aetherfabric.pond.EntityExtension;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;

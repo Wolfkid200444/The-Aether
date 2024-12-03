@@ -3,6 +3,9 @@ package com.aetherteam.aether.api;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.api.registers.AdvancementSoundOverride;
 import com.aetherteam.aether.client.AetherSoundEvents;
+import com.aetherteam.aetherfabric.registries.DeferredHolder;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -11,9 +14,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import com.aetherteam.aetherfabric.registries.DeferredHolder;
-import com.aetherteam.aetherfabric.registries.DeferredRegister;
-import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import org.jetbrains.annotations.Nullable;
 
 public class AetherAdvancementSoundOverrides {

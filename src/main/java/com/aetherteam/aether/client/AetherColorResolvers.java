@@ -3,9 +3,7 @@ package com.aetherteam.aether.client;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.item.miscellaneous.MoaEggItem;
-import com.aetherteam.aether.mixin.mixins.client.accessor.BlockColorsAccessor;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.FastColor;
@@ -17,7 +15,6 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class AetherColorResolvers {
     private static final int AETHER_GRASS_COLOR = 0xB1FFCB;

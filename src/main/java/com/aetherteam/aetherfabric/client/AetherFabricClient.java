@@ -1,5 +1,10 @@
 package com.aetherteam.aetherfabric.client;
 
+import com.aetherteam.aetherfabric.entity.IEntityWithComplexSpawn;
+import com.aetherteam.aetherfabric.network.payload.AdvancedAddEntityPayload;
+import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsPayload;
+import com.aetherteam.aetherfabric.network.payload.RegistryDataMapSyncPayload;
+import com.aetherteam.aetherfabric.registries.ClientRegistryManager;
 import com.mojang.logging.LogUtils;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
@@ -7,11 +12,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import com.aetherteam.aetherfabric.entity.IEntityWithComplexSpawn;
-import com.aetherteam.aetherfabric.network.payload.AdvancedAddEntityPayload;
-import com.aetherteam.aetherfabric.network.payload.KnownRegistryDataMapsPayload;
-import com.aetherteam.aetherfabric.network.payload.RegistryDataMapSyncPayload;
-import com.aetherteam.aetherfabric.registries.ClientRegistryManager;
 import org.slf4j.Logger;
 
 public class AetherFabricClient {

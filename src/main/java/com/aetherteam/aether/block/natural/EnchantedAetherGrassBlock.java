@@ -2,8 +2,8 @@ package com.aetherteam.aether.block.natural;
 
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.data.resources.registries.AetherPlacedFeatures;
-import com.aetherteam.aetherfabric.Utils;
 import com.aetherteam.aether.mixin.mixins.common.accessor.SpreadingSnowyDirtBlockAccessor;
+import com.aetherteam.aetherfabric.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;

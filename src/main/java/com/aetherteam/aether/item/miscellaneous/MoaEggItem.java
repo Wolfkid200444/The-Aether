@@ -5,6 +5,8 @@ import com.aetherteam.aether.entity.AetherEntityTypes;
 import com.aetherteam.aether.entity.passive.Moa;
 import com.aetherteam.aether.mixin.mixins.common.accessor.BaseSpawnerAccessor;
 import com.google.common.collect.Iterables;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -29,10 +31,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Objects;

@@ -7,7 +7,6 @@ import com.aetherteam.cumulus.api.*;
 import net.minecraft.client.renderer.CubeMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 @CumulusEntrypoint
 public class AetherMenus implements MenuInitializer {

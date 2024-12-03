@@ -11,6 +11,8 @@ import com.aetherteam.aether.recipe.recipes.item.IncubationRecipe;
 import com.aetherteam.aether.recipe.serializer.AetherCookingSerializer;
 import com.aetherteam.aether.recipe.serializer.BiomeParameterRecipeSerializer;
 import com.aetherteam.aether.recipe.serializer.PlacementBanRecipeSerializer;
+import com.aetherteam.aetherfabric.registries.DeferredHolder;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 import com.aetherteam.nitrogen.recipe.BlockStateIngredient;
 import com.aetherteam.nitrogen.recipe.input.BlockStateRecipeInput;
 import com.aetherteam.nitrogen.recipe.serializer.BlockStateRecipeSerializer;
@@ -20,8 +22,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.block.state.BlockState;
-import com.aetherteam.aetherfabric.registries.DeferredHolder;
-import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 public class AetherRecipeSerializers {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, Aether.MODID);

@@ -1,7 +1,7 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
-import com.aetherteam.aetherfabric.pond.ItemStackExtension;
 import com.aetherteam.aetherfabric.events.ItemAttributeModifierHelper;
+import com.aetherteam.aetherfabric.pond.ItemStackExtension;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;

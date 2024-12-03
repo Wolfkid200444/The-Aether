@@ -17,7 +17,11 @@ import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.network.packet.clientbound.BossInfoPacket;
 import com.aetherteam.aether.network.packet.clientbound.QueenDialoguePacket;
 import com.aetherteam.aether.network.packet.serverbound.NpcPlayerInteractPacket;
+import com.aetherteam.aetherfabric.entity.IEntityWithComplexSpawn;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import com.aetherteam.nitrogen.entity.BossRoomTracker;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -61,13 +65,9 @@ import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import com.aetherteam.aetherfabric.entity.IEntityWithComplexSpawn;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
 import org.apache.commons.lang3.tuple.Pair;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;

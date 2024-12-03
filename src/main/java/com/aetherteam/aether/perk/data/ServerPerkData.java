@@ -8,6 +8,7 @@ import com.aetherteam.aether.perk.PerkUtil;
 import com.aetherteam.aether.perk.types.DeveloperGlow;
 import com.aetherteam.aether.perk.types.Halo;
 import com.aetherteam.aether.perk.types.MoaData;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import com.aetherteam.nitrogen.api.users.User;
 import com.aetherteam.nitrogen.api.users.UserData;
 import com.google.common.collect.ImmutableMap;
@@ -15,7 +16,6 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.HashMap;

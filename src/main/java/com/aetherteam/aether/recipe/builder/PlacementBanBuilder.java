@@ -9,8 +9,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Optional;
 
 public abstract class PlacementBanBuilder implements RecipeBuilder {

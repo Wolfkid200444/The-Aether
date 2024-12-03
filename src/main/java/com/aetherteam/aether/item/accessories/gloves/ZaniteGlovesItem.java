@@ -1,7 +1,6 @@
 package com.aetherteam.aether.item.accessories.gloves;
 
 import com.aetherteam.aether.client.AetherSoundEvents;
-import com.aetherteam.aether.inventory.AetherAccessorySlots;
 import com.aetherteam.aether.item.combat.AetherArmorMaterials;
 import io.wispforest.accessories.api.attributes.AccessoryAttributeBuilder;
 import io.wispforest.accessories.api.slot.SlotReference;

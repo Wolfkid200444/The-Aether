@@ -47,8 +47,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;

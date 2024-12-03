@@ -1,11 +1,11 @@
 package com.aetherteam.aetherfabric.common.conditions;
 
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
+import org.apache.commons.lang3.Validate;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
-import org.apache.commons.lang3.Validate;
 
 public record WithConditions<A>(List<ResourceCondition> conditions, A carrier) {
 

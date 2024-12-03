@@ -6,7 +6,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileItem;
 import net.minecraft.world.level.Level;
-
 import org.jetbrains.annotations.Nullable;
 
 public abstract class DartItem extends Item implements ProjectileItem {

@@ -1,10 +1,10 @@
 package com.aetherteam.aether.advancement;
 
 import com.aetherteam.aether.Aether;
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.core.registries.Registries;
 import com.aetherteam.aetherfabric.registries.DeferredHolder;
 import com.aetherteam.aetherfabric.registries.DeferredRegister;
+import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.core.registries.Registries;
 
 public class AetherAdvancementTriggers {
     public static final DeferredRegister<CriterionTrigger<?>> TRIGGERS = DeferredRegister.create(Registries.TRIGGER_TYPE, Aether.MODID);

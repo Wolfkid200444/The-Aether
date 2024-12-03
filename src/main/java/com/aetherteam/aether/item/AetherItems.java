@@ -55,6 +55,8 @@ import com.aetherteam.aether.item.tools.zanite.ZaniteAxeItem;
 import com.aetherteam.aether.item.tools.zanite.ZaniteHoeItem;
 import com.aetherteam.aether.item.tools.zanite.ZanitePickaxeItem;
 import com.aetherteam.aether.item.tools.zanite.ZaniteShovelItem;
+import com.aetherteam.aetherfabric.registries.DeferredItem;
+import com.aetherteam.aetherfabric.registries.DeferredRegister;
 import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.Accessory;
 import net.minecraft.ChatFormatting;
@@ -76,8 +78,6 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraft.world.level.material.Fluids;
-import com.aetherteam.aetherfabric.registries.DeferredItem;
-import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 public class AetherItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Aether.MODID);

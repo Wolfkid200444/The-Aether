@@ -5,15 +5,16 @@
 
 package com.aetherteam.aetherfabric.registries.datamaps;
 
+import com.aetherteam.aetherfabric.common.conditions.ConditionalOps;
 import com.aetherteam.aetherfabric.pond.IWithData;
 import com.google.common.base.Preconditions;
 import com.mojang.serialization.Codec;
-import java.util.Objects;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import com.aetherteam.aetherfabric.common.conditions.ConditionalOps;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * A registry data map contains data-driven object that can be attached to a registry object. <p>

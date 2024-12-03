@@ -2,8 +2,8 @@ package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.event.hooks.EntityHooks;
-import com.aetherteam.aetherfabric.events.ItemAttributeModifierHelper;
 import com.aetherteam.aether.mixin.AetherMixinHooks;
+import com.aetherteam.aetherfabric.events.ItemAttributeModifierHelper;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

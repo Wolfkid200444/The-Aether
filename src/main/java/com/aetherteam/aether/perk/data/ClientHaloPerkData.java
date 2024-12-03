@@ -4,10 +4,10 @@ import com.aetherteam.aether.network.packet.serverbound.ServerHaloPacket;
 import com.aetherteam.aether.perk.CustomizationsOptions;
 import com.aetherteam.aether.perk.PerkUtil;
 import com.aetherteam.aether.perk.types.Halo;
+import com.aetherteam.aetherfabric.network.PacketDistributor;
 import com.aetherteam.nitrogen.api.users.User;
 import com.aetherteam.nitrogen.api.users.UserData;
 import net.minecraft.world.entity.player.Player;
-import com.aetherteam.aetherfabric.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
-import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
 import com.aetherteam.aetherfabric.client.events.PlayerRenderEvents;
+import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

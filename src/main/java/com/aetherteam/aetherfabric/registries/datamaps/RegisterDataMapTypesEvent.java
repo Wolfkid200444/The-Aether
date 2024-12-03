@@ -5,9 +5,6 @@
 
 package com.aetherteam.aetherfabric.registries.datamaps;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
@@ -16,6 +13,9 @@ import net.minecraft.core.RegistrySynchronization;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Event fired on the mod event bus, in order to register {@link DataMapType data map types}.

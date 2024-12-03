@@ -1,10 +1,10 @@
 package com.aetherteam.aether.world.foliageplacer;
 
 import com.aetherteam.aether.Aether;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import com.aetherteam.aetherfabric.registries.DeferredHolder;
 import com.aetherteam.aetherfabric.registries.DeferredRegister;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 
 public class AetherFoliagePlacerTypes {
     public static final DeferredRegister<FoliagePlacerType<?>> FOLIAGE_PLACERS = DeferredRegister.create(BuiltInRegistries.FOLIAGE_PLACER_TYPE, Aether.MODID);

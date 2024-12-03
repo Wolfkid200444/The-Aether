@@ -1,7 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.common;
 
 import com.aetherteam.aether.attachment.AetherDataAttachments;
-import com.aetherteam.aetherfabric.events.CancellableCallbackImpl;
 import com.aetherteam.aetherfabric.events.ProjectileEvents;
 import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import com.llamalad7.mixinextras.expression.Definition;

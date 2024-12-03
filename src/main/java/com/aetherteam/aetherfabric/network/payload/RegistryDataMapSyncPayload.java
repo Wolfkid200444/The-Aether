@@ -5,6 +5,8 @@
 
 package com.aetherteam.aetherfabric.network.payload;
 
+import com.aetherteam.aetherfabric.registries.RegistryManager;
+import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
@@ -20,10 +22,10 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import com.aetherteam.aetherfabric.registries.RegistryManager;
-import com.aetherteam.aetherfabric.registries.datamaps.DataMapType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public record RegistryDataMapSyncPayload<T>(ResourceKey<? extends Registry<T>> registryKey, Map<ResourceLocation, Map<ResourceKey<T>, ?>> dataMaps) implements CustomPacketPayload {
