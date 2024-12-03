@@ -53,8 +53,6 @@ public class AetherClient implements ClientModInitializer {
         //bus.addListener(AetherClient::registerSpectatorShaders);
         //bus.addListener(AetherClient::registerDimensionTransitionScreens);
 
-        AetherMenus.MENUS.addEntriesToRegistry();
-
         AetherClient.eventSetup();
 
         setupRenderTypes();
@@ -65,7 +63,6 @@ public class AetherClient implements ClientModInitializer {
     }
 
     public static void clientSetup() {
-        disableCumulusButton();
         Reflection.initialize(CustomizationsOptions.class);
         AetherRenderers.registerAccessoryRenderers();
         AetherAtlases.registerTreasureChestAtlases();
@@ -79,18 +76,6 @@ public class AetherClient implements ClientModInitializer {
 
         AetherPlayerListener.listenClient();
         ItemListener.listen();
-    }
-
-    /**
-     * Disables the Cumulus menu switcher button, since Aether has its own for theme toggling.
-     */
-    public static void disableCumulusButton() {
-        if (AetherConfig.CLIENT.should_disable_cumulus_button.get()) {
-            CumulusConfig.CLIENT.enable_menu_list_button.set(false);
-            CumulusConfig.CLIENT.enable_menu_list_button.save();
-            AetherConfig.CLIENT.should_disable_cumulus_button.set(false);
-            AetherConfig.CLIENT.should_disable_cumulus_button.save();
-        }
     }
 
     public static void registerItemModelProperties() {
@@ -160,7 +145,6 @@ public class AetherClient implements ClientModInitializer {
         GuiListener.listen();
         LevelClientListener.listen();
         MenuListener.listen();
-        WorldPreviewListener.listen();
 
         AetherMenuTypes.registerMenuScreens();
 

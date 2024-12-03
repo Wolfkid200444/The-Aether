@@ -41,6 +41,9 @@
     ],
     "mm_shedaniel:early_risers": [
       "com.aetherteam.aetherfabric.AetherASM"
+    ],
+    "cumulus:menu_initializers": [
+      "com.aetherteam.aether.api.AetherMenus"
     ]
   },
   "mixins": [

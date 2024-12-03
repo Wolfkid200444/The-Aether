@@ -15,6 +15,5 @@ public class AetherCommands {
         EternalDayCommand.register(dispatcher);
         PlayerCapabilityCommand.register(dispatcher);
         SunAltarWhitelistCommand.register(dispatcher);
-        WorldPreviewFixCommand.register(dispatcher, selection == Commands.CommandSelection.INTEGRATED);
     }
 }

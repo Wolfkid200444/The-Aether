@@ -3,7 +3,7 @@ package com.aetherteam.aether.api;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.client.gui.screen.menu.AetherTitleScreen;
 import com.aetherteam.aether.client.gui.screen.menu.VanillaLeftTitleScreen;
-import io.wispforest.accessories.menu.AccessoriesMenuTypes;
+import com.aetherteam.cumulus.api.*;
 import net.minecraft.client.renderer.CubeMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -11,8 +11,6 @@ import com.aetherteam.aetherfabric.registries.DeferredRegister;
 
 @CumulusEntrypoint
 public class AetherMenus implements MenuInitializer {
-    public static final DeferredRegister<Menu> MENUS = DeferredRegister.create(Cumulus.MENU_REGISTRY_KEY, Aether.MODID);
-
     // Icons
     private static final ResourceLocation THE_AETHER_ICON = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/gui/menu_api/menu_icon_aether.png");
 
