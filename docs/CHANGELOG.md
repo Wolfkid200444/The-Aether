@@ -1,3 +1,31 @@
+# The Aether - Fabric - 1.21.1-1.5.1-beta.5
+
+Changes
+
+- Update Cumulus to 2.0.0. This includes a rework to the menu registration and the movement of world preview system code from Aether to Cumulus. The Aether/Minecraft Theme button is also now replaced by Cumulus' Menu List button.
+- Reimplement config screen.
+
+Fixes
+
+- Fix weapon abilities not working.
+- FIx Valkyrie Hoe not working.
+- Fix Altar and Freezer output not working correctly.
+- Fix the eternal day check for sleeping in the Aether.
+- Fix eternal day values not persisting correctly.
+- Fix Valkyrie Lance being enchantable with any enchantment.
+- Fix meat drops from Aether animals not being cooked when killed with Fire Aspect in one hit.
+- Fix Ambrosium Torches on walls dropping vanilla Torches.
+- Fix Moa jump stats not syncing properly.
+- Fix a desync with the Aether tool debuff config in multiplayer.
+- Fix an edge case with the Slider's movement math breaking down at high health numbers.
+- Fix Shield of Repulsion deflection not working properly.
+- Fix a potential edge case with the Shield of Repulsion overriding other mods projectile hit cancellation.
+- Fix the optional Shield of Repulsion tooltip being incorrect.
+- Fix incompatibility crash with MixinSquared.
+- Fix incompatibility crash with Tips mod.
+- Fix compatibility support for the Tips mod.
+- Fix missing datafixer logspam.
+
 # The Aether - Fabric - 1.21.1-1.5.1-beta.4
 
 Fixes
