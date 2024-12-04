@@ -42,13 +42,13 @@ public class PortalTriggerSoundInstance extends AbstractTickableSoundInstance {
         this.relative = relative;
     }
 
-    public static PortalTriggerSoundInstance forLocalAmbience(Player player, SoundEvent pSound, float pVolume, float pPitch) {
+    public static PortalTriggerSoundInstance forLocalAmbience(Player player, SoundEvent sound, float pitch, float volume) {
         return new PortalTriggerSoundInstance(
             player,
-            pSound,
+            sound,
             SoundSource.AMBIENT,
-            pPitch,
-            pVolume,
+            volume,
+            pitch,
             SoundInstance.createUnseededRandom(),
             false,
             0,
@@ -63,7 +63,7 @@ public class PortalTriggerSoundInstance extends AbstractTickableSoundInstance {
     @Override
     public void tick() {
         var data = this.player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
-        if (data.getPortalIntensity() > 0.0F) {
+        if (data.getPortalIntensity() <= 0.0F) {
             this.fade++;
             this.volume = (float) Math.exp(-(this.fade / (75 / 1.5))) - (1 - this.startingVolume);
             if (this.fade >= 75) {
