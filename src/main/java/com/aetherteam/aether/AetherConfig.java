@@ -216,6 +216,7 @@ public class AetherConfig {
     public static class Client {
         public final ConfigValue<Boolean> legacy_models;
         public final ConfigValue<Boolean> disable_aether_skybox;
+        public final ConfigValue<Boolean> disable_clouds;
         public final ConfigValue<Boolean> colder_lightmap;
         public final ConfigValue<Boolean> green_sunset;
 
@@ -258,6 +259,10 @@ public class AetherConfig {
                     .comment("Disables the Aether's custom skybox in case you have a shader that is incompatible with custom skyboxes")
                     .translation("config.aether.client.rendering.disable_aether_skybox")
                     .define("Disables Aether custom skybox", false);
+            disable_clouds = builder
+                .comment("Disables the cloud rendering in the Aether")
+                .translation("config.aether.client.rendering.disable_clouds")
+                .define("Disables Aether's clouds", false);
             colder_lightmap = builder
                     .comment("Removes warm-tinting of the lightmap in the Aether, giving the lighting a colder feel")
                     .translation("config.aether.client.rendering.colder_lightmap")
