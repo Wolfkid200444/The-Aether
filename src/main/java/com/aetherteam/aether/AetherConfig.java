@@ -37,6 +37,7 @@ public class AetherConfig {
         public final ConfigValue<Boolean> disable_aether_portal;
         public final ConfigValue<Boolean> disable_falling_to_overworld;
         public final ConfigValue<Boolean> disable_eternal_day;
+        public final ConfigValue<Boolean> disable_separate_time;
         public final ConfigValue<String> portal_destination_dimension_ID;
         public final ConfigValue<String> portal_return_dimension_ID;
 
@@ -146,6 +147,10 @@ public class AetherConfig {
                     .comment("Removes eternal day so that the Aether has a normal daylight cycle even before defeating the Sun Spirit")
                     .translation("config.aether.server.modpack.disable_eternal_day")
                     .define("Disables eternal day", false);
+            disable_separate_time = builder
+                .comment("Removes separated time cycles between the Aether and Overworld")
+                .translation("config.aether.server.modpack.disable_separate_time")
+                .define("Disables separated time", false);
             portal_destination_dimension_ID = builder
                     .comment("Sets the ID of the dimension that the Aether Portal will send the player to")
                     .translation("config.aether.server.modpack.portal_destination_dimension_ID")

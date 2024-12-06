@@ -1,7 +1,9 @@
 package com.aetherteam.aether.attachment;
 
+import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.data.resources.registries.AetherDimensions;
 import com.aetherteam.aether.network.packet.AetherTimeSyncPacket;
+import com.aetherteam.aether.world.AetherLevelData;
 import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import com.aetherteam.nitrogen.network.packet.SyncPacket;
 import com.mojang.serialization.Codec;
@@ -24,24 +26,27 @@ import java.util.function.Supplier;
 public class AetherTimeAttachment implements INBTSynchable {
     private long dayTime = 18000L;
     private boolean isEternalDay = true;
+    public static boolean SYNC_TIME = false;
 
     /**
      * Stores the following methods as able to be synced between client and server and vice-versa.
      */
     private final Map<String, Triple<Type, Consumer<Object>, Supplier<Object>>> synchableFunctions = Map.ofEntries(
-            Map.entry("setEternalDay", Triple.of(Type.BOOLEAN, (object) -> this.setEternalDay((boolean) object), this::isEternalDay))
+            Map.entry("setEternalDay", Triple.of(Type.BOOLEAN, (object) -> this.setEternalDay((boolean) object), this::isEternalDay)),
+            Map.entry("setSyncTime", Triple.of(Type.BOOLEAN, (object) -> this.setSyncTime((boolean) object), this::shouldSyncTime))
     );
 
     public static final Codec<AetherTimeAttachment> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.LONG.fieldOf("day_time").forGetter(AetherTimeAttachment::getDayTime),
-            Codec.BOOL.fieldOf("eternal_day").forGetter(AetherTimeAttachment::isEternalDay)
+            Codec.BOOL.fieldOf("eternal_day").forGetter(AetherTimeAttachment::isEternalDay),
+            Codec.BOOL.fieldOf("sync_time").forGetter(AetherTimeAttachment::isEternalDay)
     ).apply(instance, AetherTimeAttachment::new));
 
     protected AetherTimeAttachment() {
 
     }
 
-    private AetherTimeAttachment(long time, boolean eternalDay) {
+    private AetherTimeAttachment(long time, boolean eternalDay, boolean syncTime) {
         this.setDayTime(time);
         this.setEternalDay(eternalDay);
     }
@@ -57,16 +62,22 @@ public class AetherTimeAttachment implements INBTSynchable {
     public long tickTime(Level level) {
         long dayTime = level.getDayTime();
         if (this.isEternalDay()) {
-            if (dayTime != 18000L) {
-                long tempTime = dayTime % (long) AetherDimensions.AETHER_TICKS_PER_DAY;
-                if (tempTime > 54000L) {
-                    tempTime -= AetherDimensions.AETHER_TICKS_PER_DAY;
+            if (dayTime != 6000L * getDayMultiplier()) {
+                long tempTime = dayTime % (long) AetherTimeAttachment.getTicksPerDay();
+                if (tempTime > 18000L * getDayMultiplier()) {
+                    tempTime -= AetherTimeAttachment.getTicksPerDay();
                 }
-                long target = Mth.clamp(18000L - tempTime, -10, 10);
+                long target = Mth.clamp((6000L * getDayMultiplier()) - tempTime, -10, 10);
                 dayTime += target;
             }
         } else {
-            dayTime++;
+            if (this.shouldSyncTime()) {
+                long overworldTime = level.getGameTime() % getTicksPerDay();
+                long target = Mth.clamp(overworldTime - dayTime, -10, 10);
+                dayTime += target;
+            } else {
+                dayTime++;
+            }
         }
         this.setDayTime(dayTime);
         return dayTime;
@@ -106,6 +117,25 @@ public class AetherTimeAttachment implements INBTSynchable {
      */
     public boolean isEternalDay() {
         return this.isEternalDay;
+    }
+
+    public void setSyncTime(boolean syncTime) {
+        SYNC_TIME = syncTime;
+    }
+
+    /**
+     * @return Whether time should be synced to the Overworld, as a {@link Boolean}.
+     */
+    public boolean shouldSyncTime() {
+        return SYNC_TIME;
+    }
+
+    public static int getTicksPerDay() {
+        return SYNC_TIME ? Level.TICKS_PER_DAY : AetherDimensions.AETHER_TICKS_PER_DAY;
+    }
+
+    public static int getDayMultiplier() {
+        return SYNC_TIME ? 1 : 3;
     }
 
     @Override

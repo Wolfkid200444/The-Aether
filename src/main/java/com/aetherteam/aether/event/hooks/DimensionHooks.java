@@ -4,6 +4,7 @@ import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.attachment.AetherPlayerAttachment;
+import com.aetherteam.aether.attachment.AetherTimeAttachment;
 import com.aetherteam.aether.block.portal.AetherPortalShape;
 import com.aetherteam.aether.data.resources.registries.AetherDimensions;
 import com.aetherteam.aether.mixin.mixins.common.accessor.ServerGamePacketListenerImplAccessor;
@@ -12,6 +13,7 @@ import com.aetherteam.aether.network.packet.clientbound.AetherTravelPacket;
 import com.aetherteam.aether.network.packet.clientbound.LeavingAetherPacket;
 import com.aetherteam.aether.world.AetherLevelData;
 import com.aetherteam.aether.world.LevelUtil;
+import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -299,6 +301,7 @@ public class DimensionHooks {
             com.aetherteam.aether.mixin.mixins.common.accessor.LevelAccessor levelAccessor = (com.aetherteam.aether.mixin.mixins.common.accessor.LevelAccessor) level;
             serverLevelAccessor.aether$setServerLevelData(levelData);
             levelAccessor.aether$setLevelData(levelData);
+            serverLevel.getData(AetherDataAttachments.AETHER_TIME).setSynched(-1, INBTSynchable.Direction.DIMENSION, "setSyncTime", AetherConfig.SERVER.disable_separate_time.get());
         }
     }
 
@@ -319,7 +322,7 @@ public class DimensionHooks {
             serverLevelAccessor.aether$getServerLevelData().setThundering(false);
 
             long time = newTime + 48000L;
-            return time - time % (long) AetherDimensions.AETHER_TICKS_PER_DAY;
+            return time - time % (long) AetherTimeAttachment.getTicksPerDay();
         }
         return null;
     }
