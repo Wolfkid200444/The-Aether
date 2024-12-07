@@ -17,8 +17,8 @@ public class EntityEvents {
         for (var invoker : invokers) invoker.beforeChange(entity, targetDimension);
     });
 
-    public static final Event<EntityMount> ENTITY_MOUNT = EventFactory.createArrayBacked(EntityMount.class, invokers -> (entityMounting, entityBeingMounted, isMounting, callback) -> {
-        for (var invoker : invokers) invoker.onMount(entityMounting, entityBeingMounted, isMounting, callback);
+    public static final Event<EntityMount> ENTITY_MOUNT = EventFactory.createArrayBacked(EntityMount.class, invokers -> (entityMounting, entityBeingMounted, isDismounting, callback) -> {
+        for (var invoker : invokers) invoker.onMount(entityMounting, entityBeingMounted, isDismounting, callback);
     });
 
     public interface StruckByLightningEvent {
@@ -30,7 +30,7 @@ public class EntityEvents {
     }
 
     public interface EntityMount {
-        void onMount(Entity entityMounting, Entity entityBeingMounted, boolean isMounting, CancellableCallback callback);
+        void onMount(Entity entityMounting, Entity entityBeingMounted, boolean isDismounting, CancellableCallback callback);
     }
 
 }

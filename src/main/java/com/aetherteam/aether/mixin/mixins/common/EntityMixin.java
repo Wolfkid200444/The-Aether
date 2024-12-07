@@ -166,7 +166,7 @@ public class EntityMixin implements EntityExtension {
 
         var entityMounting = (Entity)(Object) this;
 
-        EntityEvents.ENTITY_MOUNT.invoker().onMount(entityMounting, this.vehicle, false, callback);
+        EntityEvents.ENTITY_MOUNT.invoker().onMount(entityMounting, this.vehicle, true, callback);
 
         if (callback.isCanceled()) {
             entityMounting.absMoveTo(entityMounting.getX(), entityMounting.getY(), entityMounting.getZ(), entityMounting.yRotO, entityMounting.xRotO);
@@ -180,7 +180,7 @@ public class EntityMixin implements EntityExtension {
 
         var entityMounting = (Entity)(Object) this;
 
-        EntityEvents.ENTITY_MOUNT.invoker().onMount(entityMounting, this.vehicle, true, callback);
+        EntityEvents.ENTITY_MOUNT.invoker().onMount(entityMounting, this.vehicle, false, callback);
 
         if (callback.isCanceled()) {
             entityMounting.absMoveTo(entityMounting.getX(), entityMounting.getY(), entityMounting.getZ(), entityMounting.yRotO, entityMounting.xRotO);
