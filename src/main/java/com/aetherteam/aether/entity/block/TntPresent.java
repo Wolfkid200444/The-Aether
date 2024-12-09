@@ -91,6 +91,11 @@ public class TntPresent extends Entity implements TraceableEntity {
     }
 
     @Override
+    protected double getDefaultGravity() {
+        return 0.04;
+    }
+
+    @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putShort("Fuse", (short) this.getFuse());
     }
