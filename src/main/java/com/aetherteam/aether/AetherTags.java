@@ -50,6 +50,7 @@ public class AetherTags {
         public static final TagKey<Block> ALLOWED_FLAMMABLES = tag("allowed_flammables");
         public static final TagKey<Block> VALKYRIE_TELEPORTABLE_ON = tag("valkyrie_teleportable_on");
         public static final TagKey<Block> TREATED_AS_AETHER_BLOCK = tag("treated_as_aether_block");
+        public static final TagKey<Block> ORES_IN_GROUND_HOLYSTONE = tag("ores_in_ground/holystone");
 
         private static TagKey<Block> tag(String name) {
             return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(Aether.MODID, name));
@@ -72,6 +73,7 @@ public class AetherTags {
         public static final TagKey<Item> ANGELIC_BLOCKS = tag("angelic_blocks");
         public static final TagKey<Item> HELLFIRE_BLOCKS = tag("hellfire_blocks");
         public static final TagKey<Item> AECHOR_PLANT_SPAWNABLE_DETERRENT = tag("aechor_plant_spawnable_deterrent");
+        public static final TagKey<Item> ORES_IN_GROUND_HOLYSTONE = tag("ores_in_ground/holystone");
 
         public static final TagKey<Item> CRAFTS_SKYROOT_PLANKS = tag("crafts_skyroot_planks");
         public static final TagKey<Item> PLANKS_CRAFTING = tag("planks_crafting");
