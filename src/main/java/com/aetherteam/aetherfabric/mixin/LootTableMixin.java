@@ -52,19 +52,10 @@ public abstract class LootTableMixin {
         ((LootContextExtension) context).setTableId(lootTableId.orElse(null));
     }
 
-    @Unique
-    private final ObjectArrayList<ItemStack> stacks = new ObjectArrayList<>();
-
     @WrapMethod(method = "getRandomItemsRaw(Lnet/minecraft/world/level/storage/loot/LootContext;Ljava/util/function/Consumer;)V")
     private void finishCollectingLoot(LootContext lootContext, Consumer<ItemStack> consumer, Operation<Void> original) {
-        Consumer<ItemStack> newConsumer = new Consumer<>() {
-            @Override
-            public void accept(ItemStack stack) {
-                LootTableMixin.this.stacks.add(stack);
-            }
-        };
-        original.call(lootContext, newConsumer);
-        AetherLootTableModifications.apply(this.stacks, lootContext).forEach(consumer);
-        this.stacks.clear();
+        ObjectArrayList<ItemStack> stacks = new ObjectArrayList<>();
+        original.call(lootContext, (Consumer<ItemStack>) stacks::add);
+        AetherLootTableModifications.apply(stacks, lootContext).forEach(consumer);
     }
 }
