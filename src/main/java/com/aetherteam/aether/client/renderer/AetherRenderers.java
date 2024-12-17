@@ -55,6 +55,7 @@ public class AetherRenderers {
         BlockEntityRenderers.register(AetherBlockEntityTypes.CHEST_MIMIC.get(), ChestMimicRenderer::new);
         BlockEntityRenderers.register(AetherBlockEntityTypes.TREASURE_CHEST.get(), TreasureChestRenderer::new);
 
+        BuiltinItemRendererRegistry.INSTANCE.register(AetherBlocks.SKYROOT_BED.get(), NitrogenRenderers.blockEntityWithoutLevelRenderer);
         BuiltinItemRendererRegistry.INSTANCE.register(AetherBlocks.CHEST_MIMIC.get(), NitrogenRenderers.blockEntityWithoutLevelRenderer);
         BuiltinItemRendererRegistry.INSTANCE.register(AetherBlocks.TREASURE_CHEST.get(), NitrogenRenderers.blockEntityWithoutLevelRenderer);
 
