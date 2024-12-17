@@ -377,7 +377,7 @@ public class AetherPlayerAttachment implements INBTSynchable {
 
     private void removeRemedyDuration(Player player) {
         if (this.remedyStartDuration > 0) {
-            if (!player.hasEffect(AetherEffects.REMEDY)) {
+            if (!player.hasEffect(AetherEffects.REMEDY.aetherFabric$getDelegate())) {
                 this.remedyStartDuration = 0;
             }
         }
