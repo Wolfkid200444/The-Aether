@@ -6,23 +6,24 @@ import com.google.common.collect.ImmutableSet;
 import net.fabricmc.fabric.api.item.v1.EnchantingContext;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Unit;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileWeaponItem;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -87,6 +88,41 @@ public class DartShooterItem extends ProjectileWeaponItem implements FabricItem 
             }
         }
         return stack;
+    }
+
+    protected static List<ItemStack> draw(ItemStack weapon, ItemStack ammo, LivingEntity shooter) {
+        if (ammo.isEmpty()) {
+            return List.of();
+        } else {
+            int i = shooter.level() instanceof ServerLevel serverlevel ? EnchantmentHelper.processProjectileCount(serverlevel, weapon, shooter, 1) : 1;
+            List<ItemStack> list = new ArrayList<>(i);
+            ItemStack stack = ammo.copy();
+            for (int j = 0; j < i; j++) {
+                ItemStack itemstack = useAmmo(weapon, j == 0 ? ammo : stack, shooter, j > 0);
+                if (!itemstack.isEmpty()) {
+                    list.add(itemstack);
+                }
+            }
+            return list;
+        }
+    }
+
+    protected static ItemStack useAmmo(ItemStack weapon, ItemStack ammo, LivingEntity shooter, boolean intangable) {
+        int i = !intangable && shooter.level() instanceof ServerLevel serverlevel && !(shooter.hasInfiniteMaterials() || (ammo.getItem() instanceof DartItem dart && dart.isInfinite(ammo, weapon, shooter)))
+            ? EnchantmentHelper.processAmmoUse(serverlevel, weapon, ammo, 1) : 0;
+        if (i > ammo.getCount()) {
+            return ItemStack.EMPTY;
+        } else if (i == 0) {
+            ItemStack itemStack = ammo.copyWithCount(1);
+            itemStack.set(DataComponents.INTANGIBLE_PROJECTILE, Unit.INSTANCE);
+            return itemStack;
+        } else {
+            ItemStack itemStack = ammo.split(i);
+            if (ammo.isEmpty() && shooter instanceof Player player) {
+                player.getInventory().removeItem(ammo);
+            }
+            return itemStack;
+        }
     }
 
     @Override
