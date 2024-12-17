@@ -10,7 +10,6 @@ import com.aetherteam.aetherfabric.events.FallHelper;
 import com.aetherteam.aetherfabric.events.LivingEntityEvents;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -110,23 +109,6 @@ public abstract class LivingEntityMixin extends Entity {
         LivingEntityEvents.ON_EXPERIENCE_DROP.invoker().onExperienceDrop((LivingEntity) (Object) this, this.lastHurtByPlayer, helper);
 
         original.call(level, pos, helper.getFinalExperienceAmount());
-    }
-
-    @WrapMethod(method = "dropAllDeathLoot")
-    private void aetherFabric$onDrops(ServerLevel level, DamageSource damageSource, Operation<Void> original) {
-        this.aetherFabric$capturingDrops(true);
-
-        original.call(level, damageSource);
-
-        var drops = this.aetherFabric$getCapturedDrops();
-
-        this.aetherFabric$capturingDrops(false);
-
-        var callback = new CancellableCallbackImpl();
-
-        LivingEntityEvents.ON_DROPS.invoker().onDrops((LivingEntity)(Object) this, damageSource, drops, this.lastHurtByPlayerTime > 0, callback);
-
-        if (!callback.isCanceled() && drops != null) drops.forEach(level::addFreshEntity);
     }
 
     @Inject(method = "swing(Lnet/minecraft/world/InteractionHand;Z)V", at = @At("HEAD"))

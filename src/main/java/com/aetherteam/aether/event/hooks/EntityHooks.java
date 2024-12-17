@@ -505,19 +505,6 @@ public class EntityHooks {
     }
 
     /**
-     * Tracks if items were dropped by a player's death.
-     *
-     * @param entity    The {@link LivingEntity} that dropped the items.
-     * @param itemDrops The {@link Collection} of dropped {@link ItemEntity}s.
-     * @see com.aetherteam.aether.event.listeners.EntityListener#onPlayerDrops(LivingDropsEvent)
-     */
-    public static void trackDrops(LivingEntity entity, Collection<ItemEntity> itemDrops) {
-        if (entity instanceof Player player) {
-            itemDrops.forEach(itemEntity -> itemEntity.getAttachedOrCreate(AetherDataAttachments.DROPPED_ITEM).setOwner(player));
-        }
-    }
-
-    /**
      * Damages certain accessory items dropped from entities if they're not guaranteed drops.
      *
      * @param entity      The {@link LivingEntity} dropping the accessories.

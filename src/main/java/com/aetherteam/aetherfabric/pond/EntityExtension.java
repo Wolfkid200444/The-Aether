@@ -23,23 +23,6 @@ public interface EntityExtension {
         return throwUnimplementedException();
     }
 
-    @Nullable
-    default Collection<ItemEntity> aetherFabric$getCapturedDrops() {
-        return throwUnimplementedException();
-    }
-
-    default void aetherFabric$addCapturedDrops(ItemEntity... captureDrops) {
-        aetherFabric$addCapturedDrops(List.of(captureDrops));
-    }
-
-    default boolean aetherFabric$addCapturedDrops(Collection<ItemEntity> captureDrops) {
-        return throwUnimplementedException();
-    }
-
-    default void aetherFabric$capturingDrops(boolean value) {
-        throwUnimplementedException();
-    }
-
     default void aetherFabric$sendPairingData(ServerPlayer serverPlayer, Consumer<CustomPacketPayload> bundleBuilder) {
         throwUnimplementedException();
     }

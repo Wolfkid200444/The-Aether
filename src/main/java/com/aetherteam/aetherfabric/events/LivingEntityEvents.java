@@ -31,10 +31,6 @@ public class LivingEntityEvents {
         for (var invoker : invokers) invoker.onExperienceDrop(entity, attackingPlayer, helper);
     });
 
-    public static final Event<OnDrops> ON_DROPS = EventFactory.createArrayBacked(OnDrops.class, invokers -> (entity, source, drops, recentlyHit, callback) -> {
-        for (var invoker : invokers) invoker.onDrops(entity, source, drops, recentlyHit, callback);
-    });
-
     public static final Event<ModifyDamage> ON_DAMAGE = EventFactory.createArrayBacked(ModifyDamage.class, invokers -> (entity, source, originalDamage, newDamage) -> {
         for (var invoker : invokers) invoker.modifyDamage(entity, source, originalDamage, newDamage);
     });

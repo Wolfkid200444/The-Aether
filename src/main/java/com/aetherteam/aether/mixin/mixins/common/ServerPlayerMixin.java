@@ -39,11 +39,6 @@ public abstract class ServerPlayerMixin implements EntityExtension {
 
     @Inject(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
     private void aetherFabric$captureDroppedStack(ItemStack droppedItem, boolean dropAround, boolean includeThrowerName, CallbackInfoReturnable<ItemEntity> cir, @Local() ItemEntity itemEntity) {
-        this.aetherFabric$addCapturedDrops(itemEntity);
-    }
-
-    @WrapOperation(method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
-    private boolean aetherFabric$preventLevelSpawn(Level instance, Entity entity, Operation<Boolean> original) {
-        return (this.aetherFabric$getCapturedDrops() == null) ? original.call(instance, entity) : false;
+        itemEntity.getAttachedOrCreate(AetherDataAttachments.DROPPED_ITEM).setOwner((ServerPlayer) (Object) this);
     }
 }

@@ -45,8 +45,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -188,33 +186,6 @@ public class EntityMixin implements EntityExtension {
         }
     }
 
-    @Unique
-    private boolean capturingDrops = false;
-
-    @Unique
-    private final List<ItemEntity> capturedDrops = new ArrayList<>();
-
-    @Override
-    public void aetherFabric$capturingDrops(boolean value) {
-        this.capturingDrops = value;
-
-        if (!value) this.capturedDrops.clear();
-    }
-
-    @Override
-    public boolean aetherFabric$addCapturedDrops(Collection<ItemEntity> captureDrops) {
-        if (!this.capturingDrops) return false;
-
-        this.capturedDrops.addAll(captureDrops);
-
-        return true;
-    }
-
-    @Override
-    public @Nullable Collection<ItemEntity> aetherFabric$getCapturedDrops() {
-        return this.capturingDrops ? new ArrayList<>(this.capturedDrops) : null;
-    }
-
     @Override
     public void aetherFabric$sendPairingData(ServerPlayer serverPlayer, Consumer<CustomPacketPayload> bundleBuilder) {
         if (this instanceof IEntityWithComplexSpawn) {
@@ -224,11 +195,9 @@ public class EntityMixin implements EntityExtension {
 
     @Inject(method = "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
     private void aetherFabric$captureDroppedStack(ItemStack stack, float offsetY, CallbackInfoReturnable<ItemEntity> cir, @Local() ItemEntity itemEntity) {
-        this.aetherFabric$addCapturedDrops(itemEntity);
-    }
-
-    @WrapOperation(method = "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
-    private boolean aetherFabric$preventLevelSpawn(Level instance, Entity entity, Operation<Boolean> original) {
-        return (!this.capturingDrops) ? original.call(instance, entity) : false;
+        Entity entity = (Entity) (Object) this;
+        if (entity instanceof Player player) {
+            itemEntity.getAttachedOrCreate(AetherDataAttachments.DROPPED_ITEM).setOwner(player);
+        }
     }
 }

@@ -43,7 +43,6 @@ public class EntityListener {
         ProjectileEvents.ON_IMPACT.register(EntityListener::onProjectileHitEntity);
         LivingEntityEvents.ON_SHIELD_BLOCK.register(EntityListener::onShieldBlock);
         EntityEvents.STRUCK_BY_LIGHTNING.register(EntityListener::onLightningStrike);
-        LivingEntityEvents.ON_DROPS.register((entity, source, drops, recentlyHit, callback) -> onPlayerDrops(entity, drops));
         LivingEntityEvents.ON_EXPERIENCE_DROP.register((entity, attackingPlayer, helper) -> onDropExperience(entity, helper));
         LivingEntityEvents.ON_EFFECT.register((entity, instance, result) -> EntityListener.onEffectApply(entity, instance));
         // SlimeMixin.aetherFabric$dontSplitForSwets -> EntityHooks.preventSplit
@@ -132,13 +131,6 @@ public class EntityListener {
         if (EntityHooks.lightningHitKeys(entity) || EntityHooks.thunderCrystalHitItems(entity, lightningBolt)) {
             callback.setCanceled(true);
         }
-    }
-
-    /**
-     * @see EntityHooks#trackDrops(LivingEntity, Collection)
-     */
-    public static void onPlayerDrops(LivingEntity entity, Collection<ItemEntity> itemDrops) {
-        EntityHooks.trackDrops(entity, itemDrops);
     }
 
     /**
