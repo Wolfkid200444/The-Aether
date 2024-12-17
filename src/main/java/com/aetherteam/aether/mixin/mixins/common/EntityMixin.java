@@ -203,35 +203,5 @@ public class EntityMixin implements EntityExtension {
         if (entity instanceof Player player) {
             itemEntity.getAttachedOrCreate(AetherDataAttachments.DROPPED_ITEM).setOwner(player);
         }
-        this.applyDoubleDrops(stack);
-        this.applyPigDrops(stack);
-    }
-
-    @Unique
-    private void applyDoubleDrops(ItemStack stack) {
-        Entity entity = (Entity) (Object) this;
-        if (entity instanceof LivingEntity target && target.getLastHurtByMob() instanceof LivingEntity attacker) {
-            if (EquipmentUtil.isFullStrength(attacker) && attacker.getMainHandItem().getItem() instanceof SkyrootWeapon && !target.getType().is(AetherTags.Entities.NO_SKYROOT_DOUBLE_DROPS)) {
-                if (!stack.is(AetherTags.Items.NO_SKYROOT_DOUBLE_DROPS)) {
-                    ItemEntity itemEntity = new ItemEntity(entity.level(), entity.getX(), entity.getY(), entity.getZ(), stack);
-                    itemEntity.setDefaultPickUpDelay();
-                    entity.level().addFreshEntity(itemEntity);
-                }
-            }
-        }
-    }
-
-    @Unique
-    private void applyPigDrops(ItemStack stack) {
-        Entity entity = (Entity) (Object) this;
-        if (entity instanceof LivingEntity target && target.getLastHurtByMob() instanceof LivingEntity attacker) {
-            if (EquipmentUtil.isFullStrength(attacker) && attacker.getMainHandItem().is(AetherItems.PIG_SLAYER.get()) && target.getType().is(AetherTags.Entities.PIGS) && attacker.getRandom().nextInt(4) == 0) {
-                if (stack.is(AetherTags.Items.PIG_DROPS)) {
-                    ItemEntity itemEntity = new ItemEntity(entity.level(), entity.getX(), entity.getY(), entity.getZ(), stack);
-                    itemEntity.setDefaultPickUpDelay();
-                    entity.level().addFreshEntity(itemEntity);
-                }
-            }
-        }
     }
 }

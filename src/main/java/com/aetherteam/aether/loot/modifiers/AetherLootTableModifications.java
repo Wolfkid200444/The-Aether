@@ -57,8 +57,8 @@ public class AetherLootTableModifications {
             );
         });
 
-//        register("double_drops", () -> new DoubleDropsModifier(new LootItemCondition[0]));
-//        register("pig_drops", () -> new PigDropsModifier(new LootItemCondition[0]));
+        register("double_drops", () -> new DoubleDropsModifier(new LootItemCondition[0]));
+        register("pig_drops", () -> new PigDropsModifier(new LootItemCondition[0]));
 
         register("gloves_loot_leather", (provider) -> {
             return new GlovesLootModifier(
