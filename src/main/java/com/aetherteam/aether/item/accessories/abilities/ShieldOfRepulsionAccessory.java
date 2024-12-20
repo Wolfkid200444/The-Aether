@@ -40,7 +40,7 @@ public interface ShieldOfRepulsionAccessory {
                         Vec3 motion = impactedLiving.getDeltaMovement();
                         if (impactedLiving instanceof Player player) {
                             var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
-                            if (!data.isMoving()) {
+                            if (!data.isMoving() || (data.isMoving() && motion.x() == 0.0 && (motion.y() == ConstantsUtil.DEFAULT_DELTA_MOVEMENT_Y || motion.y() == 0.0) && motion.z() == 0.0)) {
                                 if (player.level().isClientSide()) { // Values used by the Shield of Repulsion screen overlay vignette.
                                     data.setProjectileImpactedMaximum(150);
                                     data.setProjectileImpactedTimer(150);

@@ -82,8 +82,10 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
 
         if (livingEntity instanceof Player player && entityModel instanceof PlayerModel<?> playerModel) {
             PlayerModelAccessor playerModelAccessor = (PlayerModelAccessor) playerModel;
+            var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
+            Vec3 motion = player.getDeltaMovement();
             model = this.shieldModel;
-            if (!player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).isMoving()) {
+            if (!data.isMoving() || (data.isMoving() && motion.x() == 0.0 && (motion.y() == ConstantsUtil.DEFAULT_DELTA_MOVEMENT_Y || motion.y() == 0.0) && motion.z() == 0.0)) {
                 texture = playerModelAccessor.aether$getSlim() ? shield.getShieldOfRepulsionSlimTexture() : shield.getShieldOfRepulsionTexture();
             } else {
                 texture = playerModelAccessor.aether$getSlim() ? shield.getShieldOfRepulsionSlimInactiveTexture() : shield.getShieldOfRepulsionInactiveTexture();
@@ -152,7 +154,9 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
         ResourceLocation texture;
         ShieldOfRepulsionItem shield = (ShieldOfRepulsionItem) stack.getItem();
 
-        if (!player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER).isMoving()) {
+        var data = player.getAttachedOrCreate(AetherDataAttachments.AETHER_PLAYER);
+        Vec3 motion = player.getDeltaMovement();
+        if (!data.isMoving() || (data.isMoving() && motion.x() == 0.0 && (motion.y() == ConstantsUtil.DEFAULT_DELTA_MOVEMENT_Y || motion.y() == 0.0) && motion.z() == 0.0)) {
             texture = shield.getShieldOfRepulsionTexture();
         } else {
             texture = shield.getShieldOfRepulsionInactiveTexture();
