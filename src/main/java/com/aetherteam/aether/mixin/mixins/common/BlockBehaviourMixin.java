@@ -15,11 +15,12 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(BlockBehaviour.class)
 public abstract class BlockBehaviourMixin {
-
     @WrapOperation(method = "onExplosionHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;wasExploded(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/Explosion;)V"))
     private void aetherFabric$onExplosion(Block instance, Level level, BlockPos pos, Explosion explosion, Operation<Void> original, @Local(argsOnly = true) BlockState state) {
         if (instance instanceof BerryBushBlock berryBushBlock) {
             berryBushBlock.onBlockExploded(state, level, pos, explosion);
+        } else {
+            original.call(instance, level, pos, explosion);
         }
     }
 }
