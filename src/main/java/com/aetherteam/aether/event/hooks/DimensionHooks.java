@@ -13,6 +13,7 @@ import com.aetherteam.aether.network.packet.clientbound.LeavingAetherPacket;
 import com.aetherteam.aether.world.AetherLevelData;
 import com.aetherteam.aether.world.LevelUtil;
 import com.aetherteam.aetherfabric.network.PacketDistributor;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -125,27 +126,29 @@ public class DimensionHooks {
      * @see com.aetherteam.aether.event.listeners.DimensionListener#onInteractWithPortalFrame(Player, Level, InteractionHand, BlockHitResult)
      */
     public static InteractionResult createPortal(Player player, Level level, BlockPos pos, @Nullable Direction direction, ItemStack stack, InteractionHand hand) {
-        if (direction != null) {
-            BlockPos relativePos = pos.relative(direction);
-            if (stack.is(AetherTags.Items.AETHER_PORTAL_ACTIVATION_ITEMS)) { // Checks if the item can activate the portal.
-                // Checks whether the dimension can have a portal created in it, and that the portal isn't disabled.
-                if ((level.dimension() == LevelUtil.returnDimension() || level.dimension() == LevelUtil.destinationDimension())) {
-                    Optional<AetherPortalShape> optional = AetherPortalShape.findEmptyAetherPortalShape(level, relativePos, Direction.Axis.X);
-                    if (optional.isPresent()) {
-                        optional.get().createPortalBlocks();
-                        player.playSound(SoundEvents.BUCKET_EMPTY, 1.0F, 1.0F);
-                        player.swing(hand);
-                        if (!player.isCreative()) {
-                            if (stack.getCount() > 1) {
-                                stack.shrink(1);
-                                player.addItem(stack.getRecipeRemainder());
-                            } else if (stack.isDamageableItem()) {
-                                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
-                            } else {
-                                player.setItemInHand(hand, stack.getRecipeRemainder());
+        if (!FabricLoader.getInstance().isModLoaded("immersive_portals")) {
+            if (direction != null) {
+                BlockPos relativePos = pos.relative(direction);
+                if (stack.is(AetherTags.Items.AETHER_PORTAL_ACTIVATION_ITEMS)) { // Checks if the item can activate the portal.
+                    // Checks whether the dimension can have a portal created in it, and that the portal isn't disabled.
+                    if ((level.dimension() == LevelUtil.returnDimension() || level.dimension() == LevelUtil.destinationDimension())) {
+                        Optional<AetherPortalShape> optional = AetherPortalShape.findEmptyAetherPortalShape(level, relativePos, Direction.Axis.X);
+                        if (optional.isPresent()) {
+                            optional.get().createPortalBlocks();
+                            player.playSound(SoundEvents.BUCKET_EMPTY, 1.0F, 1.0F);
+                            player.swing(hand);
+                            if (!player.isCreative()) {
+                                if (stack.getCount() > 1) {
+                                    stack.shrink(1);
+                                    player.addItem(stack.getRecipeRemainder());
+                                } else if (stack.isDamageableItem()) {
+                                    stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+                                } else {
+                                    player.setItemInHand(hand, stack.getRecipeRemainder());
+                                }
                             }
+                            return InteractionResult.SUCCESS;
                         }
-                        return InteractionResult.SUCCESS;
                     }
                 }
             }
@@ -164,13 +167,15 @@ public class DimensionHooks {
      * @see com.aetherteam.aether.event.listeners.DimensionListener#onWaterExistsInsidePortalFrame(LevelAccessor, BlockPos, MutableBoolean)
      */
     public static boolean detectWaterInFrame(LevelAccessor levelAccessor, BlockPos pos, BlockState blockState, FluidState fluidState) {
-        if (levelAccessor instanceof Level level) {
-            if (fluidState.is(Fluids.WATER) && fluidState.createLegacyBlock().getBlock() == blockState.getBlock()) {
-                if ((level.dimension() == LevelUtil.returnDimension() || level.dimension() == LevelUtil.destinationDimension()) && !AetherConfig.SERVER.disable_aether_portal.get()) {
-                    Optional<AetherPortalShape> optional = AetherPortalShape.findEmptyAetherPortalShape(level, pos, Direction.Axis.X);
-                    if (optional.isPresent()) {
-                        optional.get().createPortalBlocks();
-                        return true;
+        if (!FabricLoader.getInstance().isModLoaded("immersive_portals")) {
+            if (levelAccessor instanceof Level level) {
+                if (fluidState.is(Fluids.WATER) && fluidState.createLegacyBlock().getBlock() == blockState.getBlock()) {
+                    if ((level.dimension() == LevelUtil.returnDimension() || level.dimension() == LevelUtil.destinationDimension()) && !AetherConfig.SERVER.disable_aether_portal.get()) {
+                        Optional<AetherPortalShape> optional = AetherPortalShape.findEmptyAetherPortalShape(level, pos, Direction.Axis.X);
+                        if (optional.isPresent()) {
+                            optional.get().createPortalBlocks();
+                            return true;
+                        }
                     }
                 }
             }
