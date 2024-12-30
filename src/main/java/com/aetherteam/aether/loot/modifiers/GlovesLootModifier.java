@@ -9,6 +9,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorMaterials;
@@ -55,7 +56,8 @@ public class GlovesLootModifier extends LootModifier {
         Level level = context.getLevel();
         RandomSource randomSource = context.getRandom();
         Vec3 vec3 = context.getParamOrNull(LootContextParams.ORIGIN);
-        if (vec3 != null) {
+        Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
+        if (vec3 != null && entity != null) {
             BlockPos pos = BlockPos.containing(vec3);
             BlockEntity blockEntity = context.getLevel().getBlockEntity(pos);
             if (blockEntity instanceof BaseContainerBlockEntity) {
