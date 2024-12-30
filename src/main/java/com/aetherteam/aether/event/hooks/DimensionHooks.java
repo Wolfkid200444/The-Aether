@@ -4,6 +4,7 @@ import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.attachment.AetherPlayerAttachment;
+import com.aetherteam.aether.attachment.AetherTimeAttachment;
 import com.aetherteam.aether.block.portal.AetherPortalShape;
 import com.aetherteam.aether.data.resources.registries.AetherDimensions;
 import com.aetherteam.aether.mixin.mixins.common.accessor.ServerGamePacketListenerImplAccessor;
@@ -296,7 +297,7 @@ public class DimensionHooks {
      */
     public static void initializeLevelData(LevelAccessor level) {
         if (level instanceof ServerLevel serverLevel && serverLevel.dimensionType().effectsLocation().equals(AetherDimensions.AETHER_DIMENSION_TYPE.location())) {
-            AetherLevelData levelData = new AetherLevelData(serverLevel.getServer().getWorldData(), serverLevel.getServer().getWorldData().overworldData(), serverLevel.getAttachedOrCreate(AetherDataAttachments.AETHER_TIME).getDayTime());
+            AetherLevelData levelData = new AetherLevelData(serverLevel, serverLevel.getServer().getWorldData(), serverLevel.getServer().getWorldData().overworldData(), serverLevel.getAttachedOrCreate(AetherDataAttachments.AETHER_TIME).getDayTime());
             ServerLevelAccessor serverLevelAccessor = (ServerLevelAccessor) serverLevel;
             com.aetherteam.aether.mixin.mixins.common.accessor.LevelAccessor levelAccessor = (com.aetherteam.aether.mixin.mixins.common.accessor.LevelAccessor) level;
             serverLevelAccessor.aether$setServerLevelData(levelData);
@@ -320,8 +321,8 @@ public class DimensionHooks {
             serverLevelAccessor.aether$getServerLevelData().setThunderTime(0);
             serverLevelAccessor.aether$getServerLevelData().setThundering(false);
 
-            long time = newTime.getValue() + 48000L;
-            return time - time % (long) AetherDimensions.AETHER_TICKS_PER_DAY;
+            long time = newTime.toLong() + (24000L * AetherTimeAttachment.getTicksPerDayMultiplier());
+            return time - time % (long) AetherTimeAttachment.getTicksPerDay();
         }
         return null;
     }
